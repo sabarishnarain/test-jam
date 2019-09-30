@@ -33,7 +33,7 @@ export default class userHelper {
 
   public static async createUser(username: string, password: string, secret: string) {
 
-    if (!securityKeyHelper.isValidSecret(secret)) {
+    if (util.isSecretRequired() && !securityKeyHelper.isValidSecret(secret)) {
       throw new Error('Invalid security key');
     }
     const usersJson = this.getAllUsers();
