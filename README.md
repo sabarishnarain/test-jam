@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/snarain-open-source/test-jam/_apis/build/status/sabarishnarain.test-jam?branchName=master)](https://dev.azure.com/snarain-open-source/test-jam/_build/latest?definitionId=3&branchName=master)
+
 ## JDAM
  A simple dashboard service to manage test cases. This service also exposes REST end points to update test status. For example, if you have automated tests running from the cloud, you can have them update the status into this dashboard. 
 
