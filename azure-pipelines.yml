@@ -1,18 +1,24 @@
+trigger: none
+
 pr:
   - master
 
 resources:
   containers:
-  - container: node # reusable alias
+  - container: docker-node # reusable alias
     image: node:10.16-stretch
 
 jobs:
- - job : a
-   container: node
+ - job : build
+   displayName: build & test
+   container: docker-node
    steps: 
    - script: npm i
+     displayName: install
    - script: npm run lint
+     displayName: lint
    - script: npm run test-ci
+     displayName: test-unit
    - task: PublishTestResults@2
      condition: succeededOrFailed()
      inputs:
