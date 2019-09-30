@@ -62,8 +62,8 @@ export default class renderers {
     res.render(clientBasePath + '/testHistory', {projectName, history, error, success });
   }
 
-  public static register(res: any, error?: string, success?: string) {
-    res.render(clientBasePath + '/register', {error, success});
+  public static register(res: any, securityKeyRequired: boolean, error?: string, success?: string) {
+    res.render(clientBasePath + '/register', {securityKeyRequired, error, success});
   }
 
   public static login(res: any, error?: string, success?: string) {

@@ -58,16 +58,18 @@
             <tbody>  
               <TR> 
                 <TD> Email </TD>
-                <TD> <input type="text" id="register" name="username"> </TD>
+                <TD> <input type="text" id="username" name="username"> </TD>
               </TR>
               <TR> 
                 <TD> Password </TD>
-                <TD> <input type="password" id="register" name="password"> </TD>
+                <TD> <input type="password" id="password" name="password"> </TD>
               </TR>
+              <% if (securityKeyRequired === true) {%>
               <TR> 
                 <TD> Secret </TD>
                 <TD> <input type="text" id="secret" name="secret"> </TD>
               </TR>
+              <% } %>
               <TR> 
                 <TD> </TD>
                 <TD> <input type="submit" id="register" name="register" value="Register" class="jdamGreen"> </TD>

@@ -1,3 +1,8 @@
+import dbHelper, { MODEL } from '../helpers/dbHelper';
+import fsx from 'fs-extra';
+
+const appConfig: any = JSON.parse(fsx.readFileSync(dbHelper.getDataFile(MODEL.APPCONFIG), 'utf-8'));
+
 export default class util {
 
   public static getMaxId(contents: any) {
@@ -10,4 +15,9 @@ export default class util {
     }
     return 0;
   }
+
+  public static isSecretRequired(): boolean {
+    return appConfig && appConfig.authentication.requireSecret === true;
+  }
+
 }

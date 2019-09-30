@@ -19,8 +19,11 @@ export default class dbHelper {
       filePath = path.join(baseDirPath, 'secret.json');
     } else if (model === MODEL.MASTERKEY) {
       filePath = path.join(baseDirPath, 'master-key.json');
+    } else if (model === MODEL.APPCONFIG) {
+      filePath = path.join(baseDirPath, 'config.json');
     }
 
+    /*
     if (!fsx.existsSync(filePath)) {
       fsx.createFileSync(filePath);
       if (model === MODEL.MASTERKEY) {
@@ -30,7 +33,7 @@ export default class dbHelper {
       } else {
         fsx.writeFileSync(filePath, '[]');
       }
-    }
+    } */
     return filePath;
   }
 
@@ -50,5 +53,6 @@ export enum MODEL {
  PROJECT,
  TESTS,
  SECRET,
- MASTERKEY
+ MASTERKEY,
+ APPCONFIG
 }
