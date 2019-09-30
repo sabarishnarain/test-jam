@@ -12,7 +12,7 @@ router.get('/login*', (req: any, res: any) => {
   renderer.login(res, undefined);
 });
 
-router.post('/login*', (req: any, res: any) => {
+router.post('/login*', async (req: any, res: any) => {
   const username = req.body.username;
   const password = req.body.password;
 
@@ -28,7 +28,7 @@ router.post('/login*', (req: any, res: any) => {
     return;
   }
 
-  if (userHelper.verifyPassword(username, password)) {
+  if (await userHelper.verifyPassword(username, password)) {
     // Login success
     req.session.username = username;
     console.log('Session ', req.session.username);
@@ -45,7 +45,7 @@ router.get('/register*', (req: any, res: any) => {
   renderer.register(res, undefined);
 });
 
-router.post('/register*', (req: any, res: any) => {
+router.post('/register*', async (req: any, res: any) => {
   const username = req.body.username;
   const password = req.body.password;
   const secretKey = req.body.secret;
@@ -67,7 +67,7 @@ router.post('/register*', (req: any, res: any) => {
   }
 
   try {
-    userHelper.createUser(username, password, secretKey);
+    await userHelper.createUser(username, password, secretKey);
   } catch (err) {
     console.error(err);
     renderer.register(res, 'Ouch! It looks like you have used an invalid/expired key. Contact the maintainer to get new one.');

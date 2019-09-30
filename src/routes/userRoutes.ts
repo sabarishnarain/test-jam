@@ -59,34 +59,32 @@ router.post('/users', (req: any, res: any) => {
     const usernameToDelete = req.body.deleteUser;
     console.log('Delete user(s) with id: ', usernameToDelete );
 
-    if (req.body.deleteUser) {
-      if (usernameToDelete) {
-        if (usernameToDelete === req.session.username) {
-          renderer.users(res, req.session.username, 'Error occured while deleting user.');
-          return;
-        }
-        let usersPostDelete;
-        if (Array.isArray(usernameToDelete)) {
-          console.log('Multi delete.', usernameToDelete);
-
-          // when ids are more than 1, it is sent as string array.
-          usersPostDelete = users.filter( (t: any) => {
-            return !usernameToDelete.includes(t.id);
-          });
-
-        } else {
-          console.log('Single user delete.', usernameToDelete);
-
-          usersPostDelete = users.filter( (u: any) => {
-            return usernameToDelete !== u.username;
-          });
-        }
-        userHelper.saveContents(usersPostDelete);
-        renderer.users(res, req.session.username, userHelper.getAllUsers(), undefined, 'User successfully removed');
-      } else {
-        renderer.users(res, req.session.username, userHelper.getAllUsers(), 'You must select a user to delete.');
-
+    if (usernameToDelete) {
+      if (usernameToDelete === req.session.username) {
+        renderer.users(res, req.session.username, 'Error occured while deleting user.');
+        return;
       }
+      let usersPostDelete;
+      if (Array.isArray(usernameToDelete)) {
+        console.log('Multi delete.', usernameToDelete);
+
+        // when ids are more than 1, it is sent as string array.
+        usersPostDelete = users.filter( (u: any) => {
+          return !usernameToDelete.includes(u.username);
+        });
+
+      } else {
+        console.log('Single user delete.', usernameToDelete);
+
+        usersPostDelete = users.filter( (u: any) => {
+          return usernameToDelete !== u.username;
+        });
+      }
+      userHelper.saveContents(usersPostDelete);
+      renderer.users(res, req.session.username, userHelper.getAllUsers(), undefined, 'User successfully removed');
+    } else {
+      renderer.users(res, req.session.username, userHelper.getAllUsers(), 'You must select a user to delete.');
+
     }
 
   });
