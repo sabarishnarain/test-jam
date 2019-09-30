@@ -1,2 +1,6 @@
-/node_modules
-/dist
+node_modules
+# runtime directories 
+dist
+#code coverage
+coverage
+.nyc_output

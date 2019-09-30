@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc && gulp && node dist/server.js",
     "test": "JDAM_ENV_TEST=true mocha --require ts-node/register ./test/*.ts",
-    "test-ci": "JDAM_ENV_TEST=true mocha --reporter mocha-junit-reporter --require ts-node/register ./test/*.ts",
+    "test-ci": "JDAM_ENV_TEST=true nyc mocha --reporter mocha-junit-reporter --require ts-node/register ./test/*.ts",
     "dev": "JDAM_ENV_TEST=true tsc && gulp && node dist/server.js",
     "prod": "tsc && gulp && node dist/server.js",
     "lint": "tslint -p ."
@@ -43,7 +43,26 @@
     "gulp": "^4.0.2",
     "node-sass-middleware": "^0.11.0",
     "node-ts": "^5.0.2",
+    "nyc": "^14.1.1",
     "typescript": "^3.6.3",
     "uuid": "^3.3.3"
+  },
+  "nyc" : {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude" : [
+      "**/*.d.ts",
+      "**/coverage",
+      "dist/client/**",
+      "src/client/**",
+      "test/**",
+      "gulpfile.js"
+    ],
+    "reporter" : [
+      "cobertura"
+    ],
+    "all" : true
   }
 }
