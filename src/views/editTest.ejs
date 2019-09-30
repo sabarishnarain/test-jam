@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="./main.css"> 
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+    <script type="text/javascript" src="jdam.js"></script>
+
+</head>
+<body>
+
+  <script> 
+    function doSubmit(action) {
+      let doDelete = false;
+
+      if (action === 'delete') {
+        doDelete = confirm('Are you sure you want to delete this test?');
+      }
+
+      if (doDelete === true || action !== 'delete') {
+        document.getElementsByName('action')[0].value = action;
+        document.getElementById('editTestForm').submit();
+      }
+      
+    }
+
+  </script>
+
+
+<% include ./partials/leftpane.ejs%>
+
+
+  <div class="split right">
+
+    <div class="title"> 
+      <h3> Edit Scenario </h3>     
+    </div>
+
+    <% include ./partials/snackbar.ejs%>
+
+
+    <div style="display: flex;">
+
+      <div id="page-wrapper" style="flex: 1;">
+
+        <% if (history.length > 0) {%>
+        
+        <div id="recent-status"> 
+          <% const recentBuild = history[0]; 
+          let icon = '/norun.png';
+          if(recentBuild && recentBuild.status && recentBuild.status === 'PASS') { icon = '/checked.png' }
+          if(recentBuild && recentBuild.status && recentBuild.status === 'FAIL') { icon = '/cancel.png'}
+          const dateStr = new Date(recentBuild.date).toUTCString();
+          %>
+          <table>
+            <tr> 
+              <td> Recent : </td>
+              <td> <img src="<%=icon%>" style="width: 2em;"> </td>
+              <td> from <b> <%=recentBuild.build%> </b> on <b> <%=dateStr%> </b> </td>
+            </tr>
+          </table>
+        </div>
+
+        <% } %>
+
+        <form action="/editTest" method="POST" id="editTestForm">
+          <input type="hidden" name="action">
+        <table class="formTable"> 
+
+            
+          <TR>
+            <TD>ID </TD>
+            <TD> <input type="text" name="testId" value="<%=currentTest.id%>" style="width: 500px" readonly> </TD>
+          </TR>
+  
+          <TR>
+            <TD> Name </TD>
+            <TD> <input type="text" name="title" value="<%=currentTest.title%>" maxlength="125" style="width: 500px"> </TD>      
+          </TR>
+  
+          <TR>
+            <TD> Desc</TD>
+            <TD> <textarea name="desc"><%=currentTest.desc%></textarea> </TD>
+          </TR>
+  
+          <TR>
+            <TD> Identifier </TD>
+            <TD> <input type="text" name="identifier" value="<%=currentTest.identifier%>"> </TD>
+          </TR>
+            
+          <TR>
+            <TD> Project</TD>
+            <TD> 
+              <select name="testProject"> 
+              <% for(let p of projectsList) { 
+                 let pId = p.split('#')[0]; 
+                 let pName = p.split('#')[1]; 
+                 let isSelected = (p.split('#')[2] === 'true') ? 'selected' : '';
+              %>
+              <option value="<%=pId%>" <%=isSelected%> > <%=pName%> </option>
+            
+              <% } %>
+            
+              </select>      
+            </TD>
+          </TR>
+            
+        </table>
+            
+        <div class="table-footer">
+          <input type="submit" name="cancelEdit" value="Cancel" class="jdamGrey">    
+          <input type="button" name="delete" value="Delete" class="jdamRed" onclick="doSubmit('delete');">    
+          <input type="submit" name="copyTo" value="Save As" class="jdamBlue">    
+          <input type="button" name="runTest" value="Execute" class="jdamGrey"  onclick="doSubmit('run');">    
+          <input type="button" name="saveTest" id="saveTest" value="Save" class="jdamGreen" onclick="doSubmit('save');"> 
+
+
+        </div>
+            
+      </form>
+    </div>
+
+
+    <% const helpText = { title: 'Edit Test',
+    body : [` You can edit the contents of your test. Build number is necessary if the status is updated to PASS or FAIL.` ,
+    `If you are updating only contents of the tests, you can set status to NORUN. This feature will change soon.`,
+    `Test History - Lists the recent history of test status. Also includes history when status is updated through API calls.`,
+    `You can reuse the contents of this test to new one, by clicking Save As button. `]};
+    %>
+
+    <% include ./partials/help.ejs%>
+
+    <!-- Test history-->
+
+    <div style="width : 30%; margin-right: 2em;">
+      <h3> Test run history </h3>
+      <table class="jdamTable">
+        <thead> 
+          <TR>
+            <TH> </TH>
+            <TH>Status </TH>
+            <TH> Build </TH>
+            <TH> Date </TH>
+          </TR>
+        </thead>
+        <% if(history) {
+          
+          for(let i=0; i < 16; i++) { 
+            if (history[i] ) {
+              let icon = '';
+              if( history[i].status && history[i].status === 'PASS') { icon = '/checked.png' }
+              if( history[i].status && history[i].status === 'FAIL') { icon = '/cancel.png'}
+              if( history[i].status && history[i].status === 'NORUN') { icon = '/norun.png'}
+              let buildStr = history[i].build || '' ;
+              let truncatedBuildStr = (buildStr && buildStr.length > 16) ? buildStr.substring(0, 10) + '...' : buildStr;
+              const dateStr = new Date(history[i].date).toUTCString();
+        %>
+        <tr>
+          <td> <%= i+1 %> </td>
+          <td> <img src="<%=icon%>" style="width: 1.5em;"> </td>
+          <td title=<%=buildStr%>> <%= truncatedBuildStr %> </td>
+          <td> <%= dateStr %> </td>
+        </tr>
+        <% } } }%>
+      </table>
+    </div>
+
+    <!-- Other Tests 
+    <div style="width : 30%">
+      <h3> All tests in this project </h3> 
+      <table class="jdamTable">
+        <thead> 
+          <TR>
+            <TH> </TH>
+            <TH>ID </TH>
+            <TH> TEST </TH>
+          </TR>
+        </thead>
+        <% if(otherTestsInProject) {
+          let counter = 0;
+          for(let test of otherTestsInProject) { 
+            counter++;
+        %>
+        <tr>
+          <td> <%=counter%> </td>
+          <td> <a href="./editTest.html?testId=<%=test.id%>"> <%=test.id%> </a> </td>
+          <td> <%=test.title%> </td>
+        </tr>
+        <% } 
+        } %>
+      </table>
+    </div> -->
+
+    </div>
+
+</div>
+   
+<script>
+    ( function() {
+      showSnackbar();
+    })()
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="./main.css"> 
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+</head>
+<body>
+
+  <script> 
+    function doSave() {
+      if(confirm('Are you sure ?')) {
+        console.log('submitting')
+        document.getElementById('editTestForm').submit();
+      }
+    }
+  </script>
+
+
+  <div class="split left">
+      <% include ./partials/logo.ejs%>
+
+  
+    <div id="menu">
+      <ul>
+        <li><a href="./home.html"> Home </a></li>
+        <li><a href="./users.html"> Users </a></li>
+
+      </ul>
+    </div>
+  
+  </div>
+
+  <div class="split right">
+
+    <div class="title"> 
+      <h3> Edit Scenario </h3>     
+    </div>
+
+    <div id="messageBanner">
+      <% if(error) { %>
+        <font class="errorMsg"> <%=error%> </font>
+        <% } %>
+        <% if(success) { %>
+          <font class="successMsg"> <%=success%> </font>
+          <% } %>
+    </div>
+
+    <div style="display: flex;">
+
+      <div id="page-wrapper" style="flex: 1;">
+
+        <form action="/user" method="POST" id="userEditForm">
+        <table class="formTable"> 
+            
+          <TR>
+            <TD>ID </TD>
+            <TD> <input type="text" name="userid" value="<%=user.id%>" readonly> </TD>
+          </TR>
+  
+          <TR>
+            <TD> Name </TD>
+            <TD> <input type="text" name="username" value="<%=user.username%>" maxlength="125" style="width: 200px" readonly> </TD>      
+          </TR>
+  
+          <TR>                       
+            <TD> Role</TD>
+            <TD> 
+              <!-- Disable the select box if user is same as the session -->
+              <% const disabledFlag = (username === user.username) ? 'disabled': ''; %>
+              <select name="role" <%=disabledFlag%> >  
+           
+              <% let adminSelected = (user.admin === 1) ? 'selected' : '';
+                  let regularSelected = (adminSelected === 'selected') ? '' : 'selected';
+              %>
+              <option value="admin" <%=adminSelected%> > Admin </option>
+              <option value="regular" <%=regularSelected%> > Regular </option>
+              </select>      
+            </TD>
+          </TR>
+            
+        </table>
+            
+        <div>
+          <input type="submit" name="save" value="Save" class="jdamGreen">
+          <input type="submit" name="cancel" value="Cancel" class="jdamGrey">    
+
+        </div>
+            
+      </form>
+    </div>
+
+    </div>
+
+
+
+
+
+
+</div>
+
+</body>
+</html>

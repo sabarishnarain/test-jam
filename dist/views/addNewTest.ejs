@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="./main.css"> 
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+  <script type="text/javascript" src="jdam.js"></script>
+
+</head>
+<body>
+
+  <script> 
+    function doDelete() {
+      if(confirm('Contents in this page will be lost if not saved. Are you sure you want to continue ? ')) {
+        document.getElementById('newTestForm').submit();
+      }
+    }
+  </script>
+
+  <% include ./partials/leftpane.ejs%>
+
+
+  <div class="split right">
+  
+    <div class="title"> 
+      <h3> Add Scenarios </h3>     
+    </div>
+
+    <% include ./partials/snackbar.ejs%>
+   
+      <div id="page-wrapper">
+
+        <form action="/addNewTest" method="POST" id="newTestForm">
+          <div>       
+            <table class="formTable"> 
+              <thead>
+                <TR>
+                  <TD> </TD>
+                  <TD> </TD>
+                </TR>
+              </thead>
+          
+              <tbody>
+                <TR> 
+                  <td> Scenario Name</td>
+                  <td> <input name="title" type="text" maxlength="125" style="width: 500px" value="<%=title%>"> </td>
+                </TR>
+          
+                <TR> 
+                  <td> Scenario Description</td>
+                  <td> <textarea name="description"><%=desc%></textarea> </td>
+                </TR>
+
+                <TR> 
+                  <td> Test Identifier</td>
+                  <td> <input name="identifier" type="text" value="<%=identifier%>"> </td>
+                </TR>
+          
+                <TR> 
+                  <td> Project</td>
+                  <td> 
+                    <select name="project">
+                    <% 
+                      for(let p of projects) {  
+                        let isSelected = (filter && filter === p.id) ? "selected" : "";
+                    %>
+                      <option value=<%= p.id%> <%=isSelected%> > <%= p.name %> </option>
+                    <% } %> 
+                    </select>
+                  </td>
+                </TR>
+              </tbody>
+          
+            </table>
+          
+            <div class="table-footer"> 
+              <input name="cancel" id="cancelBtn" type="button" value="Cancel" class="jdamGrey" onclick="doDelete();" >
+              <input name="createTest" type="submit" value="Create" class="jdamGreen">
+            </div>
+        
+               
+        </div>
+      </form>
+     </div>
+
+
+    <% const helpText = { title: 'Add Test',
+    body : [` Let's create your test. Go ahead and fill in the details and click Create.` ,
+    `Scenario name is restricted to 125 chars. Description is restricted to 3k characters. `,
+    `Test Identifier - used for API calls to update status. For junit, it is the name of the test method. For js based test frameworks, it is name of the "it" block. `]};
+    %>
+
+    <% include ./partials/help.ejs%>
+  
+    </div>
+
+     
+ <script>
+    ( function() {
+      showSnackbar();
+    })()
+  </script>
+    
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="/main.css"> 
+
+</head>
+<body>
+
+    <div class="split left">
+        <% include ./partials/logo.ejs%>
+
+      <div id="menu">
+        <ul>
+          <li><a href="./dashboard.html" accesskey="2" title="">Dashboard</a></li>
+          <li><a href="./projects.html" accesskey="3" title="">Projects</a></li>
+          <li><a href="./addNewTest.html" accesskey="4" title="">Add New Test</a></li>
+          <li><a href="./users.html" accesskey="4" title="">Users</a></li>
+          <li><a href="./login.html?logout=1" accesskey="3" title="">Logout</a></li>
+
+        </ul>
+      </div>
+
+    </div>
+
+
+    <div class="split right">
+     
+      <div id="header" class="container">
+        <div id="logo">
+            <div class="title">
+              <h2>Welcome to the colloborative world </h2>
+            </div>
+        </div>
+      </div>
+  
+
+    <div id="page-wrapper">
+                      
+          <hr>
+          
+         
+          <form action="/users" method="POST" > 
+
+            <div class="table-header">
+
+                <div style="float: left"> 
+                   <input type="submit" name="delete" class="jdamRed" value="Delete">
+    
+                </div>
+    
+    
+              </div>
+    
+              
+           <table class="jdamTable"> 
+              <thead> 
+                <TR>
+                  <TH>ID </TH>
+                  <TH> User Name </TH>
+                  <TH> Admin</TH>
+                  <TH> </TH> 
+                  </TR>
+              </thead>
+                     
+              <tbody> 
+                    
+                <% let counter = 1; 
+                for(let u of users ) { %>
+                <TR> 
+                  <TD> <a href="/user.html?userid=<%=u.id%>"> <%=u.id%> </a>  </TD>
+                  <TD> <%=u.username%> </TD>
+                  <TD>  <% const role = u.admin === 1 ? 'Admin' : 'Regular'; %>
+                    <%=role%> 
+                  
+                  </TD>
+                  <TD>
+                    <% if (username !== u.username) { %> 
+                    <input type="checkbox" name="deleteUser" value="<%=u.username%>">
+                  
+                  <% } %> </TD>
+
+                </TR>
+                 <% counter++; } %>
+              
+              </tbody>
+              
+            </table>
+          </form>
+          
+    </div>
+
+    </div>
+
+
+   
+
+    
+
+  
+  
+  
+
+
+</body>
+</html>

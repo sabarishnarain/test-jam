@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+  <link href="main.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="chart.css" rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+
+  <script>
+  function navigate(pid) {
+    document.chartForm.projectId.value = pid;
+    document.getElementById("chartForm").submit();
+  }  
+  </script>
+
+  <% include ./partials/leftpane.ejs%>
+
+  <div class="split right">
+     
+    <div id="header" class="container">
+      <div id="logo">
+        <div class="title">
+          <h2>Welcome to the colloborative world </h2>
+        </div>
+      </div>
+    </div>
+  
+    <div class="title"> 
+      <h3> Scoreboard </h3>
+    </div>
+
+    <div id="page-wrapper">
+      
+      <form name="chartForm" id="chartForm" action="/dashboard" method="POST" >
+      <input type="hidden" name="projectId" id="projectId" value=""> 
+
+      <div style="padding-left: 5%; padding-top: 3%">
+        <div class="row">
+          <% for(const r of results) { 
+               const pass = parseInt(r.pass);
+               const fail = parseInt(r.fail);
+               const norun = parseInt(r.norun);
+               const total = pass + fail + norun;
+
+               let passPercent = (total > 0) ? pass/total * 100 : 0;
+               passPercent = Math.round(passPercent);
+
+               let cssPercentageValue = passPercent;
+
+               const percentMod = passPercent % 10;
+
+               if(percentMod > 0) {
+                 if(percentMod < 5) {
+                   cssPercentageValue = passPercent - percentMod;
+                 } else { 
+                   cssPercentageValue = passPercent + (10 - percentMod);
+                 }
+              }           
+          %>
+
+            <div class="column" onclick="navigate('<%=r.project.id%>');">
+              
+
+              <h2> <%=r.project.name%>  </h2>
+              <p> <%=pass%> out of <%=total%> tests passed.   </p>
+              <div class="set-size charts-container">
+                <div class="pie-wrapper progress-<%=cssPercentageValue%>">
+                  <span class="label"><%=passPercent%><span class="smaller">%</span></span>
+                  <div class="pie">
+                    <div class="left-side half-circle"></div>
+                    <div class="right-side half-circle"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <% } %>
+
+      </div>
+    </div> 
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

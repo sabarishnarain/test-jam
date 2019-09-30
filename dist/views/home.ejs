@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+        <link href="main.css" rel="stylesheet" type="text/css" media="all" />
+        <script type="text/javascript" src="jdam.js"></script>
+
+</head>
+<body>
+  
+
+    <% include ./partials/leftpane.ejs%>
+
+
+    <div class="split right">
+
+   
+      <div id="header" class="container">
+        <div id="logo">
+            <div class="title">
+              <h2>Welcome to the colloborative world </h2>
+            </div>
+        </div>
+      </div>
+  
+    <div class="title"> 
+      <h3> Test Results </h3>
+  
+    </div>
+
+    <% include ./partials/snackbar.ejs%>
+
+
+    <div id="page-wrapper">
+        
+        <form action="/home" method="GET">
+          <div class="table-header">
+            
+            <% if(projects.length > 0)  { %>
+
+            <div >
+              
+              <table style="width: 90%">
+                <tr> 
+                  <td style="width: 20%"> 
+                      Project 
+                      <select name="projectFilter">
+                      <% 
+                          for(let p of projects ) {
+                          let isSelect = "";
+                          if(filter && filter === p.id) {
+                              isSelect = "selected";
+                          }
+                      %>
+                          <option value=<%=p.id %> <%= isSelect %>> <%= p.name %> </option>
+                      <%
+                          }
+                      %> 
+                      </select>
+                      
+                  </td>
+                  <td> 
+                      <input type="submit" name="go" class="jdamGreen" value="Filter">
+                  </td>
+                  <td style="width: 40%">
+                    
+                  </td>
+                  <td style="width: 20%"> Next Actions 
+                    <select style="width: 150px;" name="actions">
+                      <option value="-"> ------ </option>
+                      <option value="addTest"> Add Tests </option>
+                      <option value="deleteTest"> Delete Tests </option>
+                    </select> </td>
+                  <td> <input type="submit" name="go" class="jdamGreen" value="Go"> </td>
+                </tr>
+              </table>
+                
+               
+            </div>
+
+                              
+           <% } else { %>
+             <div> <font style="color: red"> Hi there ! Looks like you don't have projects yet. Let's gets started by creating one and add tests to it. </font> </div>
+           <% } %>
+          </div>
+              
+           <table class="jdamTable"> 
+              <thead> 
+                <TR>
+                  <TH>ID </TH>
+                  <TH> Title </TH>
+                  <TH> Identifier</TH>
+                  <TH> Status</TH>
+                  <TH> Build </TH>
+                  <TH> Last Updated </TH>
+                  </TR>
+              </thead>
+                     
+              <tbody> 
+                    
+                <% if(tests) {             
+                 for(let t of tests ) { 
+                   const friendlyDate = (t.lastUpdated) ? new Date(t.lastUpdated).toUTCString() : '';
+                %>
+                <TR> 
+                  <TD> <a href="./editTest.html?testId=<%=t.id%>"> <%= t.id %> </a>  </TD>
+                  <% const titleStr = (t.title.length > 75 ) ? t.title.substring(0,74) + '...' : t.title; %>
+                  <TD> <%= titleStr %> </TD>
+                  <TD> <%=t.identifier%> </TD>
+                  
+
+                  <TD> 
+                              
+                  <% let fontColor = 'color:grey';
+                     if(t.status === 'PASS') { fontColor = 'color:green' }
+                     if(t.status === 'FAIL') { fontColor = 'color:red'} 
+                     const statusStr = (t.status) ? t.status : 'NO RUN';
+                   %>
+                   <b> <font style=<%=fontColor%>> <%= statusStr %>  </font> </b>
+                              
+                          
+                  </TD>
+                  <TD> <%=t.build%> </TD>
+                  <TD> <%=friendlyDate%> </TD>
+                </TR>
+                 <% } 
+                 
+                    }%>
+              
+                    </tbody>
+              
+                  </table>
+
+                  <% if (!tests || (tests && tests.length === 0)) { %>
+                  <div style="margin-left: 3em; margin-top: 2em;"> 
+                    <p> No tests to show. Please use the dropdown above to select a project.  </p>
+                  </div>
+                  <% } %>
+                            
+              </form>
+
+    </div>
+
+    <% const helpText = { title: 'Welcome to testjam!',
+    body : [` 
+    The Home page consists of 2 sections - left panel that contains links to navigate to other areas, and right section which shows the list of tests for each project 
+    from the project filter dropdown.`,
+    `You can use the Add Test button below the table to create a test in the selected project.`]};
+    %>
+
+    <% include ./partials/help.ejs%>
+    
+
+    </div>
+
+    <script>
+      ( function() {
+        showSnackbar();
+      })()
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+  <script type="text/javascript" src="jdam.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="./main.css"> 
+</head>
+<body>
+
+  <script> 
+    function doDelete() {
+      if(confirm('Are you sure you want to delete ?')) {
+        console.log('submitting')
+        document.getElementById('deleteForm').submit();
+      }
+    }
+  </script>
+
+  <% include ./partials/leftpane.ejs%>
+
+
+  <div class="split right">
+   
+      <div class="title"> 
+        <h3> Projects </h3>
+    
+    </div>
+
+    <% include ./partials/snackbar.ejs%>
+
+
+    <div>
+        <form action="/createProject" method="POST">
+          <table class="formTable"> 
+            <TR>
+              <TD> <input type="text" name="pname" maxlength="40" placeholder="Enter project name">  </TD>
+              <TD> <input type="submit" name="createProject" value="Create" class="jdamGreen"> </TD>
+            </TR>
+          </table>
+        </form>
+
+    </div>
+
+
+
+    <% if(projectsWithTests.length > 0) { 
+      %>
+   
+    <div id="page-wrapper">
+
+      <table class="jdamTable"> 
+        <thead> 
+          <TR>
+            <th> </th> 
+            <th> NAME </th>
+            <th> ID </th> 
+            <th> TESTS COUNT </th>
+          </TR>
+        </thead>
+        
+        <tbody>
+           
+          <% 
+          for(let i=0; i < projectsWithTests.length; i++) {
+          %>
+          <tr> 
+            <td> <%=i+1%> </td>
+            <td> <a href="./project.html?projectId=<%=projectsWithTests[i].projectId%>"> <%=projectsWithTests[i].pName%> </a> </td> 
+            <td> <%=projectsWithTests[i].projectId%> </td> 
+            <tD> <%=projectsWithTests[i].testCount%> </tD>
+          </tr>
+          <% } %> 
+        </tbody> 
+      </table>
+
+    </div>
+
+    <% const helpText = { title: 'Projects',
+    body : [` 
+    Projects are container for tests. There is no limit to number of tests in each project.`,
+    `Use the Create button to add a project. You can use the table to navigate to each project to see its tests.`]};
+    %>
+
+    <% include ./partials/help.ejs%>
+
+    <% } else { %>
+       
+      <div> <p> <font color="red">  Use the Create Project link on the left to create a project. You can then add tests and keep going forward. </font>  </p> </div>
+
+      <% } %>
+
+  </div>    
+     
+ <script>
+    ( function() {
+      showSnackbar();
+    })()
+  </script>
+
+  </body>
+</html>

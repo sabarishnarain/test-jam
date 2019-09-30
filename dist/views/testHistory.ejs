@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+  <link href="main.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<body>
+
+  <div class="split left">
+      <% include ./logo.ejs%>
+
+
+    <div id="menu">
+    <ul>
+      <li><a href="./home.html" accesskey="2" title="">Home</a></li>
+      <li><a href="./projects.html" accesskey="3" title="">Projects</a></li>
+    </ul>
+    </div>
+
+  </div>
+
+
+  <div class="split right">  
+    <div id="header" class="container">
+      <div id="logo">
+        <div class="title">
+          <h2>Welcome to the colloborative world </h2>
+        </div>
+      </div>
+    </div>
+  
+    <div class="title"> 
+      <h3> <%=projectName%> : Test History </h3>
+    </div>
+
+    <div id="messageBanner"> 
+      <% if(error) { %>
+        <font class="errorMsg"> <%=error%> </font>
+        <% } %>
+        <% if(success) { %>
+          <font class="successMsg"> <%=success%> </font>
+          <% } %>
+    </div>
+
+
+    <div id="page-wrapper">
+        
+    <table class="jdamTable"> 
+      <thead> 
+        <TR>
+          <TH>ID </TH>
+          <TH> Scenario Name </TH>
+        </TR>
+      </thead>
+                     
+      <tbody> 
+                    
+      <% if(history) {             
+         for(let h of history ) { %>
+        <TR> 
+          <TD> <%= h.id %> </TD>
+          <TD> <%= h.name %> </TD>
+
+          <% const history = h.history;
+             for(let his of history) { 
+               const status = his.status;
+               const lastModified=his.date;
+               let icon = '/norun.png';
+               if(status === 'PASS') { icon = '/checked.png' }
+               if(status === 'FAIL') { icon = '/cancel.png'}
+                    
+           %>
+           <TD title=<%=lastModified%>> <img src="<%=icon%>" style="width: 2em;"> </TD>
+          <%} %>
+                  
+        </TR>
+      <% } 
+      }%>
+              
+      </tbody>
+              
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

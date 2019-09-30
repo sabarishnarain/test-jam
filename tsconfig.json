@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "target": "es6",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "dist",
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "node_modules/*"
+            ]
+        }
+    },
+    "include": [
+        "*.ts", "gulpfile.js", "src/server.ts", "src/helpers/dashboardHelper.ts", "data/userHelpesrc/helpers/securityKeyHelper.tselpesrc/helpers/projectHelper.tselper.ts"
+    ]
+}
