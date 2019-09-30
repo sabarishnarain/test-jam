@@ -13,6 +13,12 @@ jobs:
    displayName: build & test
    container: docker-node
    steps: 
+   - task: UseDotNet@2
+     displayName: 'Use .NET Core sdk'
+     inputs:
+       packageType: sdk
+       version: 2.2.203
+       installationPath: $(Agent.ToolsDirectory)/dotnet
    - script: npm i
      displayName: install
    - script: npm run lint
@@ -25,4 +31,9 @@ jobs:
        testRunner: JUnit
        testResultsFiles: '**/test-results.xml'
        failTaskOnFailedTests: true # Fail the task if there are test failures
+   - task: PublishCodeCoverageResults@1
+     inputs: 
+       codeCoverageTool: Cobertura
+       summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+       reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
     
