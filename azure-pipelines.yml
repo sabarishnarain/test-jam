@@ -1,0 +1,15 @@
+pr:
+  - master
+
+resources:
+  containers:
+  - container: node # reusable alias
+    image: node:10.16-stretch
+
+jobs:
+ - job : a
+   container: node
+   steps: 
+   - script: npm i
+   - script: npm run lint
+   - script: npm run test
