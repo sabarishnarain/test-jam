@@ -1,6 +1,7 @@
 import path from 'path';
 import dbHelper, { MODEL } from './dbHelper';
 import util from '../utils/util';
+import bcrypt from 'bcrypt';
 
 const fsUsersJSON = dbHelper.getDataFile(MODEL.USER);
 import fs from 'fs';
@@ -30,15 +31,16 @@ export default class userHelper {
     })[0];
   }
 
-  public static createUser(username: string, password: string, secret: string) {
+  public static async createUser(username: string, password: string, secret: string) {
 
     if (!securityKeyHelper.isValidSecret(secret)) {
-      throw Error('Invalid security key.');
+      throw new Error('Invalid security key');
     }
     const usersJson = this.getAllUsers();
     const recentId = util.getMaxId(this.getAllUsers());
-    const adminFlag = (recentId === 0) ? 1 : 0; // first user is always admin
-    usersJson.push({id : recentId + 1, username, password, admin : adminFlag});
+    const firstAdminFlag = (recentId === 0) ? 1 : 0; // first user is always admin
+    const hash = await bcrypt.hash(password, 10);
+    usersJson.push({id : recentId + 1, username, password: hash, admin : firstAdminFlag});
     this.saveContents(usersJson);
     securityKeyHelper.removeSecret(secret);
 
@@ -48,9 +50,10 @@ export default class userHelper {
     return JSON.parse(fs.readFileSync(fsUsersJSON, 'utf-8'));
   }
 
-  public static verifyPassword(username: string, password: string): boolean {
+  public static async verifyPassword(username: string, password: string): Promise<boolean> {
     const user = this.findUser(username);
-    if (user && user.password === password) {
+
+    if (user && await bcrypt.compare(password, user.password)) {
       return true;
     }
     return false;
