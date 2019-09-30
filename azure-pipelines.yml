@@ -12,4 +12,11 @@ jobs:
    steps: 
    - script: npm i
    - script: npm run lint
-   - script: npm run test
+   - script: npm run test-ci
+   - task: PublishTestResults@2
+     condition: succeededOrFailed()
+     inputs:
+       testRunner: JUnit
+       testResultsFiles: '**/test-results.xml'
+       failTaskOnFailedTests: true # Fail the task if there are test failures
+    

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.23299999999999998" tests="12" failures="0">
+  <testsuite name="Root Suite" timestamp="2019-09-30T17:49:04" tests="0" failures="0" time="0">
+  </testsuite>
+  <testsuite name="Project Helper Tests" timestamp="2019-09-30T17:49:04" tests="4" file="F:\projects\test-jam\test\projectHelperTest.ts" failures="0" time="0.004">
+    <testcase name="Project Helper Tests Get project with id" time="0.003" classname="Get project with id">
+    </testcase>
+    <testcase name="Project Helper Tests Project with single word should be first 3 letters" time="0.001" classname="Project with single word should be first 3 letters">
+    </testcase>
+    <testcase name="Project Helper Tests Project id for two words should start with first two letters of two words" time="0" classname="Project id for two words should start with first two letters of two words">
+    </testcase>
+    <testcase name="Project Helper Tests Project id for three words should start with first two letters of each words" time="0" classname="Project id for three words should start with first two letters of each words">
+    </testcase>
+  </testsuite>
+  <testsuite name="Test Helper Tests" timestamp="2019-09-30T17:49:04" tests="2" file="F:\projects\test-jam\test\testHelperTest.ts" failures="0" time="0.002">
+    <testcase name="Test Helper Tests Get project with id" time="0.001" classname="Get project with id">
+    </testcase>
+    <testcase name="Test Helper Tests Get Tests for sample project" time="0.001" classname="Get Tests for sample project">
+    </testcase>
+  </testsuite>
+  <testsuite name="UserHelper Tests" timestamp="2019-09-30T17:49:04" tests="6" file="F:\projects\test-jam\test\userHelperTest.ts" failures="0" time="0.22699999999999998">
+    <testcase name="UserHelper Tests Default should be present" time="0.001" classname="Default should be present">
+    </testcase>
+    <testcase name="UserHelper Tests Find user by id" time="0" classname="Find user by id">
+    </testcase>
+    <testcase name="UserHelper Tests User jdam password is jdam" time="0.078" classname="User jdam password is jdam">
+    </testcase>
+    <testcase name="UserHelper Tests Password with tailing space" time="0.073" classname="Password with tailing space">
+    </testcase>
+    <testcase name="UserHelper Tests Password with leading space" time="0.072" classname="Password with leading space">
+    </testcase>
+    <testcase name="UserHelper Tests Password with invalid secret" time="0.003" classname="Password with invalid secret">
+    </testcase>
+  </testsuite>
+</testsuites>
