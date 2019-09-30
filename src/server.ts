@@ -18,7 +18,6 @@ import session from 'express-session';
 
 import {renderFile} from 'ejs';
 import renderer from './renderers/renderer';
-import userHelper from './helpers/userHelper';
 
 const port = (process.env.JDAM_ENV_PROD === 'true') ? 80 : 3000;
 

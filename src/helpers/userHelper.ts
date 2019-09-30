@@ -1,4 +1,3 @@
-import path from 'path';
 import dbHelper, { MODEL } from './dbHelper';
 import util from '../utils/util';
 import bcrypt from 'bcrypt';

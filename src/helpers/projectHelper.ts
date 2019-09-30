@@ -1,7 +1,4 @@
-
-import path from 'path';
 import dbHelper, { MODEL } from './dbHelper';
-import fsx from 'fs-extra';
 
 const fsProjectsJSON = dbHelper.getDataFile(MODEL.PROJECT);
 import fs from 'fs';

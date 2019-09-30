@@ -1,4 +1,3 @@
-import path from 'path';
 import dbHelper, { MODEL } from './dbHelper';
 const fsSecretJSON = dbHelper.getDataFile(MODEL.SECRET);
 const fsMasterKeyJSON = dbHelper.getDataFile(MODEL.MASTERKEY);

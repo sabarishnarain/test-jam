@@ -1,5 +1,4 @@
 import path from 'path';
-import fsx from 'fs-extra';
 
 export default class dbHelper {
 
