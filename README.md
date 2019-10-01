@@ -1,7 +1,7 @@
 [![Build Status](https://dev.azure.com/snarain-open-source/test-jam/_apis/build/status/sabarishnarain.test-jam?branchName=master)](https://dev.azure.com/snarain-open-source/test-jam/_build/latest?definitionId=3&branchName=master)
 
-## JDAM
- A simple dashboard service to manage test cases. This service also exposes REST end points to update test status. For example, if you have automated tests running from the cloud, you can have them update the status into this dashboard. 
+## TEST-JAM
+ A simple dashboard service to manage test cases. This service also exposes REST end points to update test status. For example, if you have automated tests running from a cloud server, you can have them update the status into this dashboard. 
 
  ### Features
 
@@ -21,13 +21,16 @@ The various models used in this project are -
 
 ### Build Targets
 `npm run dev`
+`npm run prod` # be sure to add JDAM_ENV_PROD=true
 `npm run test`
 `npm run lint`
 
 ### Docker
-Use docker file to build an image. Make sure you mount volume in order to use your custom data, otherwise, the sample data will be used. 
-In order to do so, use `docker run -d -p 3000:3000 -v /home/snarain/temp:/app/db/prod jdam:latest`
-The app will create the list of json files in the mounted directory of host machine. You can then login using default user `jdam:jdam`. Default master key is `nobodyownsnothing`.
+Use Dockerfile to build the image. It is strongly recommended to use this for production. 
+Mount a volume so the data can be exported for backup as well as reuse in future. 
+Ex: `docker run -d -p 3000:3000 -v /home/snarain/temp:/app/db/prod testjam:latest`
+Note that JDAM_ENV_PROD environment variable is set to true inside the container. Port 80 is exposed by default.
+The app will create the list of json files in the mounted directory of host machine. You can then start registering the users. The first user is admin. Default master key is `nobodyownsnothing`.
 
 ## User Registration
 

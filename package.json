@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && gulp && node dist/server.js",
-    "test": "JDAM_ENV_TEST=true mocha --require ts-node/register ./test/*.ts",
-    "test-ci": "JDAM_ENV_TEST=true nyc mocha --reporter mocha-junit-reporter --require ts-node/register ./test/*.ts",
-    "dev": "JDAM_ENV_TEST=true tsc && gulp && node dist/server.js",
+    "test": "mocha --require ts-node/register ./test/*.ts",
+    "coverage": "nyc --reporter html mocha --require ts-node/register ./test/*.ts",
+    "test-ci": "nyc mocha --reporter mocha-junit-reporter --require ts-node/register ./test/*.ts",
+    "dev": "tsc && gulp && node dist/server.js",
     "prod": "tsc && gulp && node dist/server.js",
     "lint": "tslint -p ."
   },
@@ -57,6 +58,8 @@
       "**/coverage",
       "dist/client/**",
       "src/client/**",
+      "src/renderers/**",
+      "src/routes/**",
       "test/**",
       "gulpfile.js"
     ],

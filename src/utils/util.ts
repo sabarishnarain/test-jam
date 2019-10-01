@@ -1,7 +1,10 @@
 import dbHelper, { MODEL } from '../helpers/dbHelper';
-import fsx from 'fs-extra';
 
-const appConfig: any = JSON.parse(fsx.readFileSync(dbHelper.getDataFile(MODEL.APPCONFIG), 'utf-8'));
+const appConfig: any = dbHelper.getContents(MODEL.APPCONFIG, {
+  authentication : {
+      requireSecret : true
+  }
+});
 
 export default class util {
 

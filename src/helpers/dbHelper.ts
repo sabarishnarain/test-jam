@@ -3,7 +3,37 @@ import fsx from 'fs-extra';
 
 export default class dbHelper {
 
-  public static getDataFile(model: MODEL): string {
+  public static getContents(model: MODEL, defaultContents?: any): any {
+    const dataFile = this.getDataFilePath(model);
+
+    if (!fsx.pathExistsSync(dataFile)) {
+      const contents = defaultContents || [];
+      fsx.ensureFileSync(dataFile);
+      // Write default contents in file and return
+      fsx.writeFileSync(dataFile, JSON.stringify(contents));
+    }
+    return JSON.parse(fsx.readFileSync(dataFile, 'utf-8'));
+
+  }
+
+  /**
+   * Save contents to file. Creates new file if not exists.
+   * @param model
+   * @param contents
+   */
+  public static saveContents(model: MODEL, contents: any) {
+    const dataFile = this.getDataFilePath(model);
+    fsx.ensureFileSync(dataFile);
+    fsx.writeFileSync(dataFile, JSON.stringify(contents));
+    return contents;
+  }
+
+  public static getDataFileForTestHistory(testId: number): string {
+    const baseDirPath = this._getBaseDirPath();
+    return path.join(baseDirPath, 'history', 'test-' + testId + '.json');
+  }
+
+  private static getDataFilePath(model: MODEL): string {
 
     const baseDirPath = this._getBaseDirPath();
 
@@ -13,7 +43,7 @@ export default class dbHelper {
       filePath = path.join(baseDirPath, 'users.json');
     } else if (model === MODEL.PROJECT) {
       filePath = path.join(baseDirPath, 'projects.json');
-    } else if (model === MODEL.TESTS) {
+    } else if (model === MODEL.TEST) {
       filePath = path.join(baseDirPath, 'tests.json');
     } else if (model === MODEL.SECRET) {
       filePath = path.join(baseDirPath, 'secret.json');
@@ -22,28 +52,11 @@ export default class dbHelper {
     } else if (model === MODEL.APPCONFIG) {
       filePath = path.join(baseDirPath, 'config.json');
     }
-
-    /*
-    if (!fsx.existsSync(filePath)) {
-      fsx.createFileSync(filePath);
-      if (model === MODEL.MASTERKEY) {
-        fsx.writeFileSync(filePath, JSON.stringify({key : 'nobodyownsnothing'}));
-      } else if (model === MODEL.USER) {
-        fsx.writeFileSync(filePath, JSON.stringify([{username : 'jdam', password: 'jdam'}]));
-      } else {
-        fsx.writeFileSync(filePath, '[]');
-      }
-    } */
     return filePath;
   }
 
-  public static getDataFileForTestHistory(testId: number): string {
-    const baseDirPath = this._getBaseDirPath();
-    return path.join(baseDirPath, 'history', 'test-' + testId + '.json');
-  }
-
   private static _getBaseDirPath(): string {
-    const subDirPath = (process.env.JDAM_ENV_TEST === 'true') ? 'test' : 'prod';
+    const subDirPath = (process.env.JDAM_ENV_PROD === 'true') ? 'prod' : 'test';
     return path.join(__dirname, '..', '..', 'db', subDirPath);
   }
 }
@@ -51,7 +64,7 @@ export default class dbHelper {
 export enum MODEL {
  USER,
  PROJECT,
- TESTS,
+ TEST,
  SECRET,
  MASTERKEY,
  APPCONFIG

@@ -1,10 +1,6 @@
-import path from 'path';
 import dbHelper, { MODEL } from './dbHelper';
 import util from '../utils/util';
 import bcrypt from 'bcrypt';
-
-const fsUsersJSON = dbHelper.getDataFile(MODEL.USER);
-import fs from 'fs';
 import securityKeyHelper from './securityKeyHelper';
 
 export default class userHelper {
@@ -47,7 +43,7 @@ export default class userHelper {
   }
 
   public static getAllUsers(): any {
-    return JSON.parse(fs.readFileSync(fsUsersJSON, 'utf-8'));
+    return dbHelper.getContents(MODEL.USER);
   }
 
   public static async verifyPassword(username: string, password: string): Promise<boolean> {
@@ -60,7 +56,8 @@ export default class userHelper {
   }
 
   public static saveContents(contents: any) {
-    fs.writeFileSync(fsUsersJSON, JSON.stringify(contents));
+    return dbHelper.saveContents(MODEL.USER, contents);
+
   }
 
 }

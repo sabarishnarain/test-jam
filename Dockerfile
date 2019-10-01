@@ -6,7 +6,8 @@ COPY *.js ./
 COPY *.json ./
 COPY src ./src/
 COPY db ./db/
+ENV JDAM_ENV_PROD true
 RUN npm ci
-EXPOSE 3000
+EXPOSE 80
 
-CMD ["npm","run","dev"]
+CMD ["npm","run","prod"]

@@ -1,8 +1,5 @@
 import dbHelper, { MODEL } from './dbHelper';
 import util from '../utils/util';
-
-const fsTestsJSON = dbHelper.getDataFile(MODEL.TESTS);
-
 import fs from 'fs';
 import fsx from 'fs-extra';
 import projectHelper from './projectHelper';
@@ -10,7 +7,7 @@ import projectHelper from './projectHelper';
 export default class testHelper {
 
   public static getAllTests(optimized: boolean = false) {
-   const tests = JSON.parse(fs.readFileSync(fsTestsJSON, 'utf-8'));
+   const tests = dbHelper.getContents(MODEL.TEST);
    if (optimized) {
      for (const t of tests) {
        if (t.title.length >= 200) {
@@ -51,7 +48,7 @@ export default class testHelper {
       identifier,
       build: '',
       project : projectId });
-    this.saveTests(contents);
+    dbHelper.saveContents(MODEL.TEST, contents);
     return recentId + 1;
   }
 
@@ -92,7 +89,7 @@ export default class testHelper {
     }
 
     if (isTestFound) {
-      testHelper.saveTests(tests);
+      dbHelper.saveContents(MODEL.TEST, tests);
     }
 
     return isTestFound;
@@ -150,7 +147,7 @@ export default class testHelper {
 
     if (isTestFound) {
       const lastUpdated = new Date();
-      testHelper.saveTests(tests);
+      dbHelper.saveContents(MODEL.TEST, tests);
       testHelper.addHistory(testId, status, build, lastUpdated);
     }
 
@@ -172,7 +169,7 @@ export default class testHelper {
       testHelper.removeHistory(id);
     }
 
-    testHelper.saveTests(testsPostDelete);
+    dbHelper.saveContents(MODEL.TEST, testsPostDelete);
 
   }
 
@@ -287,11 +284,6 @@ export default class testHelper {
       return status;
     }
     return '';
-
-  }
-
-  private static saveTests(contents: any) {
-    fs.writeFileSync(fsTestsJSON, JSON.stringify(contents));
 
   }
 

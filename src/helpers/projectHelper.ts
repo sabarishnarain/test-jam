@@ -1,16 +1,10 @@
 
-import path from 'path';
 import dbHelper, { MODEL } from './dbHelper';
-import fsx from 'fs-extra';
-
-const fsProjectsJSON = dbHelper.getDataFile(MODEL.PROJECT);
-import fs from 'fs';
 
 export default class testHelper {
 
   public static getAllProjects() {
-
-    return JSON.parse(fs.readFileSync(fsProjectsJSON, 'utf-8'));
+    return dbHelper.getContents(MODEL.PROJECT);
   }
 
   public static getProject(pid: string) {
@@ -19,7 +13,7 @@ export default class testHelper {
   }
 
   public static saveProjects(contents: any) {
-    fs.writeFileSync(fsProjectsJSON, JSON.stringify(contents));
+    dbHelper.saveContents(MODEL.PROJECT, contents);
   }
 
   /**
