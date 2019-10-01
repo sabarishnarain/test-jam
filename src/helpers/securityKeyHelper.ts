@@ -4,14 +4,8 @@ import uuidv1 from 'uuid/v1';
 export default class securityKeyHelper {
 
   public static getMasterKey(): string {
-    let master;
-    try {
-      master = dbHelper.getContents(MODEL.MASTERKEY, { key: 'nobodyownsnothing' });
-    } catch (err) {
-      console.error(err);
-      return undefined;
-    }
-    return master.key;
+    const contents = dbHelper.getContents(MODEL.MASTERKEY);
+    return contents.key;
   }
 
   public static isValidSecret(key: string): boolean {
@@ -21,7 +15,6 @@ export default class securityKeyHelper {
     let found: boolean = false;
 
     for ( const f of s) {
-      console.log('Key is ', f);
       if (f === key) {
         found = true ;
         break;

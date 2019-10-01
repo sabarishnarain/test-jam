@@ -18,9 +18,7 @@ import session from 'express-session';
 
 import {renderFile} from 'ejs';
 import renderer from './renderers/renderer';
-import userHelper from './helpers/userHelper';
-
-const port = (process.env.JDAM_ENV_PROD === 'true') ? 80 : 3000;
+import {env, initializeContents} from './server/env';
 
 app.engine('html', renderFile);
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -67,5 +65,7 @@ app.use(clientSecretRoutes);
 app.use(userRoutes);
 app.use(runTestRoutes);
 
-console.log('Environment is ', (process.env.JDAM_ENV_PROD === 'true') ? 'prod' : 'test');
-app.listen(port);
+app.listen(env.port);
+console.log('Environment is ', env.subDir);
+console.log('Server @: ', env.port);
+initializeContents();

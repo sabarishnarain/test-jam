@@ -1,7 +1,14 @@
 node_modules
+
 # runtime directories 
 dist
-#code coverage
+
+# code coverage
 coverage
 .nyc_output
 test-results.xml
+
+# data files
+db/prod/*
+db/test/*
+db/dev/*

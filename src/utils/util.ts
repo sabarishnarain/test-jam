@@ -1,11 +1,5 @@
 import dbHelper, { MODEL } from '../helpers/dbHelper';
 
-const appConfig: any = dbHelper.getContents(MODEL.APPCONFIG, {
-  authentication : {
-      requireSecret : true
-  }
-});
-
 export default class util {
 
   public static getMaxId(contents: any) {
@@ -20,6 +14,7 @@ export default class util {
   }
 
   public static isSecretRequired(): boolean {
+    const appConfig = dbHelper.getContents(MODEL.APPCONFIG);
     return appConfig && appConfig.authentication.requireSecret === true;
   }
 
