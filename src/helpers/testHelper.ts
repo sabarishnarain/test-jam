@@ -3,6 +3,7 @@ import util from '../utils/util';
 import fs from 'fs';
 import fsx from 'fs-extra';
 import projectHelper from './projectHelper';
+import jResult from '../server/jResult';
 
 export default class testHelper {
 
@@ -101,25 +102,38 @@ export default class testHelper {
    * @param status
    * @param build
    */
-  public static runTestById(id: string, status: string, build: string): boolean {
-    const tests = testHelper.getAllTests();
-    let isTestFound = false;
+  public static runTestById(id: string, status: string, build: string): any {
 
-    status = this.lookupStatus(status);
-    for (const t of tests) {
-      if (t.id === parseInt(id, 10)) {
-        console.log('update test');
-        isTestFound = true;
+    let res: jResult;
+
+    if (status === '-' ) {
+      res = new jResult({msg : 'Please select a valid status'}, undefined);
+    } else if (build.trim().length === 0) {
+      res = new jResult({ msg : 'Please enter a valid build'});
+    } else {
+      const tests = testHelper.getAllTests();
+      let isTestFound = false;
+
+      status = this.lookupStatus(status);
+      for (const t of tests) {
+        if (t.id === parseInt(id, 10)) {
+          console.log('update test');
+          isTestFound = true;
+        }
       }
-    }
 
-    if (isTestFound) {
-      const lastUpdated = new Date();
-      testHelper.addHistory(id, status, build, lastUpdated);
-      this.updateTestById(id, status, undefined, undefined, undefined, build, undefined, lastUpdated);
-    }
+      if (isTestFound) {
+        const lastUpdated = new Date();
+        testHelper.addHistory(id, status, build, lastUpdated);
+        this.updateTestById(id, status, undefined, undefined, undefined, build, undefined, lastUpdated);
+        res = new jResult(undefined, 'Test successfully executed');
+      } else {
+        res = new jResult({msg: 'Test not found'});
+      }
 
-    return isTestFound;
+    }
+    return res;
+
   }
 
   /**

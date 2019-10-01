@@ -20,7 +20,7 @@ jobs:
        packageType: sdk
        version: 2.2.203
        installationPath: $(Agent.ToolsDirectory)/dotnet
-   - script: npm i
+   - script: npm ci
      displayName: install
    - script: npm run lint
      displayName: lint
