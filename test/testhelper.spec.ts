@@ -1,19 +1,17 @@
 import { expect } from 'chai';
 import testHelper from '../src/helpers/testHelper';
+import {initializeContents} from '../src/server/env';
 
 describe('Test Helper Tests', () => {
 
+
+  before( async () => {
+    await initializeContents();
+  });
+
   const testIdsToRemove: string[] = [];
 
-  it('Get project with id', () => {
-    expect(testHelper.getTestById('5')).to.not.undefined;
-  });
-
-  it("Get Tests for sample project", () => {
-    expect(testHelper.getTestsForProject('cdf7141').length).to.equal(1);
-  });
-
-  it("Add and update test", () => {
+  it('Add and update test', () => {
     const initCount = testHelper.getAllTests().length;
     const id1 = testHelper.addTest('test title', 'test desc', 'testMethod1', 'project1');
     testIdsToRemove.push(id1.toString());

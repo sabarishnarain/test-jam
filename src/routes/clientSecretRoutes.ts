@@ -4,7 +4,6 @@ import testHelper from '../helpers/testHelper';
 import securityHelper from '../helpers/securityKeyHelper';
 
 router.post('/auth/generate', (req: any, res: any) => {
-    console.log('create client secret: ', req.body);
     const master = req.body.master;
 
     if (!master) {
@@ -22,7 +21,6 @@ router.post('/auth/generate', (req: any, res: any) => {
   });
 
 router.post('/auth/keys', (req: any, res: any) => {
-  console.log('create client secret: ', req.body);
   const master = req.body.master;
 
   if (!master) {

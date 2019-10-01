@@ -1,19 +1,32 @@
 import path from 'path';
 import fsx from 'fs-extra';
+import {env} from '../server/env';
 
 export default class dbHelper {
 
-  public static getContents(model: MODEL, defaultContents?: any): any {
+  /**
+   * Set default contents to  config files.
+   *
+   * Will leave the file untouched if already exists.
+   * @param model
+   * @param defaultContents
+   */
+  public static setDefaultContent(model: MODEL, defaultContents: any) {
     const dataFile = this.getDataFilePath(model);
 
-    if (!fsx.pathExistsSync(dataFile)) {
-      const contents = defaultContents || [];
-      fsx.ensureFileSync(dataFile);
-      // Write default contents in file and return
-      fsx.writeFileSync(dataFile, JSON.stringify(contents));
+    if (!fsx.existsSync(dataFile)) {
+      fsx.ensureFile(dataFile, () => {
+        fsx.writeFile(dataFile, JSON.stringify(defaultContents), () => {
+          // do nothing
+        });
+      });
     }
-    return JSON.parse(fsx.readFileSync(dataFile, 'utf-8'));
 
+  }
+
+  public static getContents(model: MODEL): any {
+    const dataFile = this.getDataFilePath(model);
+    return JSON.parse(fsx.readFileSync(dataFile, 'utf-8'));
   }
 
   /**
@@ -56,8 +69,7 @@ export default class dbHelper {
   }
 
   private static _getBaseDirPath(): string {
-    const subDirPath = (process.env.JDAM_ENV_PROD === 'true') ? 'prod' : 'test';
-    return path.join(__dirname, '..', '..', 'db', subDirPath);
+    return path.join(__dirname, '..', '..', 'db', env.subDir);
   }
 }
 

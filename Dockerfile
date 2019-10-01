@@ -6,7 +6,7 @@ COPY *.js ./
 COPY *.json ./
 COPY src ./src/
 COPY db ./db/
-ENV JDAM_ENV_PROD true
+ENV TESTJAM_ENV prod
 RUN npm ci
 EXPOSE 80
 
