@@ -67,4 +67,5 @@ app.use(clientSecretRoutes);
 app.use(userRoutes);
 app.use(runTestRoutes);
 
+console.log('Environment is ', (process.env.JDAM_ENV_PROD === 'true') ? 'prod' : 'test');
 app.listen(port);

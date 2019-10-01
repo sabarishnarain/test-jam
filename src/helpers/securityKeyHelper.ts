@@ -1,17 +1,15 @@
-import path from 'path';
 import dbHelper, { MODEL } from './dbHelper';
-const fsSecretJSON = dbHelper.getDataFile(MODEL.SECRET);
-const fsMasterKeyJSON = dbHelper.getDataFile(MODEL.MASTERKEY);
-
-import fs from 'fs';
 import uuidv1 from 'uuid/v1';
 
 export default class securityKeyHelper {
 
   public static getMasterKey(): string {
-    const master = JSON.parse(fs.readFileSync(fsMasterKeyJSON, 'utf-8'));
-    if (!master) {
-      throw new Error('Master key is empty. Please set one to continue.');
+    let master;
+    try {
+      master = dbHelper.getContents(MODEL.MASTERKEY, { key: 'nobodyownsnothing' });
+    } catch (err) {
+      console.error(err);
+      return undefined;
     }
     return master.key;
   }
@@ -37,18 +35,18 @@ export default class securityKeyHelper {
     const secrets: string[] = this.getSecrets();
     const newSecret = uuidv1();
     secrets.push(newSecret);
-    fs.writeFileSync(fsSecretJSON, JSON.stringify(secrets));
+    dbHelper.saveContents(MODEL.SECRET, secrets);
     return newSecret;
   }
 
   public static removeSecret(key: string) {
     const secrets = this.getSecrets();
     const newSecrets: [] = secrets.filter( (s: string) => s !== key);
-    fs.writeFileSync(fsSecretJSON, JSON.stringify(newSecrets));
+    dbHelper.saveContents(MODEL.SECRET, newSecrets);
 }
 
 public static getSecrets(): any {
-  return JSON.parse(fs.readFileSync(fsSecretJSON, 'utf-8'));
+  return dbHelper.getContents(MODEL.SECRET);
 }
 
 }
