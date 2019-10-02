@@ -45,7 +45,8 @@ router.post('/addNewTest*', (req: any, res: any) => {
     }
 
     const testId = testHelper.addTest(testTitle, testDescription, testIdentifier, req.body.project);
-    renderer.addNewTest(res, projectHelper.getAllProjects(), req.body.project, undefined, `Test with id ${testId} successfully added`);
+    renderer.addNewTest(res, projectHelper.getAllProjects(), req.body.project, undefined,
+      'Test with id <a href="editTest.html?testId=' + testId + '"> ' + testId + '</a> successfully added');
     }
 
   });
