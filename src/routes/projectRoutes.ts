@@ -6,14 +6,7 @@ import renderer from '../renderers/renderer';
 
 router.get('/projects.html', (req: any, res: any) => {
   // Find number of tests in each project
-  const projectsWithTests = [];
-  const projects = projectHelper.getAllProjects();
-
-  for (const p of projects) {
-    const tests = testHelper.getTestsForProject(p.id);
-    projectsWithTests.push( { projectId: p.id, pName: p.name, testCount: tests.length});
-  }
-  renderer.projects(res, projectsWithTests);
+  renderer.projects(res, projectHelper.getAllProjects());
 });
 
   //
@@ -49,15 +42,7 @@ router.post('/project', (req: any, res: any) => {
     console.log('Delete project with id ', projectId);
     projectHelper.removeProject(projectId);
 
-    const projectsLst = projectHelper.getAllProjects();
-    const projectsWithTests = [];
-
-    for (const p of projectsLst) {
-      const testsForProject = testHelper.getTestsForProject(p.id);
-      projectsWithTests.push( { projectId: p.id, pName: p.name, testCount: testsForProject.length});
-    }
-
-    renderer.projects(res, projectsWithTests);
+    renderer.projects(res, projectHelper.getAllProjects());
 
   } else {
       renderer.project(res, testHelper.getTestsForProject(projectId), project, 'You must select atleast one test to delete');
@@ -67,50 +52,19 @@ router.post('/project', (req: any, res: any) => {
 
 router.post('/createProject', (req: any, res: any) => {
 
-  const projects = projectHelper.getAllProjects();
+  let projects = projectHelper.getAllProjects();
   const inputName = req.body.pname;
 
   const jRes = projectHelper.createProject(inputName);
-  const projectsWithTests = [];
-  for (const p of projects) {
-    const tests = testHelper.getTestsForProject(p.id);
-    projectsWithTests.push( { projectId: p.id, pName: p.name, testCount: tests.length});
-  }
 
   if (jRes.err) {
-    renderer.projects(res, projectsWithTests, jRes.err.msg);
-
+    renderer.projects(res, projects, jRes.err.msg);
   } else {
-    renderer.projects(res, projectsWithTests, undefined, jRes.successMsg);
+    projects = projectHelper.getAllProjects();
+    renderer.projects(res, projects, undefined, jRes.successMsg);
 
   }
 
 });
-/*
-router.post('/deleteProject', (req: any, res: any) => {
-  let projectsLst = projectHelper.getAllProjects();
-
-  const projectId = req.body.deleteProject;
-
-  console.log('Delete project with id ', projectId);
-
-  if (testHelper.getTestsForProject(projectId).length > 0) {
-    console.log('Cannot delete project with tests');
-    renderer.projects(res, projectsLst, 'Cannot delete project when it contains tests.');
-
-  } else {
-    console.log('perform delete project');
-    const projectsPostDelete = projectsLst.filter( (p: any) => {
-        return p.id !== projectId;
-       });
-
-    projectHelper.saveProjects(projectsPostDelete);
-
-    projectsLst = projectHelper.getAllProjects();
-
-    renderer.projects(res, projectsLst, undefined);
-
-  }
-}); */
 
 export {router as projectRoutes};
