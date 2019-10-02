@@ -23,11 +23,12 @@ import {env, initializeContents} from './server/env';
 app.engine('html', renderFile);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use( sass( {
-  src: path.join(__dirname, '..', '/scss'),
-  dest: path.join(__dirname, '..', '/css'),
+  src: path.join(__dirname, '/client/scss'),
+  dest: path.join(__dirname, '/client/css'),
   // debug: true
 }));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/client/views'));
 app.use(express.static('./dist/client/css'));
 app.use(express.static('./dist/client/js'));
 app.use(express.static('./dist/client/images'));
