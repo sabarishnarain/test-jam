@@ -10,7 +10,7 @@ router.get('/login*', (req: any, res: any) => {
     console.log('logout');
     req.session.username = undefined;
   }
-  renderer.login(res, undefined);
+  renderer.login(res);
 });
 
 router.post('/login*', async (req: any, res: any) => {

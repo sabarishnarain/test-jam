@@ -42,10 +42,11 @@ app.use( (req: any, res: any, next) => {
 });
 
 app.get('*', (req: any, res: any, next: any) => {
-  if (req.session.username || req.originalUrl.endsWith('register.html') || req.originalUrl.endsWith('about.html')) {
+  if (req.session.username || req.originalUrl.endsWith('register.html')
+        || req.originalUrl.endsWith('about.html')) {
     next();
   } else {
-    renderer.login(res, 'Whoops! Session expired. Login to continue');
+    renderer.login(res);
   }
 });
 
