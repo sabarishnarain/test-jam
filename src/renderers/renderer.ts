@@ -1,4 +1,5 @@
 import path from 'path';
+import testHelper from '../helpers/testHelper';
 
 const clientBasePath = path.resolve(__dirname, '..', 'views');
 
@@ -10,7 +11,12 @@ export default class renderers {
    * @param projectsWithTests - projects
    * @param error
    */
-  public static projects(res: any, projectsWithTests: any, error?: string, success?: string) {
+  public static projects(res: any, projects: any, error?: string, success?: string) {
+    const projectsWithTests = [];
+    for (const p of projects) {
+      const tests = testHelper.getTestsForProject(p.id);
+      projectsWithTests.push( { projectId: p.id, pName: p.name, testCount: tests.length});
+    }
     res.render(clientBasePath + '/projects', {projectsWithTests, error, success});
   }
 
