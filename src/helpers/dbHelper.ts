@@ -15,11 +15,8 @@ export default class dbHelper {
     const dataFile = this.getDataFilePath(model);
 
     if (!fsx.existsSync(dataFile)) {
-      fsx.ensureFile(dataFile, () => {
-        fsx.writeFile(dataFile, JSON.stringify(defaultContents), () => {
-          // do nothing
-        });
-      });
+      fsx.ensureFileSync(dataFile);
+      fsx.writeFileSync(dataFile, JSON.stringify(defaultContents));
     }
 
   }

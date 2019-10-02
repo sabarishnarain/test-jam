@@ -55,6 +55,15 @@ export default class userHelper {
     return false;
   }
 
+  public static removeUser(name: string) {
+    const users = userHelper.getAllUsers();
+
+    const usersPostDelete = users.filter( (u: any) => {
+      return name !== u.username;
+    });
+    this.saveContents(usersPostDelete);
+  }
+
   public static saveContents(contents: any) {
     return dbHelper.saveContents(MODEL.USER, contents);
 

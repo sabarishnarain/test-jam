@@ -8,8 +8,8 @@ chai.use(require('chai-string'));
 
 describe('Project Helper Tests', () => {
 
-  before( async () => {
-    await initializeContents();
+  before( () => {
+    initializeContents();
   });
 
   it('Project with single word should be first 3 letters', () => {
@@ -23,4 +23,54 @@ describe('Project Helper Tests', () => {
   it('Project id for three words should start with first two letters of each words', () => {
     expect(projectHelper.generateProjectCode('foo bar true')).to.startsWith('fobatr');
   });
+
+  it('Create empty project', () => {
+    const res = projectHelper.createProject('');
+    // tslint:disable-next-line: no-unused-expression
+    expect(res.err.msg).to.equal('Name cannot be empty');
+  });
+
+  it('Create duplicate project', () => {
+    const res = projectHelper.createProject('sudoproject');
+    // tslint:disable-next-line: no-unused-expression
+    expect(res.err).to.be.undefined;
+    const initCount = projectHelper.getAllProjects().length;
+    // tslint:disable-next-line: no-unused-expression
+    expect(projectHelper.createProject('sudoproject').err.msg).to.equal('Project name already exists');
+    expect(projectHelper.getAllProjects().length).to.equal(initCount);
+
+  });
+
+  it('Lengthy project name', () => {
+    const res = projectHelper.createProject('this is the biggest project name more than anyone could write because it should more than 125 chars for the test to pass ortherwise it will fail');
+    // tslint:disable-next-line: no-unused-expression
+    expect(res.err.msg).to.equal('Project name is too lengthy.');
+  });
+
+  it('test getProject', () => {
+    const res = projectHelper.createProject('sudoproject');
+    const project = projectHelper.getProjectByName('sudoproject');
+    // tslint:disable-next-line: no-unused-expression
+    expect(res.err).to.be.undefined;
+    // tslint:disable-next-line: no-unused-expression
+    expect(projectHelper.getProject(project.id)).to.not.be.undefined;
+
+  });
+
+  beforeEach( () => {
+    const project = projectHelper.getProjectByName('sudoproject');
+    if (project) {
+      projectHelper.removeProject(project.id);
+
+    }
+  });
+
+  afterEach( () => {
+    const project = projectHelper.getProjectByName('sudoproject');
+    if (project) {
+      projectHelper.removeProject(project.id);
+
+    }  });
+
+
 })

@@ -60,6 +60,7 @@
       "src/client/**",
       "src/renderers/**",
       "src/routes/**",
+      "src/server.ts",
       "test/**",
       "gulpfile.js"
     ],

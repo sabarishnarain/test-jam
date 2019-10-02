@@ -25,15 +25,13 @@ router.post('/login*', async (req: any, res: any) => {
 
   if (!userHelper.findUser(username)) {
     // Non-existent username
-    renderer.login(res, 'Hmm.. Looks like the username does not exist. Register yourself from the link to the left.');
+    renderer.login(res, 'Username does not exist. Please register yourself from the link to the left.');
     return;
   }
 
   if (await userHelper.verifyPassword(username, password)) {
     // Login success
     req.session.username = username;
-    console.log('Session ', req.session.username);
-    console.log('Local var ', res.locals.isAdmin);
     renderer.home(res, projectHelper.getAllProjects(), undefined, undefined, undefined, 'Happy collaboration!');
     return;
   }
@@ -63,7 +61,7 @@ router.post('/register*', async (req: any, res: any) => {
   }
 
   if (userHelper.findUser(username)) {
-    renderer.register(res, isSecretRequired, `Hmm.. Looks like the username "${username}" already exists in the system.` +
+    renderer.register(res, isSecretRequired, `The username "${username}" already exists in the system.` +
     `If this is you, then contact the maintainer to investigate further.`);
     return;
   }
