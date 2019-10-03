@@ -3,13 +3,14 @@ const router = express.Router();
 import testHelper from '../helpers/testHelper';
 import projectHelper from '../helpers/projectHelper';
 import renderer from '../renderers/renderer';
-import jResult from '../server/jresult';
+import jResult from '../server/jResult';
+import sprintHelper from '../helpers/sprintHelper';
 
 router.get('/runTest', (req: any, res: any) => {
   const testId = req.query.testId;
   console.log('Test id from GET runtest ', testId);
   const test = testHelper.getTestById(testId);
-  renderer.runTest(res, test, testHelper.getStatuses());
+  renderer.runTest(res, test, testHelper.getStatuses(), sprintHelper.getSprintsForTest(testId));
 });
 
 router.post('/runTest', (req: any, res: any) => {
@@ -29,13 +30,16 @@ router.post('/runTest', (req: any, res: any) => {
   if (req.body.runTest) {
     const status = req.body.status;
     const build = req.body.build;
+    const sprintId = req.body.sprint;
 
-    const result: jResult = testHelper.runTestById(testId, status, build);
+    const result: jResult = testHelper.runTestById(testId, status, build, sprintId);
 
     if (result.err) {
-      renderer.runTest(res, currTest, testHelper.getStatuses(), result.err.msg);
+      // error
+      renderer.runTest(res, currTest, testHelper.getStatuses(), sprintHelper.getSprintsForTest(testId), result.err.msg);
 
     } else {
+      // success
       currTest = testHelper.getTestById(testId);
       renderer.editTest(res, currTest, projectsList, testHelper.getHistoryForTest(testId), otherTestsInProject,
       undefined, result.successMsg);

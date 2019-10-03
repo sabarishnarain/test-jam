@@ -22,7 +22,7 @@ describe('Test Helper Tests', () => {
     expect(testHelper.getTestById(id1.toString()).title).to.equal('test title');
     expect(testHelper.getTestById(id1.toString()).status).to.equal('');
 
-    testHelper.updateTestById(id1.toString(), 'passed');
+    testHelper.updateTestById(id1, 'passed');
     expect(testHelper.getTestById(id1.toString()).status).to.equal('PASS');
 
     // since we passed the above test
@@ -33,12 +33,12 @@ describe('Test Helper Tests', () => {
     expect(testHelper.getHistoryForTest(id1)).to.deep.equal([]);
 
     // run test by an invalid id and result should be false.
-    let res = testHelper.runTestById('abcde', 'fail', '100');
+    let res = testHelper.runTestById('abcde', 'fail', '100', '');
     expect(res.err.msg).to.not.undefined;
 
 
     // run test with correct id
-    res = testHelper.runTestById(id1.toString(), 'fail', '100');
+    res = testHelper.runTestById(id1.toString(), 'fail', '100', 'sprint1');
     expect(res.successMsg).to.equal('Test successfully executed');
     expect(res.err).to.be.undefined;
     expect(testHelper.getTestById(id1.toString()).status).to.equal('FAIL');

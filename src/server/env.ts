@@ -53,6 +53,8 @@ function initDefault() {
   dbHelper.setDefaultContent(MODEL.MASTERKEY, { key: 'nobodyownsnothing' });
   dbHelper.setDefaultContent(MODEL.SECRET, []);
   dbHelper.setDefaultContent(MODEL.TEST, []);
+  dbHelper.setDefaultContent(MODEL.SPRINT, []);
+  dbHelper.setDefaultContent(MODEL.TESTRUN, []);
 
 }
 

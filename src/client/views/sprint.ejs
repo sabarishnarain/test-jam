@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
+        <script type="text/javascript" src="jdam.js"></script>
+        <link rel="stylesheet" type="text/css" href="/main.css"> 
+
+</head>
+<body>
+
+  <script>
+    function toggle(element) {
+      var allRows = document.getElementsByName('addTestToSprint');
+      for( const r of allRows) {
+        r.checked = element.checked;
+      }
+    }
+  </script>
+
+    <% include ./partials/leftpane.ejs%>
+
+
+    <div class="split right">
+     
+      <div id="header" class="container">
+        <div id="logo">
+            <div class="title">
+              <h2>Welcome to the colloborative world </h2>
+            </div>
+        </div>
+      </div>
+  
+      <% include ./partials/snackbar.ejs%>
+
+
+    <div id="page-wrapper" >
+        
+        
+     <div class="section-header">  Sprint : <b>  <%=sprint.name%> </b>  </div>
+
+
+       <div style="display: flex;">
+
+        <div id="testsPanel" style="flex: 1;">
+
+          <form action="/removeTestsFromSprint" method="POST">
+            <input type="hidden" name="sprintId" value="<%=sprint.id%>">
+
+            <div class="table-header">
+
+                <b> Tests in Sprint: </b>
+            </div>
+
+            <div class="table-header" style="text-align: right; padding: 0em 2em 3em 3em;">
+              <b> Remove tests from Sprint </b> <input type="submit" name="removeTestsFromSprint" id="removeTestsFromSprint" value="&#187;" class="jdamRed">
+            </div>
+
+            <div>
+              <table class="jdamTable"> 
+                <thead> 
+                  <TR>
+                    <TH> </TH>
+                    <TH> Title </TH>
+                    <TH> Test ID </TH>
+                    <TH>  </TH>
+                    </TR>
+                </thead>
+                        
+                <tbody> 
+                      
+                  <% let counter1 = 1;             
+                    for(let t of tests ) { 
+                      %>
+                  <TR> 
+                    <TD>  <%=counter1%>  </TD>
+                    <TD> <%= t.title %> </TD>
+                    <TD> <%= t.id %> </TD>
+                    <TD>  <input type="checkbox" value="<%=t.id%>" name="removeTestFromSprint" id="">  </TD>
+                  
+                  </TR>
+                    <% counter1++; }  %>
+                
+                </tbody>
+                
+              </table>
+
+
+            </div>
+
+
+            
+          </form>
+            
+        </div>
+            
+        <div id="otherTestsPanel" style="width: 50%">
+
+         <form action="/addTestsToSprint" method="POST">
+          <input type="hidden" name="sprintId" value="<%=sprint.id%>">
+
+          <div class="table-header">
+
+                  <b> All Other Tests: </b>
+           </div>
+
+           <div class="table-header">
+
+           <input type="submit" name="addTestsToSprint" id="addTestsToSprint" value="&#171;" class="jdamRed">  <b> Add Tests To Sprint </b> 
+
+           </div>
+
+           <div>
+            <table class="jdamTable"> 
+              <thead> 
+                <TR>
+                  <TH> </TH>
+                  <TH> Title </TH>
+                  <TH> Test ID </TH>
+                  <TH>  <input type="checkbox" name="selectAll" id="selectAll" onclick="toggle(this)"> </TH>
+                  </TR>
+              </thead>
+                      
+              <tbody> 
+                    
+                <% let counter2 = 1;             
+                  for(let t of allOtherTests ) { 
+                    %>
+                <TR> 
+                  <TD>  <%=counter2%>  </TD>
+                  <TD> <%= t.title %> </TD>
+                  <TD> <%= t.id %> </TD>
+                  <TD> <input type="checkbox" value="<%=t.id%>" name="addTestToSprint" id="selectAll"> </TD>
+                
+                </TR>
+                  <% counter2++; }  %>
+              
+              </tbody>
+              
+              </table>
+
+
+           </div>
+
+  
+         
+          </form>
+
+        </div>
+
+      </div>
+
+           
+
+    </div>
+
+
+    <% const helpText = { title: 'Sprints',
+    body : [` Sprints are container to tests. Unlike projects, you can execute tests in each sprints separately. Test runs are not removed if sprint
+    is deleted.`,
+    `There are 2 panels - Tests in Sprint & Add Tests to Sprint. You can move around tests in and out of sprints.`]};
+    %>
+
+    <% include ./partials/help.ejs%>
+
+    </div>
+
+
+ <script>
+   ( function() {
+       showSnackbar();
+     })()
+ </script>
+
+
+</body>
+</html>

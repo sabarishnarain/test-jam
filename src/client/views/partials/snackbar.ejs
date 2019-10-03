@@ -1,4 +1,5 @@
-<div id="messageBanner"> 
+<% if (error || success) { %>
+<div> 
         <% if(error) { %>
           <div id="snackbar"> <font style="color: #fb5757"> (X)  <%=error%> </font> </div>
         <% } %>
@@ -6,3 +7,4 @@
           <div id="snackbar"> <font style="color: #6cdc6c">  <%-success%> </font> </div>
           <% } %>
       </div>
+<% } %>

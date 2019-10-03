@@ -3,6 +3,7 @@ const router = express.Router();
 import testHelper from '../helpers/testHelper';
 import projectHelper from '../helpers/projectHelper';
 import renderer from '../renderers/renderer';
+import viewHelper from '../helpers/viewHelper';
 
 // -----------------------------------------------------------------------------------------------------------
 router.get('/addNewTest*', (req: any, res: any) => {
@@ -14,7 +15,10 @@ router.post('/addNewTest*', (req: any, res: any) => {
 
   if (!req.body.createTest) {
     console.log('Go home');
-    renderer.home(res, projectHelper.getAllProjects(), undefined, undefined);
+    const data = viewHelper.getDataForHomeView(undefined , undefined);
+
+    renderer.home(res, data.sprints, data.sprintFilter, data.projects,
+      data.projectFilter, data.results);
     return;
   }
 

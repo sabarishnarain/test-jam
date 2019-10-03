@@ -1,7 +1,6 @@
-import path from 'path';
+import sprintHelper from '../helpers/sprintHelper';
+import projectHelper from '../helpers/projectHelper';
 import testHelper from '../helpers/testHelper';
-
-const clientBasePath = path.resolve(__dirname, '..', 'views');
 
 export default class renderers {
 
@@ -11,12 +10,15 @@ export default class renderers {
    * @param projectsWithTests - projects
    * @param error
    */
-  public static projects(res: any, projects: any, error?: string, success?: string) {
+  public static projects(res: any, error?: string, success?: string) {
     const projectsWithTests = [];
+    const projects = projectHelper.getAllProjects();
     for (const p of projects) {
       const tests = testHelper.getTestsForProject(p.id);
-      projectsWithTests.push( { projectId: p.id, pName: p.name, testCount: tests.length});
+      const testCount = tests.length;
+      projectsWithTests.push( { project: p, testCount} );
     }
+
     res.render('projects', {projectsWithTests, error, success});
   }
 
@@ -28,11 +30,11 @@ export default class renderers {
    * @param error
    */
   public static project(res: any, tests: any, project: any, error?: string, success?: string) {
-    res.render( 'project', { tests, project, error, success});
+    res.render('project', { tests, project, error, success});
   }
 
   public static createProject(res: any, error?: string, success?: string) {
-    res.render( 'createProject', { error, success});
+    res.render('createProject', { error, success});
 
   }
 
@@ -41,21 +43,23 @@ export default class renderers {
     res.render('addNewTest', { projects, filter, error, success, title, desc, identifier});
   }
 
-  public static runTest(res: any, test: any, statuses: string[], error?: string, success?: string) {
-    res.render('runTest', { test, statuses, error, success});
+  public static runTest(res: any, test: any, statuses: string[], sprints: any, error?: string, success?: string) {
+    res.render('runTest', { test, statuses, sprints, error, success});
 }
 
-  public static home(res: any, projects: any, tests: any, filter: any, error?: string, success?: string) {
-    res.render('home', { projects , tests, filter, error, success});
+  public static home(res: any, sprints: any, sprintFilter: any, projects: any, projectFilter: any,
+                     results: any, error?: string, success?: string) {
+    res.render('home', { sprints, sprintFilter, projects ,
+      projectFilter, results, error, success});
   }
 
-  public static dashboard(res: any, results: any) {
-    res.render('dashboard', { results});
+  public static dashboard(res: any, sprintFilter: any, data: any) {
+    res.render('dashboard', { sprints: sprintHelper.getAllSprints(), sprintFilter, data});
 
   }
 
-  public static completion(res: any, results: any) {
-    res.render('completion', { results});
+  public static completion(res: any, sprintFilter: any, data: any) {
+    res.render('completion', { sprints : sprintHelper.getAllSprints(), sprintFilter, data});
 
   }
 
@@ -90,6 +94,14 @@ export default class renderers {
 
   public static aboutUs(res: any) {
     res.render('about');
+  }
+
+  public static sprints(res: any, sprints: any, error?: string, success?: string) {
+    res.render('sprints', {sprints, error, success});
+  }
+
+  public static sprint(res: any, sprint: any, tests: any, allOtherTests: any, error?: string, success?: string) {
+    res.render('sprint', {sprint, tests, allOtherTests, error, success});
   }
 
 }

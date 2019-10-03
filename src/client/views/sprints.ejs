@@ -23,7 +23,7 @@
   <div class="split right">
    
       <div class="title"> 
-        <h3> Projects </h3>
+        <h3> Sprints </h3>
     
     </div>
 
@@ -31,11 +31,11 @@
 
 
     <div>
-        <form action="/createProject" method="POST">
+        <form action="/createSprint" method="POST">
           <table class="formTable"> 
             <TR>
-              <TD> <input type="text" name="pname" maxlength="40" placeholder="Enter project name">  </TD>
-              <TD> <input type="submit" name="createProject" value="Create" class="jdamGreen"> </TD>
+              <TD> <input type="text" name="sprintName" maxlength="40" placeholder="Enter sprint name">  </TD>
+              <TD> <input type="submit" name="createSprint" value="Create" class="jdamGreen"> </TD>
             </TR>
           </table>
         </form>
@@ -44,7 +44,7 @@
 
 
 
-    <% if(projectsWithTests.length > 0) { 
+    <% if(sprints.length > 0) { 
       %>
    
     <div id="page-wrapper">
@@ -54,21 +54,19 @@
           <TR>
             <th> </th> 
             <th> NAME </th>
-            <th> ID </th> 
-            <th> TESTS COUNT </th>
-          </TR>
+            <th> </th> 
+            </TR>
         </thead>
         
         <tbody>
            
           <% 
-          for(let i=0; i < projectsWithTests.length; i++) {
+          for(let i=0; i < sprints.length; i++) {
           %>
           <tr> 
             <td> <%=i+1%> </td>
-            <td> <a href="./project.html?projectId=<%=projectsWithTests[i].project.id%>"> <%=projectsWithTests[i].project.name%> </a> </td> 
-            <td> <%=projectsWithTests[i].project.id%> </td> 
-            <tD> <%=projectsWithTests[i].testCount%> </tD>
+            <td> <a href="./sprint.html?sprintId=<%=sprints[i].id%>"> <%=sprints[i].name%> </a>  </a> </td> 
+            <td> <input type="radio" value="<%=sprints[i].id%>"></td> 
           </tr>
           <% } %> 
         </tbody> 
@@ -76,17 +74,16 @@
 
     </div>
 
-    <% const helpText = { title: 'Projects',
+    <% const helpText = { title: 'Sprints',
     body : [` 
-    Projects are container for tests. There is no limit to number of tests in each project.`,
-    `Use the Create button to add a project. You can use the table to navigate to each project to see its tests.`]};
+    Create a sprint and attach tests to it. You can execute a test on a sprint any number of times.`]};
     %>
 
     <% include ./partials/help.ejs%>
 
     <% } else { %>
        
-      <div> <p> <font color="red">  Use the Create Project link on the left to create a project. You can then add tests and keep going forward. </font>  </p> </div>
+      <div> <p> <font color="red">  Use the Sprints link on the left to create one. </font>  </p> </div>
 
       <% } %>
 

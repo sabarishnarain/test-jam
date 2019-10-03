@@ -7,6 +7,9 @@ export default class util {
       return c.id;
     });
 
+    console.log(ids);
+    console.log(ids.length);
+
     if (ids.length > 0) {
       return Math.max(...ids);
     }
