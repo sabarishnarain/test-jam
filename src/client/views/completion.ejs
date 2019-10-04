@@ -89,8 +89,10 @@
                  }
               }
               let colorCode;
-              if (percentageValue < 30) {
+              if (percentageValue < 20) {
                   colorCode = 'red';
+              } else if (percentageValue > 20 && percentageValue <= 30 ) {
+                colorCode = 'orange';
               } else if (percentageValue > 30 && percentageValue <= 40 ) {
                 colorCode = 'blue-grey';
               }           
@@ -98,7 +100,7 @@
                 colorCode = 'amber';
               }           
               else if (percentageValue > 50 && percentageValue <= 60) {
-                colorCode = 'orange';
+                colorCode = 'teal';
               }
               else if (percentageValue > 60 && percentageValue <= 75) {
                 colorCode = 'yellow';

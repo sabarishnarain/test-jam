@@ -103,6 +103,10 @@ a:hover
   font-size: 3em;
 }
 
+#messageBanner {
+  text-align: center;
+  margin: 0em 0em 2em 0em;
+}
 .successMsg {
   color : green;
 }
