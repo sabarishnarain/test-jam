@@ -4,6 +4,7 @@ import renderer from '../renderers/renderer';
 import userHelper from '../helpers/userHelper';
 import projectHelper from '../helpers/projectHelper';
 import util from '../utils/util';
+import viewHelper from '../helpers/viewHelper';
 
 router.get('/login*', (req: any, res: any) => {
   if (req.query.logout) {
@@ -32,7 +33,10 @@ router.post('/login*', async (req: any, res: any) => {
   if (await userHelper.verifyPassword(username, password)) {
     // Login success
     req.session.username = username;
-    renderer.home(res, projectHelper.getAllProjects(), undefined, undefined, undefined, 'Happy collaboration!');
+    const data = viewHelper.getDataForHomeView(undefined , undefined);
+
+    renderer.home(res, data.sprints, data.sprintFilter, data.projects,
+      data.projectFilter, data.results, undefined, 'Happy Collobration!');
     return;
   }
 

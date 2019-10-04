@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
 import testHelper from '../helpers/testHelper';
-import projectHelper from '../helpers/projectHelper';
+import viewHelper from '../helpers/viewHelper';
 import renderer from '../renderers/renderer';
+import sprintHelper from '../helpers/sprintHelper';
 
 router.get('/', (req: any, res: any) => {
   res.redirect('/home');
@@ -10,31 +11,13 @@ router.get('/', (req: any, res: any) => {
 
 router.get('/home*', (req: any, res: any) => {
 
-    console.log('Home:');
-    const projects = projectHelper.getAllProjects();
-    const filter = req.query.projectFilter;
-    const project = projectHelper.getProject(filter);
-    const filteredTests = testHelper.getTestsForProject(filter);
+   const projectFilter = req.query.projectFilter;
+   const sprintFilter = req.query.sprintFilter;
 
-    if (req.query.actions) {
-      const actions = req.query.actions;
+   const data = viewHelper.getDataForHomeView(sprintFilter, projectFilter);
 
-      if (actions === 'addTest') {
-        renderer.addNewTest(res, projects, filter);
-        return;
-      }  else if (actions === 'deleteTest') {
-        renderer.project(res, filteredTests, project);
-        return;
-      }
-    }
-
-    if (req.query.projectFilter) {
-      console.log('Project filter ', filter );
-      renderer.home(res, projects, filteredTests, filter);
-
-    } else {
-      renderer.home(res, projects, undefined, filter);
-    }
+   renderer.home(res, data.sprints, data.sprintFilter, data.projects,
+                  data.projectFilter, data.results);
 
   });
 

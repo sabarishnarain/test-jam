@@ -4,11 +4,14 @@ import dashboardhelper from '../src/helpers/dashboardHelper';
 import projectHelper from '../src/helpers/projectHelper';
 import {initializeContents} from '../src/server/env';
 import testHelper from '../src/helpers/testHelper';
+import sprintHelper from '../src/helpers/sprintHelper';
 
 // tslint:disable-next-line: no-var-requires
 chai.use(require('chai-string'));
 
 describe('Dashboard Helper Tests', () => {
+
+  const testIdsArr: number[] = [];
 
   before( () => {
     initializeContents();
@@ -20,6 +23,12 @@ describe('Dashboard Helper Tests', () => {
       projectHelper.removeProject(project.id);
 
     }
+
+    const strTestIdsArr = testIdsArr.map( (t: any) => { 
+      return t.toString();
+    });
+    testHelper.removeTests(strTestIdsArr);
+
   });
 
   afterEach( () => {
@@ -27,21 +36,41 @@ describe('Dashboard Helper Tests', () => {
     if (project) {
       projectHelper.removeProject(project.id);
 
-    }  });
+    }
+    const strTestIdsArr = testIdsArr.map( (t: any) => { 
+      return t.toString();
+    });
+    testHelper.removeTests(strTestIdsArr);
+  
+    });
 
   it('Should tests and statistics ', () => {
     // tslint:disable-next-line: no-unused-expression
-    expect(dashboardhelper.getData().length).to.equal(0);
+    expect(dashboardhelper.getData().results.length).to.equal(0);
 
     const res = projectHelper.createProject('sudoproject');
     // tslint:disable-next-line: no-unused-expression
     expect(res.err).to.be.undefined;
     const project = projectHelper.getProjectByName('sudoproject');
 
-    testHelper.addTest('sudotest', 'sudodesc', '', project.id);
+    // Add couple tests to project
+    const testId1 = testHelper.addTest('project1Test1', 'project1Test1','', project.id);
+    const testId2 = testHelper.addTest('project1Test2', 'project1Test2','', project.id);
+    
+    testIdsArr.push(testId1);
+    testIdsArr.push(testId2);
 
+    // Add sprint
+    sprintHelper.addSprint('R1');
+
+    const sprintId = sprintHelper.getSprintByName('R1').id;
+
+    // Add the above created tests into this sprint.
+    sprintHelper.addTestsToSprint(testIdsArr, sprintId);
+
+    // verify if data is not 0
     // tslint:disable-next-line: no-unused-expression
-    expect(dashboardhelper.getData().length).to.equal(1);
+    expect(dashboardhelper.getData().results.length).to.equal(1);
   });
 
  });

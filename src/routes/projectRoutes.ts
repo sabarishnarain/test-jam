@@ -5,8 +5,7 @@ import projectHelper from '../helpers/projectHelper';
 import renderer from '../renderers/renderer';
 
 router.get('/projects.html', (req: any, res: any) => {
-  // Find number of tests in each project
-  renderer.projects(res, projectHelper.getAllProjects());
+  renderer.projects(res);
 });
 
   //
@@ -42,7 +41,7 @@ router.post('/project', (req: any, res: any) => {
     console.log('Delete project with id ', projectId);
     projectHelper.removeProject(projectId);
 
-    renderer.projects(res, projectHelper.getAllProjects());
+    renderer.projects(res);
 
   } else {
       renderer.project(res, testHelper.getTestsForProject(projectId), project, 'You must select atleast one test to delete');
@@ -58,10 +57,10 @@ router.post('/createProject', (req: any, res: any) => {
   const jRes = projectHelper.createProject(inputName);
 
   if (jRes.err) {
-    renderer.projects(res, projects, jRes.err.msg);
+    renderer.projects(res, jRes.err.msg);
   } else {
     projects = projectHelper.getAllProjects();
-    renderer.projects(res, projects, undefined, jRes.successMsg);
+    renderer.projects(res, undefined, jRes.successMsg);
 
   }
 

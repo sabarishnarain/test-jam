@@ -34,8 +34,27 @@
 
     <div id="page-wrapper">
       
-      <form name="chartForm" id="chartForm" action="/dashboard" method="POST" >
+      <form name="chartForm" id="chartForm" action="/completion" method="GET" >
       <input type="hidden" name="projectId" id="projectId" value=""> 
+
+      <div class="table-header">
+        Sprint 
+        <select name="sprintFilter">
+        <% 
+            for(let s of sprints ) {
+            let isSelect = "";
+            if(sprintFilter && sprintFilter === s.id) {
+                isSelect = "selected";
+            }
+        %>
+            <option value=<%=s.id %> <%= isSelect %>> <%= s.name %> </option>
+        <%
+            }
+        %> 
+        </select>
+        <input type="submit" name="go" class="jdamGreen" value="Go">
+
+      </div>
 
       <div style="padding-left: 3%; padding-top: 3%">
         <div class="w3-container">
@@ -49,18 +68,18 @@
 
             
               <% let counter = 1;
-               for(const r of results) { 
-               const pass = parseInt(r.pass);
-               const fail = parseInt(r.fail);
-               const norun = parseInt(r.norun);
-               const total = pass + fail + norun;
+               for(const d of data) { 
+               const completed = d.completionCount;
+               const total = d.totalTests;
 
-               let finishPercent = (total > 0) ? (pass + fail)/total * 100 : 0;
+               let finishPercent = (total > 0) ? (completed)/total * 100 : 0;
                finishPercent = Math.round(finishPercent);
 
                let percentageValue = finishPercent;
 
                const percentMod = finishPercent % 10;
+
+               // round off percentage to nearest 0
 
                if(percentMod > 0) {
                  if(percentMod < 5) {
@@ -90,8 +109,6 @@
               else if (percentageValue > 90) {
                 colorCode = 'green';
               }  
-
-              const completed = pass + fail;
               
               let msg = `${completed} / ${total}`;
               
@@ -103,7 +120,7 @@
                 <%=counter%>
               </td>
           <td style="padding: 10px;"> 
-            <%=r.project.name%>
+            <%=d.project.name%>
           </td>
           <td style="padding: 10px;"> 
                 <%=msg%>

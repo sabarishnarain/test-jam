@@ -4,6 +4,7 @@ import fs from 'fs';
 import fsx from 'fs-extra';
 import projectHelper from './projectHelper';
 import jResult from '../server/jResult';
+import testrunHelper from './testrunHelper';
 
 export default class testHelper {
 
@@ -53,16 +54,15 @@ export default class testHelper {
     return recentId + 1;
   }
 
-  public static updateTestById(id: string, status: string, title?: string, desc?: string, identifier?: string,
+  public static updateTestById(id: number, status: string, title?: string, desc?: string, identifier?: string,
                                build?: string, projectId?: string, lastUpdated?: any): boolean {
     const tests = testHelper.getAllTests();
     let isTestFound = false;
-
     status = this.lookupStatus(status);
 
     for (const t of tests) {
 
-      if (t.id === parseInt(id, 10)) {
+      if (t.id === id) {
         console.log('update test');
         isTestFound = true;
         t.status = status;
@@ -102,9 +102,13 @@ export default class testHelper {
    * @param status
    * @param build
    */
-  public static runTestById(id: string, status: string, build: string): any {
+  public static runTestById(id: string, status: string, build: string, sprintId: string): any {
 
     let res: jResult;
+    status = this.lookupStatus(status);
+
+    const testId = parseInt(id, 10);
+    const sprintID = parseInt(sprintId, 10);
 
     if (status === '-' ) {
       res = new jResult({msg : 'Please select a valid status'}, undefined);
@@ -116,7 +120,7 @@ export default class testHelper {
 
       status = this.lookupStatus(status);
       for (const t of tests) {
-        if (t.id === parseInt(id, 10)) {
+        if (t.id === testId) {
           console.log('update test');
           isTestFound = true;
         }
@@ -124,8 +128,9 @@ export default class testHelper {
 
       if (isTestFound) {
         const lastUpdated = new Date();
-        testHelper.addHistory(id, status, build, lastUpdated);
-        this.updateTestById(id, status, undefined, undefined, undefined, build, undefined, lastUpdated);
+        testHelper.addHistory(testId, status, build, lastUpdated);
+        this.updateTestById(testId, status, undefined, undefined, undefined, build, undefined, lastUpdated);
+        testrunHelper.updateTestrunById(testId, status, sprintID);
         res = new jResult(undefined, 'Test successfully executed');
       } else {
         res = new jResult({msg: 'Test not found'});
@@ -230,10 +235,8 @@ export default class testHelper {
     return statusList;
   }
 
-  public static addHistory(testId: string, status: string, build: string, date: any): void {
-    const id = parseInt(testId, 10);
-    status = this.lookupStatus(status);
-    const fsHistoryJSON = dbHelper.getDataFileForTestHistory(id);
+  public static addHistory(testId: number, status: string, build: string, date: any): void {
+    const fsHistoryJSON = dbHelper.getDataFileForTestHistory(testId);
 
     let contents;
 
@@ -242,11 +245,11 @@ export default class testHelper {
       fsx.ensureFileSync(fsHistoryJSON);
       contents = [];
     } else {
-      console.log('File test-' + id + '.json exist.');
+      console.log('File test-' + testId + '.json exist.');
       contents = JSON.parse(fs.readFileSync(fsHistoryJSON, 'utf-8'));
 
     }
-    contents.push({ testId : parseInt(testId, 10), status, build, date});
+    contents.push({ testId, status, build, date});
     fs.writeFileSync(fsHistoryJSON, JSON.stringify(contents));
   }
 

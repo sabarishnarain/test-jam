@@ -13,6 +13,7 @@ import {authRoutes} from './routes/authRoutes';
 import {clientSecretRoutes} from './routes/clientSecretRoutes';
 import {userRoutes} from './routes/userRoutes';
 import {runTestRoutes} from './routes/runTestRoutes';
+import {sprintRoutes} from './routes/sprintRoutes';
 
 import session from 'express-session';
 
@@ -66,6 +67,7 @@ app.use(authRoutes);
 app.use(clientSecretRoutes);
 app.use(userRoutes);
 app.use(runTestRoutes);
+app.use(sprintRoutes);
 
 app.listen(env.port);
 console.log('Environment is ', env.subDir);

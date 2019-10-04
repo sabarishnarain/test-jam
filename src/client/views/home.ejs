@@ -36,42 +36,64 @@
         <form action="/home" method="GET">
           <div class="table-header">
             
-            <% if(projects.length > 0)  { %>
 
             <div >
               
               <table style="width: 90%">
                 <tr> 
                   <td style="width: 20%"> 
-                      Project 
-                      <select name="projectFilter">
-                      <% 
-                          for(let p of projects ) {
-                          let isSelect = "";
-                          if(filter && filter === p.id) {
-                              isSelect = "selected";
-                          }
-                      %>
-                          <option value=<%=p.id %> <%= isSelect %>> <%= p.name %> </option>
-                      <%
-                          }
-                      %> 
-                      </select>
+                    Sprint 
+                    <select name="sprintFilter">
+                    <% 
+                        for(let s of sprints ) {
+                        let isSelect = "";
+                        if(sprintFilter && sprintFilter === s.id) {
+                            isSelect = "selected";
+                        }
+                    %>
+                        <option value=<%=s.id %> <%= isSelect %>> <%= s.name %> </option>
+                    <%
+                        }
+                    %> 
+                    </select>
                       
                   </td>
                   <td> 
-                      <input type="submit" name="go" class="jdamGreen" value="Filter">
+                      <input type="submit" name="go" class="jdamGreen" value="Go">
                   </td>
                   <td style="width: 40%">
+                   
+                    </select>
+                  </td> 
+                  <td> 
                     
+
                   </td>
-                  <td style="width: 20%"> Next Actions 
-                    <select style="width: 150px;" name="actions">
-                      <option value="-"> ------ </option>
-                      <option value="addTest"> Add Tests </option>
-                      <option value="deleteTest"> Delete Tests </option>
-                    </select> </td>
-                  <td> <input type="submit" name="go" class="jdamGreen" value="Go"> </td>
+                  <td style="width: 20%">   
+
+                    <% if (projects && projects.length > 0) { %>
+
+                    Project
+                    <select name="projectFilter">
+                    <% 
+                        for(let p of projects ) {
+                        let isSelect = "";
+                        if(projectFilter && projectFilter === p.id) {
+                            isSelect = "selected";
+                        }
+                    %>
+                        <option value=<%=p.id %> <%= isSelect %>> <%= p.name %> </option>
+                    <%
+                        }
+                    %> 
+                      </select>
+                      
+                      <% } %> 
+                   </td>
+                  <td> 
+                    <% if (projects && projects.length > 0) {  %>
+                    <input type="submit" name="go" class="jdamGreen" value="Go"> </td>
+                    <% } %>
                 </tr>
               </table>
                 
@@ -79,9 +101,7 @@
             </div>
 
                               
-           <% } else { %>
-             <div> <font style="color: red"> Hi there ! Looks like you don't have projects yet. Let's gets started by creating one and add tests to it. </font> </div>
-           <% } %>
+          
           </div>
               
            <table class="jdamTable"> 
@@ -98,29 +118,29 @@
                      
               <tbody> 
                     
-                <% if(tests) {             
-                 for(let t of tests ) { 
-                   const friendlyDate = (t.lastUpdated) ? new Date(t.lastUpdated).toUTCString() : '';
+                <% if(results) {             
+                 for(let r of results ) { 
+                   const friendlyDate = (r.lastUpdated) ? new Date(r.lastUpdated).toUTCString() : '';
                 %>
                 <TR> 
-                  <TD> <a href="./editTest.html?testId=<%=t.id%>"> <%= t.id %> </a>  </TD>
-                  <% const titleStr = (t.title.length > 75 ) ? t.title.substring(0,74) + '...' : t.title; %>
+                  <TD> <a href="./editTest.html?testId=<%=r.testId%>"> <%= r.testId %> </a>  </TD>
+                  <% const titleStr = (r.title.length > 75 ) ? r.title.substring(0,74) + '...' : r.title; %>
                   <TD> <%= titleStr %> </TD>
-                  <TD> <%=t.identifier%> </TD>
+                  <TD> <%=r.identifier%> </TD>
                   
 
                   <TD> 
                               
                   <% let fontColor = 'color:grey';
-                     if(t.status === 'PASS') { fontColor = 'color:green' }
-                     if(t.status === 'FAIL') { fontColor = 'color:red'} 
-                     const statusStr = (t.status) ? t.status : 'NO RUN';
+                     if(r.status === 'PASS') { fontColor = 'color:green' }
+                     if(r.status === 'FAIL') { fontColor = 'color:red'} 
+                     const statusStr = (r.status) ? r.status : 'NO RUN';
                    %>
                    <b> <font style=<%=fontColor%>> <%= statusStr %>  </font> </b>
                               
                           
                   </TD>
-                  <TD> <%=t.build%> </TD>
+                  <TD> <%=r.build%> </TD>
                   <TD> <%=friendlyDate%> </TD>
                 </TR>
                  <% } 
@@ -131,7 +151,7 @@
               
                   </table>
 
-                  <% if (!tests || (tests && tests.length === 0)) { %>
+                  <% if (!results || (results && results.length === 0)) { %>
                   <div style="margin-left: 3em; margin-top: 2em;"> 
                     <p> No tests to show. Please use the dropdown above to select a project.  </p>
                   </div>

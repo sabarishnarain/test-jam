@@ -103,12 +103,6 @@ a:hover
   font-size: 3em;
 }
 
-
-
-#messageBanner {
-  padding: 3em 0em 3em 30em;
-}
-
 .successMsg {
   color : green;
 }

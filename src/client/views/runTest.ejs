@@ -45,13 +45,28 @@
 
           <TR>
             <TD> Build </TD>
-            <TD> <input type="text" name="build" maxlength="25" > </TD>
+            <TD> <input type="text" name="build" maxlength="25" style="border-bottom-color: red" > </TD>
+          </TR>
+
+          <TR>
+            <TD> Sprint</TD>
+            <TD> 
+            <select name="sprint" style="border-bottom-color: red"> 
+    
+                <% for(let s of sprints) { 
+                %>
+                <option value="<%=s.id%>"> <%=s.name%> </option>
+                    
+                <% } %>
+                    
+            </select>      
+            </TD>
           </TR>
             
           <TR>
             <TD> Status</TD>
             <TD> 
-            <select name="status"> 
+            <select name="status" style="border-bottom-color: red"> 
     
                 <% for(let s of statuses) { 
                     let label = s.split('#')[1]; 

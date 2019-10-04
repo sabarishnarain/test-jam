@@ -33,18 +33,35 @@
 
     <div id="page-wrapper">
       
-      <form name="chartForm" id="chartForm" action="/dashboard" method="POST" >
+      <form name="chartForm" id="chartForm" action="/dashboard" method="GET" >
       <input type="hidden" name="projectId" id="projectId" value=""> 
+
+      <div class="table-header">
+        Sprint 
+        <select name="sprintFilter">
+        <% 
+            for(let s of sprints ) {
+            let isSelect = "";
+            if(sprintFilter && sprintFilter === s.id) {
+                isSelect = "selected";
+            }
+        %>
+            <option value=<%=s.id %> <%= isSelect %>> <%= s.name %> </option>
+        <%
+            }
+        %> 
+        </select>
+        <input type="submit" name="go" class="jdamGreen" value="Go">
+
+      </div>
 
       <div style="padding-left: 5%; padding-top: 3%">
         <div class="row">
-          <% for(const r of results) { 
-               const pass = parseInt(r.pass);
-               const fail = parseInt(r.fail);
-               const norun = parseInt(r.norun);
-               const total = pass + fail + norun;
+          <% for(const d of data) { 
+               const passCount = parseInt(d.passCount);
+               const totalCount = parseInt(d.totalCount);
 
-               let passPercent = (total > 0) ? pass/total * 100 : 0;
+               let passPercent = (totalCount > 0) ? passCount/totalCount * 100 : 0;
                passPercent = Math.round(passPercent);
 
                let cssPercentageValue = passPercent;
@@ -60,11 +77,11 @@
               }           
           %>
 
-            <div class="column" onclick="navigate('<%=r.project.id%>');">
+            <div class="column" onclick="navigate('<%=d.project.id%>');">
               
 
-              <h2> <%=r.project.name%>  </h2>
-              <p> <%=pass%> out of <%=total%> tests passed.   </p>
+              <h2> <%=d.project.name%>  </h2>
+              <p> <%=passCount%> out of <%=totalCount%> tests passed.   </p>
               <div class="set-size charts-container">
                 <div class="pie-wrapper progress-<%=cssPercentageValue%>">
                   <span class="label"><%=passPercent%><span class="smaller">%</span></span>

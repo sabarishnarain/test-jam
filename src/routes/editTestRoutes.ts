@@ -3,6 +3,7 @@ const router = express.Router();
 import testHelper from '../helpers/testHelper';
 import projectHelper from '../helpers/projectHelper';
 import renderer from '../renderers/renderer';
+import viewHelper from '../helpers/viewHelper';
 
 router.get('/editTest.html', (req: any, res: any) => {
   console.log(req.query);
@@ -22,7 +23,10 @@ router.post('/editTest*', (req: any, res: any) => {
   const testId = req.body.testId;
 
   if (req.body.cancelEdit) {
-    renderer.home(res, projectHelper.getAllProjects(), undefined, undefined);
+    const data = viewHelper.getDataForHomeView(undefined , undefined);
+
+    renderer.home(res, data.sprints, data.sprintFilter, data.projects,
+      data.projectFilter, data.results);
     return;
   }
 
