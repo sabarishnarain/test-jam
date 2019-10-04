@@ -8,7 +8,7 @@
     "test-ci": "nyc cross-env TESTJAM_ENV=test mocha --reporter mocha-junit-reporter --require ts-node/register ./test/*.ts",
     "dev": "tsc && gulp && cross-env TESTJAM_ENV=dev node dist/server.js",
     "prod": "tsc && gulp && cross-env TESTJAM_ENV=prod node dist/server.js",
-    "demo": "cross-env TESTJAM_ENV=demo tsc && gulp && node dist/server.js",
+    "demo": "tsc && gulp && cross-env TESTJAM_ENV=demo node dist/server.js",
     "lint": "tslint -p ."
   },
   "author": "snarain",

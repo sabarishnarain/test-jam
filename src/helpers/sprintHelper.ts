@@ -2,6 +2,7 @@ import dbHelper, { MODEL } from './dbHelper';
 import util from '../utils/util';
 import jResult from '../server/jResult';
 import testHelper from './testHelper';
+import projectHelper from './projectHelper';
 
 export default class sprintHelper {
 
@@ -116,11 +117,20 @@ export default class sprintHelper {
 
     for (const t of allTests) {
       if (!idsOfTestRuns.includes(t.id)) {
-        testsNotInSprint.push(t);
+        testsNotInSprint.push( {id: t.id, title : t.title, projectId: t.project});
       }
     }
 
-    return testsNotInSprint;
+    console.log('testsNotInSprint ', testsNotInSprint);
+
+    // now loop through the test and fetch project names.
+    const results = [];
+    for (const i of testsNotInSprint) {
+      const project = projectHelper.getProject(i.projectId.toString());
+      results.push( {id: i.id, title : i.title, projectName: project.name});
+    }
+
+    return results;
 
   }
 
