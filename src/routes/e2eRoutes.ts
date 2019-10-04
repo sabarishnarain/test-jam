@@ -20,13 +20,12 @@ router.post('/tests/:id/update', (req: any, res: any) => {
     }
 
     console.log('Update test status with id', testId);
-    const lastUpdated = new Date();
-    const found = testHelper.updateTestById(testId, status, undefined, undefined, undefined, build, undefined, lastUpdated);
-    if (found) {
-      testHelper.addHistory(testId, status, build, lastUpdated);
-      res.status(200).send('Test with id successfully updated.');
+    const test = testHelper.getTestById(testId);
+    if (test) {
+      res.status(500).send('Test not found with Id ' + testId);
     } else {
-        res.status(500).send('Test not found with Id ' + testId);
+      testHelper.runTestById(testId, status, build, undefined);
+      res.status(200).send('Test with id successfully updated.');
     }
 
   });
@@ -51,7 +50,7 @@ router.post('/projects/:id/tests/:name/update', (req: any, res: any) => {
       return;
     }
 
-    const found: boolean = testHelper.runTestByIndentifier(identifier, projectId, build, testStatus);
+    const found: boolean = testHelper.runTestByIndentifier(identifier, projectId, build, testStatus, undefined);
 
     if (found) {
       res.status(200).send('Test updated successfully with name');

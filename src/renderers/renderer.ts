@@ -63,9 +63,9 @@ export default class renderers {
 
   }
 
-  public static editTest(res: any, currentTest: any, projectsList: any, history: any,
+  public static editTest(res: any, currentTest: any, projectName: any, history: any,
                          otherTestsInProject: any, error?: string, success?: string) {
-    res.render('editTest', {currentTest, projectsList, history, otherTestsInProject, error, success});
+    res.render('editTest', {currentTest, projectName, history, otherTestsInProject, error, success});
   }
 
   public static testHistory(res: any, projectName: any, history: any, error?: string, success?: string) {

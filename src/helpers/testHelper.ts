@@ -46,26 +46,20 @@ export default class testHelper {
     contents.push( { id : recentId + 1,
       title,
       desc,
-      status : '',
       identifier,
-      build: '',
       project : projectId });
     dbHelper.saveContents(MODEL.TEST, contents);
     return recentId + 1;
   }
 
-  public static updateTestById(id: number, status: string, title?: string, desc?: string, identifier?: string,
-                               build?: string, projectId?: string, lastUpdated?: any): boolean {
+  public static updateTestById(id: number, title?: string, desc?: string, identifier?: string): void {
     const tests = testHelper.getAllTests();
     let isTestFound = false;
-    status = this.lookupStatus(status);
 
     for (const t of tests) {
-
       if (t.id === id) {
         console.log('update test');
         isTestFound = true;
-        t.status = status;
 
         if (title) {
           t.title = title;
@@ -76,28 +70,20 @@ export default class testHelper {
         if (identifier) {
           t.identifier = identifier;
         }
-        if (projectId) {
-          t.project = projectId;
-        }
-        if (build) {
-          t.build = build;
-        }
-        if (lastUpdated) {
-          t.lastUpdated = lastUpdated;
-        }
-
+        break;
       }
     }
 
     if (isTestFound) {
       dbHelper.saveContents(MODEL.TEST, tests);
+    } else {
+      console.error('Test update content failed. Test ' + id + ' not found');
     }
 
-    return isTestFound;
   }
 
   /**
-   * Creates a test run by id.
+   * Creates a test run in testruns.json and add history entry im history/test-XX.json.
    * @param id
    * @param status
    * @param build
@@ -129,8 +115,8 @@ export default class testHelper {
       if (isTestFound) {
         const lastUpdated = new Date();
         testHelper.addHistory(testId, status, build, lastUpdated);
-        this.updateTestById(testId, status, undefined, undefined, undefined, build, undefined, lastUpdated);
-        testrunHelper.updateTestrunById(testId, status, sprintID);
+        // this.updateTestById(testId);
+        testrunHelper.updateTestrunById(testId, status, sprintID, build, lastUpdated);
         res = new jResult(undefined, 'Test successfully executed');
       } else {
         res = new jResult({msg: 'Test not found'});
@@ -147,10 +133,11 @@ export default class testHelper {
    * @param projectId
    * @param status
    */
-  public static runTestByIndentifier(identifier: string, projectId: string, build: string, status: string): boolean {
+  public static runTestByIndentifier(identifier: string, projectId: string, build: string, status: string, sprintId: string): boolean {
     const tests = testHelper.getAllTests();
     let isTestFound = false;
     let testId;
+    const sprintID = parseInt(sprintId, 10);
 
     status = this.lookupStatus(status);
 
@@ -166,8 +153,8 @@ export default class testHelper {
 
     if (isTestFound) {
       const lastUpdated = new Date();
-      dbHelper.saveContents(MODEL.TEST, tests);
       testHelper.addHistory(testId, status, build, lastUpdated);
+      testrunHelper.updateTestrunById(testId, status, sprintID, build, lastUpdated);
     }
 
     return isTestFound;

@@ -10,11 +10,12 @@ router.get('/editTest.html', (req: any, res: any) => {
   const testId = req.query.testId;
   console.log('Show test with id ', testId);
   const currTest = testHelper.getTestById(testId);
-  const projectsList: string[] = testHelper.getProjectsForTest(currTest.project);
+  const projectNameOfTest = (currTest) ? projectHelper.getProject(currTest.project).name : '';
+
   const otherTestsInProject  = testHelper.getTestsForProject(currTest.project);
 
   const history = testHelper.getHistoryForTest(testId);
-  renderer.editTest(res, currTest, projectsList, history, otherTestsInProject);
+  renderer.editTest(res, currTest, projectNameOfTest, history, otherTestsInProject);
 
 });
 
@@ -52,40 +53,40 @@ router.post('/editTest*', (req: any, res: any) => {
     console.log('update test with id', testId);
 
     let currTest = testHelper.getTestById(testId);
-    let projectsList = testHelper.getProjectsForTest(req.body.testProject);
+    const projectNameOfTest = (currTest) ? projectHelper.getProject(currTest.project).name : '';
+
+    // let projectsList = testHelper.getProjectsForTest(req.body.testProject);
     const otherTestsInProject  = testHelper.getTestsForProject(currTest.project);
 
     if (req.body.title.trim().length === 0) {
-      renderer.editTest(res, currTest, projectsList, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Scenario name cannot be empty.');
+      renderer.editTest(res, currTest, projectNameOfTest, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Scenario name cannot be empty.');
       return;
     }
     if (req.body.desc.trim().length === 0) {
-      renderer.editTest(res, currTest, projectsList, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Scenario description cannot be empty.');
+      renderer.editTest(res, currTest, projectNameOfTest, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Scenario description cannot be empty.');
       return;
     }
 
     if (req.body.title.length > 200 ) {
       renderer.editTest(res, { id: testId, title : req.body.title, desc : req.body.desc, identifier : req.body.identifier},
-                        projectsList, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Name cannot be more than 200 chars.');
+        projectNameOfTest, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Name cannot be more than 200 chars.');
       return;
     }
 
     if (req.body.desc.length > 1300 ) {
       renderer.editTest(res, { id: testId, title : req.body.title, desc : req.body.desc, identifier : req.body.identifier},
-                        projectsList, testHelper.getHistoryForTest(testId),
+        projectNameOfTest, testHelper.getHistoryForTest(testId),
                         otherTestsInProject, 'Description is too long. Please enter shorter description or consider splitting tests.');
       return;
     }
 
     // update the test contents only
-    testHelper.updateTestById(req.body.testId, undefined, req.body.title, req.body.desc, req.body.identifier,
-                              undefined, undefined, undefined);
+    testHelper.updateTestById(parseInt(req.body.testId, 10), req.body.title, req.body.desc, req.body.identifier);
 
     // refresh the test objects and projects references after update success.
     currTest = testHelper.getTestById(testId);
 
-    projectsList = testHelper.getProjectsForTest(req.body.testProject);
-    renderer.editTest(res, testHelper.getTestById(testId), testHelper.getProjectsForTest(req.body.testProject),
+    renderer.editTest(res, testHelper.getTestById(testId), projectNameOfTest,
                       testHelper.getHistoryForTest(testId), otherTestsInProject, undefined, 'Test successfully updated');
 
   }
