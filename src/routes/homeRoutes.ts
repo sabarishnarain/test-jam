@@ -11,8 +11,10 @@ router.get('/', (req: any, res: any) => {
 
 router.get('/home*', (req: any, res: any) => {
 
+   console.log(req.query);
    const projectFilter = req.query.projectFilter;
    const sprintFilter = req.query.sprintFilter;
+   console.log('Sprint filter before ', sprintFilter);
 
    const data = viewHelper.getDataForHomeView(sprintFilter, projectFilter);
 

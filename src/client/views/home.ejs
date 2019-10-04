@@ -7,6 +7,13 @@
 
 </head>
 <body>
+
+  <script>
+    
+    function resetProjectFilter() {
+      document.getElementById('projectFilter').value = '-';
+    }
+  </script>
   
 
     <% include ./partials/leftpane.ejs%>
@@ -43,7 +50,7 @@
                 <tr> 
                   <td style="width: 20%"> 
                     Sprint 
-                    <select name="sprintFilter">
+                    <select name="sprintFilter" id="sprintFilter" onchange="resetProjectFilter();">
                     <% 
                         for(let s of sprints ) {
                         let isSelect = "";
@@ -59,7 +66,7 @@
                       
                   </td>
                   <td> 
-                      <input type="submit" name="go" class="jdamGreen" value="Go">
+                      <input type="submit" name="go" class="jdamGreen" value="Go" style="margin-top: 1em;">
                   </td>
                   <td style="width: 40%">
                    
@@ -71,10 +78,10 @@
                   </td>
                   <td style="width: 20%">   
 
-                    <% if (projects && projects.length > 0) { %>
 
                     Project
-                    <select name="projectFilter">
+                    <select name="projectFilter" id="projectFilter">
+                      <option value="-"> --- Select --- </option>
                     <% 
                         for(let p of projects ) {
                         let isSelect = "";
@@ -88,12 +95,11 @@
                     %> 
                       </select>
                       
-                      <% } %> 
                    </td>
                   <td> 
-                    <% if (projects && projects.length > 0) {  %>
-                    <input type="submit" name="go" class="jdamGreen" value="Go"> </td>
-                    <% } %>
+                    <% const isEnabled = (projects && projects.length) > 0 ? 'enabled' : 'disabled'; 
+                      %>
+                    <input type="submit" name="go" class="jdamGreen" value="Go" style="margin-top: 1em;" <%=isEnabled%> > </td>
                 </tr>
               </table>
                 
