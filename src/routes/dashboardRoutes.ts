@@ -1,9 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import testHelper from '../helpers/testHelper';
 import renderer from '../renderers/renderer';
 import dashboardHelper from '../helpers/dashboardHelper';
-import viewHelper from '../helpers/viewHelper';
 
 router.get('/dashboard*', (req: any, res: any) => {
 

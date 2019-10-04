@@ -2,7 +2,6 @@ import express from 'express';
 const router = express.Router();
 import renderer from '../renderers/renderer';
 import userHelper from '../helpers/userHelper';
-import projectHelper from '../helpers/projectHelper';
 import util from '../utils/util';
 import viewHelper from '../helpers/viewHelper';
 

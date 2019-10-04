@@ -1,9 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import testHelper from '../helpers/testHelper';
 import viewHelper from '../helpers/viewHelper';
 import renderer from '../renderers/renderer';
-import sprintHelper from '../helpers/sprintHelper';
 
 router.get('/', (req: any, res: any) => {
   res.redirect('/home');

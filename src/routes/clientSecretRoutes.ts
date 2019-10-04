@@ -1,6 +1,5 @@
 import express from 'express';
 const router = express.Router();
-import testHelper from '../helpers/testHelper';
 import securityHelper from '../helpers/securityKeyHelper';
 
 router.post('/auth/generate', (req: any, res: any) => {

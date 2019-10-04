@@ -1,7 +1,6 @@
 import express from 'express';
 const router = express.Router();
 import testHelper from '../helpers/testHelper';
-import projectHelper from '../helpers/projectHelper';
 import renderer from '../renderers/renderer';
 import sprintHelper from '../helpers/sprintHelper';
 import jResult from '../server/jResult';

@@ -1,6 +1,5 @@
 import projectHelper from './projectHelper';
 import sprintHelper from './sprintHelper';
-import { fail } from 'assert';
 
 export default class dashboardHelper {
 
