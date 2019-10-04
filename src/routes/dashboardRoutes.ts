@@ -12,8 +12,7 @@ router.get('/dashboard*', (req: any, res: any) => {
   let data;
 
   if (projectId) {
-    data = viewHelper.getDataForHomeView(undefined, projectId);
-    renderer.home(res, data.sprints, data.sprintFilter, data.projects, data.projectFilter, data.results );
+    res.redirect('/home?sprintFilter=' + sprintFilter + '&projectFilter=' + projectId);
     return;
   }
 

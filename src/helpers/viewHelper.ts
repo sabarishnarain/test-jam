@@ -20,11 +20,14 @@ export default class viewHelper {
     console.log('allTestsInSprints  ', allTestsInSprints);
 
     let testsInSprint = [];
-    if (projectFilter && allTestsInSprints.length > 0) {
-      testsInSprint = allTestsInSprints.filter( (testrun: any) => {
-        return testrun.projectId === projectFilter; });
-    } else {
-      testsInSprint = allTestsInSprints;
+
+    if (projectFilter) {
+      if (allTestsInSprints.length > 0) {
+        testsInSprint = allTestsInSprints.filter( (testrun: any) => {
+          return testrun.projectId === projectFilter; });
+      } else {
+        testsInSprint = allTestsInSprints;
+      }
     }
 
     console.log('Results ', testsInSprint);

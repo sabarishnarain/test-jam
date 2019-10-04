@@ -347,6 +347,24 @@ padding:6px 24px;
 text-decoration:none;
 }
 
+
+.jdamGreen:disabled {
+
+  background-color:#95a296;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  border:1px solid #18a71c;
+  display:inline-block;
+  cursor:pointer;
+  color: white;
+  font-family:Arial;
+  font-size:15px;
+  font-weight:bold;
+  padding:6px 24px;
+  text-decoration:none;
+  }
+
 .jdamRed {
 
   background-color: #e40606;
