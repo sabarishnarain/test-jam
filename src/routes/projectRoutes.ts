@@ -19,11 +19,19 @@ router.post('/project', (req: any, res: any) => {
 
   const idToDel = req.body.deleteTestId;
   const projectId = req.body.projectId;
+  const deleteTest = req.body.deleteTest;
+  const addTest = req.body.addTest;
+
+  if (addTest) {
+    renderer.addNewTest(res, projectHelper.getAllProjects(), projectId);
+    return;
+  }
+
   const project = projectHelper.getProject(projectId);
 
   console.log('Delete test(s) with id: ', idToDel );
 
-  if (idToDel) {
+  if (idToDel && deleteTest) {
     let testIds: string[] = [];
 
     if (Array.isArray(idToDel)) {
