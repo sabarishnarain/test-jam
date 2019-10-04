@@ -90,15 +90,7 @@
           <TR>
             <TD> Project</TD>
             <TD> 
-              <select name="testProject"> 
-              <% for(let p of projectsList) { 
-                 let pId = p.split('#')[0]; 
-                 let pName = p.split('#')[1]; 
-                 let isSelected = (p.split('#')[2] === 'true') ? 'selected' : '';
-              %>
-              <option value="<%=pId%>" <%=isSelected%> > <%=pName%> </option>
-            
-              <% } %>
+             <B> <%=projectName%> </B>
             
               </select>      
             </TD>
@@ -132,63 +124,71 @@
     <!-- Test history-->
 
     <div style="width : 30%; margin-right: 2em;">
-      <h3> Test run history </h3>
-      <table class="jdamTable">
-        <thead> 
-          <TR>
-            <TH> </TH>
-            <TH>Status </TH>
-            <TH> Build </TH>
-            <TH> Date </TH>
-          </TR>
-        </thead>
-        <% if(history) {
-          
-          for(let i=0; i < 16; i++) { 
-            if (history[i] ) {
-              let icon = '';
-              if( history[i].status && history[i].status === 'PASS') { icon = '/checked.png' }
-              if( history[i].status && history[i].status === 'FAIL') { icon = '/cancel.png'}
-              if( history[i].status && history[i].status === 'NORUN') { icon = '/norun.png'}
-              let buildStr = history[i].build || '' ;
-              let truncatedBuildStr = (buildStr && buildStr.length > 16) ? buildStr.substring(0, 10) + '...' : buildStr;
-              const dateStr = new Date(history[i].date).toUTCString();
-        %>
-        <tr>
-          <td> <%= i+1 %> </td>
-          <td> <img src="<%=icon%>" style="width: 1.5em;"> </td>
-          <td title=<%=buildStr%>> <%= truncatedBuildStr %> </td>
-          <td> <%= dateStr %> </td>
-        </tr>
-        <% } } }%>
-      </table>
+
+
+      <div style="height: 60%; overflow-y: scroll; overflow-x: hidden">
+          <h3> Test run history </h3>
+          <table class="jdamTable" style="margin-left: 0em;">
+            <thead> 
+              <TR>
+                <TH> </TH>
+                <TH>Status </TH>
+                <TH> Build </TH>
+                <TH> Date </TH>
+              </TR>
+            </thead>
+            <% if(history) {
+              
+              for(let i=0; i < 16; i++) { 
+                if (history[i] ) {
+                  let icon = '';
+                  if( history[i].status && history[i].status === 'PASS') { icon = '/checked.png' }
+                  if( history[i].status && history[i].status === 'FAIL') { icon = '/cancel.png'}
+                  if( history[i].status && history[i].status === 'NORUN') { icon = '/norun.png'}
+                  let buildStr = history[i].build || '' ;
+                  let truncatedBuildStr = (buildStr && buildStr.length > 16) ? buildStr.substring(0, 10) + '...' : buildStr;
+                  const dateStr = new Date(history[i].date).toUTCString();
+            %>
+            <tr>
+              <td> <%= i+1 %> </td>
+              <td> <img src="<%=icon%>" style="width: 1.5em;"> </td>
+              <td title=<%=buildStr%>> <%= truncatedBuildStr %> </td>
+              <td> <%= dateStr %> </td>
+            </tr>
+            <% } } }%>
+          </table>
+
+
+      </div>
+
+      <div style="overflow-y: scroll; overflow-x: hidden">
+              <h3> Other tests </h3> 
+              <table class="jdamTable" style="margin-left: 0em;">
+                <thead> 
+                  <TR>
+                    <TH> </TH>
+                    <TH>ID </TH>
+                    <TH> TITLE </TH>
+                  </TR>
+                </thead>
+                <% if(otherTestsInProject) {
+                  let counter = 0;
+                  for(let test of otherTestsInProject) { 
+                    counter++;
+                %>
+                <tr>
+                  <td> <%=counter%> </td>
+                  <td> <a href="./editTest.html?testId=<%=test.id%>"> <%=test.id%> </a> </td>
+                  <td> <%=test.title%> </td>
+                </tr>
+                <% } 
+                } %>
+              </table>
+      </div>
+
+     
     </div>
 
-    <!-- Other Tests 
-    <div style="width : 30%">
-      <h3> All tests in this project </h3> 
-      <table class="jdamTable">
-        <thead> 
-          <TR>
-            <TH> </TH>
-            <TH>ID </TH>
-            <TH> TEST </TH>
-          </TR>
-        </thead>
-        <% if(otherTestsInProject) {
-          let counter = 0;
-          for(let test of otherTestsInProject) { 
-            counter++;
-        %>
-        <tr>
-          <td> <%=counter%> </td>
-          <td> <a href="./editTest.html?testId=<%=test.id%>"> <%=test.id%> </a> </td>
-          <td> <%=test.title%> </td>
-        </tr>
-        <% } 
-        } %>
-      </table>
-    </div> -->
 
     </div>
 

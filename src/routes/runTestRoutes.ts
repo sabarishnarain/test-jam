@@ -17,12 +17,12 @@ router.post('/runTest', (req: any, res: any) => {
   console.log(req.body);
   const testId = req.body.testId;
   let currTest = testHelper.getTestById(testId);
-  const projectsList = testHelper.getProjectsForTest(req.body.testProject);
+  const projectNameOfTest = (currTest) ? projectHelper.getProject(currTest.project).name : '';
   const otherTestsInProject  = testHelper.getTestsForProject(currTest.project);
 
   if (req.body.cancelRun) {
 
-    renderer.editTest(res, currTest, projectsList, testHelper.getHistoryForTest(testId), otherTestsInProject,
+    renderer.editTest(res, currTest, projectNameOfTest, testHelper.getHistoryForTest(testId), otherTestsInProject,
                       undefined, 'Test run cancelled.');
     return;
   }
@@ -41,7 +41,7 @@ router.post('/runTest', (req: any, res: any) => {
     } else {
       // success
       currTest = testHelper.getTestById(testId);
-      renderer.editTest(res, currTest, projectsList, testHelper.getHistoryForTest(testId), otherTestsInProject,
+      renderer.editTest(res, currTest, projectNameOfTest, testHelper.getHistoryForTest(testId), otherTestsInProject,
       undefined, result.successMsg);
     }
 
