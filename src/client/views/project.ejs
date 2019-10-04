@@ -38,8 +38,21 @@
         <form action="/project" method="POST">
         
          <input type="hidden" name="projectId" value="<%=project.id%>">
-         <div class="section-header">
-           Project : <b>  <%=project.name%> </b>
+         <div class="section-header" >
+           <table style="width: 90%">
+            <tbody>
+              <tr>
+                <td>
+                    Project : <b>  <%=project.name%> </b>
+                </td>
+                <td style="text-align: right;">
+                    <input type="submit" name="addTest" id="addTest" class="jdamGreen" value="Add Test">
+                </td>
+              </tr>
+            </tbody>
+
+           </table>
+           
          </div>
         
 
@@ -53,7 +66,7 @@
               <table style="width: 90%">
                 <tr>
                   <td> <a href="/projects.html"> Back to All Projects </a> </td>
-                  <td style="text-align: right">  <input type="submit" name="go" class="jdamRed" value="Delete Selected Tests"> </td>
+                  <td style="text-align: right">  <input type="submit" name="deleteTest" class="jdamRed" value="Delete Tests"> </td>
                 </tr>
               </table>
               
