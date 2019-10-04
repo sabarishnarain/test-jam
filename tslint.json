@@ -21,7 +21,8 @@
         "ordered-imports": false,
         "max-classes-per-file": [true, 4, "exclude-class-expressions"],
         "no-namespace" : false,
-        "no-internal-module" : false
+        "no-internal-module" : false,
+        "no-unused-variable": true
       },
     "rulesDirectory": []
 }

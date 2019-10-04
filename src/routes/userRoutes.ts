@@ -55,7 +55,6 @@ router.get('/users*', (req: any, res: any) => {
 
 router.post('/users', (req: any, res: any) => {
 
-    const users = userHelper.getAllUsers();
     const usernameToDelete = req.body.deleteUser;
     console.log('Delete user(s) with id: ', usernameToDelete );
 

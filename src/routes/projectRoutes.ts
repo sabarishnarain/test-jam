@@ -59,7 +59,6 @@ router.post('/project', (req: any, res: any) => {
 
 router.post('/createProject', (req: any, res: any) => {
 
-  let projects = projectHelper.getAllProjects();
   const inputName = req.body.pname;
 
   const jRes = projectHelper.createProject(inputName);
@@ -67,9 +66,7 @@ router.post('/createProject', (req: any, res: any) => {
   if (jRes.err) {
     renderer.projects(res, jRes.err.msg);
   } else {
-    projects = projectHelper.getAllProjects();
     renderer.projects(res, undefined, jRes.successMsg);
-
   }
 
 });
