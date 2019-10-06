@@ -9,7 +9,7 @@
     "dev": "tsc && gulp && cross-env TESTJAM_ENV=dev node dist/server.js",
     "prod": "tsc && gulp && cross-env TESTJAM_ENV=prod node dist/server.js",
     "demo": "tsc && gulp && cross-env TESTJAM_ENV=demo node dist/server.js",
-    "lint": "tslint -p ."
+    "lint": "tsc && tslint -p ."
   },
   "author": "snarain",
   "license": "ISC",
