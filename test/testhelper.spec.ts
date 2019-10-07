@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 import testHelper from '../src/helpers/testHelper';
+import projectHelper from '../src/helpers/projectHelper';
+
 import {initializeContents} from '../src/server/env';
 
 describe('Test Helper Tests', () => {
@@ -12,8 +14,13 @@ describe('Test Helper Tests', () => {
   const testIdsToRemove: string[] = [];
 
   it('Add and update test', () => {
+    expect(projectHelper.createProject('sudoproject').err).to.be.undefined;
+    const project = projectHelper.getProjectByName('sudoproject');
+
     const initCount = testHelper.getAllTests().length;
-    const id1 = testHelper.addTest('test title', 'test desc', 'testMethod1', 'project1');
+    const jres = testHelper.addTest('test title', 'test desc', 'testMethod1', project.id);
+    expect(jres.err).to.be.undefined;
+    const id1 = jres.success.testId;
     testIdsToRemove.push(id1.toString());
 
     expect(testHelper.getAllTests().length).to.equal(initCount + 1);
@@ -21,7 +28,7 @@ describe('Test Helper Tests', () => {
     expect(testHelper.getTestById(id1.toString())).to.not.undefined;
     expect(testHelper.getTestById(id1.toString()).title).to.equal('test title');
 
-    testHelper.updateTestById(id1, 'passed');
+    testHelper.updateTestContents(id1, 'test title', 'test desc');
 
 
     // history for this test should be empty array since we haven't ran this test yet
@@ -34,10 +41,10 @@ describe('Test Helper Tests', () => {
 
     // run test with correct id
     res = testHelper.runTestById(id1.toString(), 'fail', '100', 'sprint1');
-    expect(res.successMsg).to.equal('Test successfully executed');
+    expect(res.success).to.equal('Test successfully executed');
     expect(res.err).to.be.undefined;
     // run test with identifier
-    expect(testHelper.runTestByIndentifier('testMethod1', 'project1', '100', 'PASS', undefined)).to.equal(true);
+    expect(testHelper.runTestByIndentifier('testMethod1', project.id, '100', 'PASS', undefined)).to.equal(true);
 
 
   });
@@ -48,7 +55,8 @@ describe('Test Helper Tests', () => {
   })
 
   after( () => { 
-    testHelper.removeTests(testIdsToRemove)
+    testHelper.removeTests(testIdsToRemove);
+    projectHelper.removeProject('sudoproject');
   })
 
   

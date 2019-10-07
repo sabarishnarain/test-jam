@@ -39,46 +39,69 @@ export default class testHelper {
     });
   }
 
-  public static addTest(title: string, desc: string, identifier: string, projectId: string): number {
-    const contents = this.getAllTests();
-    const recentId = testHelper.getRecentId();
+  public static addTest(title: string, desc: string, identifier: string, projectId: string): jResult {
 
-    contents.push( { id : recentId + 1,
-      title,
-      desc,
-      identifier,
-      project : projectId });
-    dbHelper.saveContents(MODEL.TEST, contents);
-    return recentId + 1;
+    const validationRes = this.validateTestInput(title, desc, projectId);
+    if ( !validationRes) {
+      const contents = this.getAllTests();
+      const recentId = testHelper.getRecentId();
+      const testId = recentId + 1;
+      contents.push( { id : testId,
+                       title,
+                       desc,
+                       identifier,
+                       project : projectId });
+      dbHelper.saveContents(MODEL.TEST, contents);
+
+      return new jResult(undefined,
+         { msg: 'Test with id <a href="editTest.html?testId=' + testId + '"> ' + testId + '</a> successfully added',
+           testId });
+    } else {
+      return new jResult(validationRes);
+    }
+
   }
 
-  public static updateTestById(id: number, title?: string, desc?: string, identifier?: string): void {
-    const tests = testHelper.getAllTests();
-    let isTestFound = false;
+  public static updateTestContents(id: number, title?: string, desc?: string, identifier?: string,
+                                   projectId?: string): jResult {
 
-    for (const t of tests) {
-      if (t.id === id) {
-        console.log('update test');
-        isTestFound = true;
+    const project = projectHelper.getProject(projectId);
+    const validationRes = this.validateTestInput(title, desc, (project) ? project.id : undefined);
+    let jRes: jResult;
 
-        if (title) {
-          t.title = title;
+    if (!validationRes) {
+      const tests = testHelper.getAllTests();
+      let isTestFound = false;
+
+      for (const t of tests) {
+        if (t.id === id) {
+          console.log('update test');
+          isTestFound = true;
+
+          if (title) {
+            t.title = title;
+          }
+          if (desc) {
+            t.desc  = desc;
+          }
+          if (identifier) {
+            t.identifier = identifier;
+          }
+          break;
         }
-        if (desc) {
-          t.desc  = desc;
-        }
-        if (identifier) {
-          t.identifier = identifier;
-        }
-        break;
       }
+      if (isTestFound) {
+        dbHelper.saveContents(MODEL.TEST, tests);
+        jRes =  new jResult(undefined, 'Test successfully updated');
+      } else {
+        jRes = new jResult('Test update content failed. Test ' + id + ' not found');
+      }
+
+    } else {
+      jRes = new jResult(validationRes);
     }
 
-    if (isTestFound) {
-      dbHelper.saveContents(MODEL.TEST, tests);
-    } else {
-      console.error('Test update content failed. Test ' + id + ' not found');
-    }
+    return jRes;
 
   }
 
@@ -271,6 +294,20 @@ export default class testHelper {
     return statuses.includes(status.toUpperCase());
   }
 
+  private static validateTestInput(title: string, desc: string, projectId: string): any {
+    console.log('Validate input', title, desc, projectId);
+    if (title.trim().length === 0 || desc.trim().length === 0) {
+      return 'Name or description cannot be empty';
+    } else if (title.length > 200 ) {
+      return 'Name cannot be more than 200 chars.';
+    } else if (desc.length > 1300 ) {
+      return 'Description is too long. Please enter shorter description or consider splitting tests.';
+    } else if (!projectId || (projectId && projectId.trim().length === 0) ||
+          !projectHelper.getProject(projectId)) {
+      return 'Whoops! The project you used does not exist in the system anymore. Please try again';
+    }
+    return undefined;
+  }
   /**
    * Returns a valid status name by removing tailing 'ED'.
    * Frameworks such as junit use statuses as PASSED or FAILED that needs to be trimmed a bit.

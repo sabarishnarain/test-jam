@@ -1,11 +1,11 @@
 export default class jResult {
 
   public err: any;
-  public successMsg: string;
+  public success: any;
 
-  constructor(err: any, successMsg?: string) {
+  constructor(err: any, success?: any) {
     this.err = err;
-    this.successMsg = successMsg;
+    this.success = success;
   }
 
 }

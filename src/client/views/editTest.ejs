@@ -64,6 +64,11 @@
 
         <form action="/editTest" method="POST" id="editTestForm">
           <input type="hidden" name="action">
+          <% const projectName = (project) ? project.name : '';
+              const projectId = (project) ? project.id : undefined; %>
+
+          <input type="hidden" name="projectId" value="<%=projectId%>">
+
         <table class="formTable"> 
 
             
@@ -90,9 +95,8 @@
           <TR>
             <TD> Project</TD>
             <TD> 
-             <B> <%=projectName%> </B>
+              <input type="text" name="projectName" value="<%=projectName%>" readonly>
             
-              </select>      
             </TD>
           </TR>
             

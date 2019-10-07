@@ -38,7 +38,7 @@ router.post('/createSprint', (req: any, res: any) => {
        if (jRes.err) {
         renderer.sprints(res, sprintHelper.getAllSprints(), jRes.err.msg);
        } else {
-        renderer.sprints(res, sprintHelper.getAllSprints(), undefined, jRes.successMsg);
+        renderer.sprints(res, sprintHelper.getAllSprints(), undefined, jRes.success);
        }
   }
 
