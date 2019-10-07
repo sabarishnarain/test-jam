@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import chai from 'chai';
-import util from '../src/utils/util';
+import util from '../../src/utils/util';
 
 chai.use(require('chai-string'));
 

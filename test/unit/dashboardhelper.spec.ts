@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import chai from 'chai';
-import dashboardhelper from '../src/helpers/dashboardHelper';
-import projectHelper from '../src/helpers/projectHelper';
-import {initializeContents} from '../src/server/env';
-import testHelper from '../src/helpers/testHelper';
-import sprintHelper from '../src/helpers/sprintHelper';
+import dashboardhelper from '../../src/helpers/dashboardHelper';
+import projectHelper from '../../src/helpers/projectHelper';
+import {initializeContents} from '../../src/server/env';
+import testHelper from '../../src/helpers/testHelper';
+import sprintHelper from '../../src/helpers/sprintHelper';
 
 // tslint:disable-next-line: no-var-requires
 chai.use(require('chai-string'));
