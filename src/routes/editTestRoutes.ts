@@ -10,12 +10,12 @@ router.get('/editTest.html', (req: any, res: any) => {
   const testId = req.query.testId;
   console.log('Show test with id ', testId);
   const currTest = testHelper.getTestById(testId);
-  const projectNameOfTest = (currTest) ? projectHelper.getProject(currTest.project).name : '';
+  const project = projectHelper.getProject(currTest.project);
 
   const otherTestsInProject  = testHelper.getTestsForProject(currTest.project);
 
   const history = testHelper.getHistoryForTest(testId);
-  renderer.editTest(res, currTest, projectNameOfTest, history, otherTestsInProject);
+  renderer.editTest(res, currTest, project, history, otherTestsInProject);
 
 });
 
@@ -38,8 +38,11 @@ router.post('/editTest*', (req: any, res: any) => {
   }
 
   if (req.body.action === 'delete') {
-    testHelper.removeTests([req.body.testId]);
-    renderer.home(res, projectHelper.getAllProjects(), undefined, undefined, undefined, 'Test successfully removed.');
+    testHelper.removeTests([testId]);
+    const data = viewHelper.getDataForHomeView(undefined , undefined);
+
+    renderer.home(res, data.sprints, data.sprintFilter, data.projects,
+      data.projectFilter, data.results, undefined, 'Test with id ' + testId + 'successfully removed.');
     return;
   }
 
@@ -52,42 +55,35 @@ router.post('/editTest*', (req: any, res: any) => {
 
     console.log('update test with id', testId);
 
+    let intTestID;
     let currTest = testHelper.getTestById(testId);
-    const projectNameOfTest = (currTest) ? projectHelper.getProject(currTest.project).name : '';
 
-    // let projectsList = testHelper.getProjectsForTest(req.body.testProject);
     const otherTestsInProject  = testHelper.getTestsForProject(currTest.project);
+    const history = testHelper.getHistoryForTest(testId);
 
-    if (req.body.title.trim().length === 0) {
-      renderer.editTest(res, currTest, projectNameOfTest, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Scenario name cannot be empty.');
+    try {
+      intTestID = parseInt(req.body.testId, 10);
+    } catch (err) {
+      renderer.error(res, req.session.username, 'Error updating test. Try again.');
       return;
-    }
-    if (req.body.desc.trim().length === 0) {
-      renderer.editTest(res, currTest, projectNameOfTest, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Scenario description cannot be empty.');
-      return;
+
     }
 
-    if (req.body.title.length > 200 ) {
+    const project = projectHelper.getProject(req.body.projectId);
+    const jRes = testHelper.updateTestContents(intTestID, req.body.title, req.body.desc,
+      req.body.identifier, req.body.projectId);
+
+    if (jRes.err) {
       renderer.editTest(res, { id: testId, title : req.body.title, desc : req.body.desc, identifier : req.body.identifier},
-        projectNameOfTest, testHelper.getHistoryForTest(testId), otherTestsInProject, 'Name cannot be more than 200 chars.');
-      return;
+        project, history, otherTestsInProject,  jRes.err);
+
+    } else {
+      currTest = testHelper.getTestById(testId);
+
+      renderer.editTest(res, testHelper.getTestById(testId), project,
+                      history, otherTestsInProject, undefined, 'Test successfully updated');
+
     }
-
-    if (req.body.desc.length > 1300 ) {
-      renderer.editTest(res, { id: testId, title : req.body.title, desc : req.body.desc, identifier : req.body.identifier},
-        projectNameOfTest, testHelper.getHistoryForTest(testId),
-                        otherTestsInProject, 'Description is too long. Please enter shorter description or consider splitting tests.');
-      return;
-    }
-
-    // update the test contents only
-    testHelper.updateTestById(parseInt(req.body.testId, 10), req.body.title, req.body.desc, req.body.identifier);
-
-    // refresh the test objects and projects references after update success.
-    currTest = testHelper.getTestById(testId);
-
-    renderer.editTest(res, testHelper.getTestById(testId), projectNameOfTest,
-                      testHelper.getHistoryForTest(testId), otherTestsInProject, undefined, 'Test successfully updated');
 
   }
 

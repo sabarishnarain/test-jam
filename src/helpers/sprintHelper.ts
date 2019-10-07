@@ -121,8 +121,6 @@ export default class sprintHelper {
       }
     }
 
-    console.log('testsNotInSprint ', testsNotInSprint);
-
     // now loop through the test and fetch project names.
     const results = [];
     for (const i of testsNotInSprint) {

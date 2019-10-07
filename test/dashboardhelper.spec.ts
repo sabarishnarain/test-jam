@@ -54,11 +54,11 @@ describe('Dashboard Helper Tests', () => {
     const project = projectHelper.getProjectByName('sudoproject');
 
     // Add couple tests to project
-    const testId1 = testHelper.addTest('project1Test1', 'project1Test1','', project.id);
-    const testId2 = testHelper.addTest('project1Test2', 'project1Test2','', project.id);
+    let jres = testHelper.addTest('project1Test1', 'project1Test1','', project.id);
+    testIdsArr.push(jres.success.testId);
+    jres = testHelper.addTest('project1Test2', 'project1Test2','', project.id);
     
-    testIdsArr.push(testId1);
-    testIdsArr.push(testId2);
+    testIdsArr.push(jres.success.testId);
 
     // Add sprint
     sprintHelper.addSprint('R1');

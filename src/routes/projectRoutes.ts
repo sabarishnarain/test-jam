@@ -66,7 +66,7 @@ router.post('/createProject', (req: any, res: any) => {
   if (jRes.err) {
     renderer.projects(res, jRes.err.msg);
   } else {
-    renderer.projects(res, undefined, jRes.successMsg);
+    renderer.projects(res, undefined, jRes.success);
   }
 
 });
