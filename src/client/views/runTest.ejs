@@ -30,28 +30,28 @@
             
           <TR>
             <TD>ID </TD>
-            <TD> <input type="text" name="testId" value="<%=test.id%>" readonly> </TD>
+            <TD> <input type="text" name="testId" id="testId" value="<%=test.id%>" readonly> </TD>
           </TR>
   
           <TR>
             <TD> Name </TD>
-            <TD> <input type="text" name="title" value="<%=test.title%>"  readonly> </TD>      
+            <TD> <input type="text" name="title" id="title" value="<%=test.title%>"  readonly> </TD>      
           </TR>
   
           <TR>
             <TD> Identifier </TD>
-            <TD> <input type="text" name="identifier" value="<%=test.identifier%>" readonly> </TD>
+            <TD> <input type="text" name="identifier" id="identifier" value="<%=test.identifier%>" readonly> </TD>
           </TR>
 
           <TR>
             <TD> Build </TD>
-            <TD> <input type="text" name="build" maxlength="25" style="border-bottom-color: red" > </TD>
+            <TD> <input type="text" name="build" id="build" maxlength="25" style="border-bottom-color: red" > </TD>
           </TR>
 
           <TR>
             <TD> Sprint</TD>
             <TD> 
-            <select name="sprint" style="border-bottom-color: red"> 
+            <select name="sprint" id="sprint" style="border-bottom-color: red"> 
     
                 <% for(let s of sprints) { 
                 %>
@@ -66,7 +66,7 @@
           <TR>
             <TD> Status</TD>
             <TD> 
-            <select name="status" style="border-bottom-color: red"> 
+            <select name="status" id="status" style="border-bottom-color: red"> 
     
                 <% for(let s of statuses) { 
                     let label = s.split('#')[1]; 
@@ -83,7 +83,7 @@
         </table>
             
         <div class="table-footer">
-          <input type="submit" name="cancelRun" value="Cancel" class="jdamGrey">    
+          <input type="submit" name="cancelRun" id="cancelRun" value="Cancel" class="jdamGrey">    
           <input type="submit" name="runTest" id="runTest" value="Save" class="jdamGreen" > 
           
 

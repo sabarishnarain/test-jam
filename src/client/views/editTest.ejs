@@ -74,28 +74,28 @@
             
           <TR>
             <TD>ID </TD>
-            <TD> <input type="text" name="testId" value="<%=currentTest.id%>" style="width: 500px" readonly> </TD>
+            <TD> <input type="text" name="testId" id="testId" value="<%=currentTest.id%>" style="width: 500px" readonly> </TD>
           </TR>
   
           <TR>
             <TD> Name </TD>
-            <TD> <input type="text" name="title" value="<%=currentTest.title%>" maxlength="125" style="width: 500px"> </TD>      
+            <TD> <input type="text" name="title" id="title" value="<%=currentTest.title%>" maxlength="125" style="width: 500px"> </TD>      
           </TR>
   
           <TR>
             <TD> Desc</TD>
-            <TD> <textarea name="desc"><%=currentTest.desc%></textarea> </TD>
+            <TD> <textarea name="desc" id="desc"><%=currentTest.desc%></textarea> </TD>
           </TR>
   
           <TR>
             <TD> Identifier </TD>
-            <TD> <input type="text" name="identifier" value="<%=currentTest.identifier%>"> </TD>
+            <TD> <input type="text" name="identifier" id="identifier" value="<%=currentTest.identifier%>"> </TD>
           </TR>
             
           <TR>
             <TD> Project</TD>
             <TD> 
-              <input type="text" name="projectName" value="<%=projectName%>" readonly>
+              <input type="text" name="projectName" id="projectName" value="<%=projectName%>" readonly>
             
             </TD>
           </TR>
@@ -104,9 +104,9 @@
             
         <div class="table-footer">
           <input type="submit" name="cancelEdit" value="Cancel" class="jdamGrey">    
-          <input type="button" name="delete" value="Delete" class="jdamRed" onclick="doSubmit('delete');">    
-          <input type="submit" name="copyTo" value="Save As" class="jdamBlue">    
-          <input type="button" name="runTest" value="Execute" class="jdamGrey"  onclick="doSubmit('run');">    
+          <input type="button" name="delete" id="deletel" value="Delete" class="jdamRed" onclick="doSubmit('delete');">    
+          <input type="submit" name="copyTo" id="copyTo" value="Save As" class="jdamBlue">    
+          <input type="button" name="runTest" id="runTest" value="Execute" class="jdamGrey"  onclick="doSubmit('run');">    
           <input type="button" name="saveTest" id="saveTest" value="Save" class="jdamGreen" onclick="doSubmit('save');"> 
 
 
