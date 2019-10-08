@@ -39,7 +39,7 @@
 
       <div class="table-header">
         Sprint 
-        <select name="sprintFilter">
+        <select name="sprintFilter" id="sprintFilter">
         <% 
             for(let s of sprints ) {
             let isSelect = "";
@@ -52,7 +52,7 @@
             }
         %> 
         </select>
-        <input type="submit" name="go" class="jdamGreen" value="Go">
+        <input type="submit" id="go" name="go" class="jdamGreen" value="Go">
 
       </div>
 
