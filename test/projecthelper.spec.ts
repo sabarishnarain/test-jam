@@ -50,10 +50,28 @@ describe('Project Helper Tests', () => {
   it('test getProject', () => {
     const res = projectHelper.createProject('sudoproject');
     const project = projectHelper.getProjectByName('sudoproject');
-    // tslint:disable-next-line: no-unused-expression
     expect(res.err).to.be.undefined;
     // tslint:disable-next-line: no-unused-expression
     expect(projectHelper.getProject(project.id)).to.not.be.undefined;
+
+  });
+
+  it ('test rename project', () => {
+    let res = projectHelper.createProject('sudoproject');
+    expect(res.err).to.be.undefined;
+
+    res = projectHelper.updateName('invalid name', 'newnameproject');
+    expect(res.success).to.be.undefined;
+    expect(res.err.msg).to.equal('Project with name "invalid name" not found!');
+
+    // empty name
+    res = projectHelper.updateName(' ', 'newnameproject');
+    expect(res.success).to.be.undefined;
+
+    // valid name
+    const project = projectHelper.getProjectByName('sudoproject');
+    res = projectHelper.updateName(project.name, 'newnameproject');
+    expect(res.err).to.be.undefined;
 
   });
 
