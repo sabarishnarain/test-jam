@@ -25,19 +25,20 @@
       <div id="header" class="container">
         <div id="logo">
             <div class="title">
-              <h2>Welcome to the colloborative world </h2>
+              <h3>Sprint : <b>  <%=sprint.name%> </b>  </h3>
             </div>
         </div>
       </div>
   
       <% include ./partials/snackbar.ejs%>
 
+      <div class="section-header ">
+          <b> <a href="./sprints.ejs"> Back To All Sprints </a></b>
+
+        </div>
 
     <div id="page-wrapper" >
         
-        
-     <div class="section-header">  Sprint : <b>  <%=sprint.name%> </b>  </div>
-
 
        <div style="display: flex;">
 
@@ -45,6 +46,8 @@
 
           <form action="/removeTestsFromSprint" method="POST">
             <input type="hidden" name="sprintId" value="<%=sprint.id%>">
+
+           
 
             <div class="table-header">
 

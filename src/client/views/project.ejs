@@ -22,13 +22,6 @@
 
     <div class="split right">
      
-      <div id="header" class="container">
-        <div id="logo">
-            <div class="title">
-              <h2>Welcome to the colloborative world </h2>
-            </div>
-        </div>
-      </div>
   
       <% include ./partials/snackbar.ejs%>
 
@@ -38,6 +31,10 @@
         <form action="/project" method="POST">
         
          <input type="hidden" name="projectId" value="<%=project.id%>">
+         <div class="section-header">
+            <a href="/projects.html"> Back to All Projects </a>
+
+         </div>
          <div class="section-header" >
            <table style="width: 90%">
             <tbody>
@@ -65,8 +62,8 @@
             <div style="float: left; width: 100%"> 
               <table style="width: 90%">
                 <tr>
-                  <td> <a href="/projects.html"> Back to All Projects </a> </td>
-                  <td style="text-align: right">  <input type="submit" name="deleteTest" class="jdamRed" value="Delete Tests"> </td>
+                  <td>  </td>
+                  <td style="text-align: right">  <input type="submit" name="deleteTest" id="deleteTest" class="jdamRed" value="Delete Tests"> </td>
                 </tr>
               </table>
               
@@ -121,7 +118,7 @@
               
                 <% if(tests && tests.length === 0) { %>
                   <div class="table-footer">
-                  <input class="jdamRed" type="submit" name="deleteProject" value="Delete Project">
+                  <input class="jdamRed" type="submit" name="deleteProject" id="deleteProject" value="Delete Project">
                   <p> <font style="color: red;"> This is a non-reversible action. </font>  </p>
                   </div>
               
