@@ -42,23 +42,24 @@
               <tbody>
                 <TR> 
                   <td> Scenario Name</td>
-                  <td> <input name="title" type="text" maxlength="125" style="width: 500px" value="<%=title%>"> </td>
+                  <td> <input name="title" id="title" type="text" maxlength="125" style="width: 500px" 
+                        value="<%=title%>"> </td>
                 </TR>
           
                 <TR> 
                   <td> Scenario Description</td>
-                  <td> <textarea name="description"><%=desc%></textarea> </td>
+                  <td> <textarea name="description" id="description"><%=desc%></textarea> </td>
                 </TR>
 
                 <TR> 
                   <td> Test Identifier</td>
-                  <td> <input name="identifier" type="text" value="<%=identifier%>"> </td>
+                  <td> <input name="identifier" id="identifier" type="text" value="<%=identifier%>"> </td>
                 </TR>
           
                 <TR> 
                   <td> Project</td>
                   <td> 
-                    <select name="project">
+                    <select name="project" id="project">
                     <% 
                       for(let p of projects) {  
                         let isSelected = (filter && filter === p.id) ? "selected" : "";
