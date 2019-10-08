@@ -38,7 +38,6 @@ export default class testHelper {
       projects.push({id: projectCode , name});
       this.saveProjects(projects);
       res = new jResult(undefined, `Project with name ${name} successfully created.`);
-
     }
     return res;
 
@@ -71,6 +70,32 @@ export default class testHelper {
       code = name.substr(0, 3);
      }
     return code + Date.now() % 10000;
+  }
+
+  public static updateName(currName: string, newName: string): jResult {
+    let res;
+
+    if (!newName || (newName && newName.trim().length === 0)) {
+      return new jResult({msg: `Project name cannot be empty`});
+    } else if (newName.length > 100) {
+      return new jResult({msg: `Project name cannot be more than 100 chars`});
+    }
+
+    const project  = this.getProjectByName(currName);
+    if (project) {
+      const allProjects = this.getAllProjects();
+      for (const p of allProjects) {
+        if (p.name === currName) {
+          p.name = newName;
+        }
+      }
+      this.saveProjects(allProjects);
+      res = new jResult(undefined, `Project "${currName}" successfully renamed to "${newName}"`);
+    } else {
+      res = new jResult({ msg: 'Project with name "' + currName + '" not found!'});
+    }
+    return res;
+
   }
 
   private static saveProjects(contents: any) {

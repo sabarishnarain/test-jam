@@ -3,6 +3,7 @@ const router = express.Router();
 import testHelper from '../helpers/testHelper';
 import projectHelper from '../helpers/projectHelper';
 import renderer from '../renderers/renderer';
+import jResult from '../server/jResult';
 
 router.get('/projects.html', (req: any, res: any) => {
   renderer.projects(res);
@@ -21,13 +22,25 @@ router.post('/project', (req: any, res: any) => {
   const projectId = req.body.projectId;
   const deleteTest = req.body.deleteTest;
   const addTest = req.body.addTest;
+  const renameProject = req.body.renameProject;
+  let project = projectHelper.getProject(projectId);
 
   if (addTest) {
+
     renderer.addNewTest(res, projectHelper.getAllProjects(), projectId);
     return;
   }
 
-  const project = projectHelper.getProject(projectId);
+  if (renameProject) {
+    const jres: jResult = projectHelper.updateName(project.name, req.body.newProjectName );
+    if (jres.err) {
+      renderer.project(res, testHelper.getTestsForProject(projectId), project, jres.err.msg);
+    } else {
+      project = projectHelper.getProject(projectId);
+      renderer.project(res, testHelper.getTestsForProject(projectId), project, undefined, jres.success);
+    }
+    return ;
+  }
 
   console.log('Delete test(s) with id: ', idToDel );
 
