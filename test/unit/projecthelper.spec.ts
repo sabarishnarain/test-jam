@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import chai from 'chai';
-import projectHelper from '../src/helpers/projectHelper';
-import {initializeContents} from '../src/server/env';
+import projectHelper from '../../src/helpers/projectHelper';
+import {initializeContents} from '../../src/server/env';
 
 // tslint:disable-next-line: no-var-requires
 chai.use(require('chai-string'));

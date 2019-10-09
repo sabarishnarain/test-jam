@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import userhelper from '../src/helpers/userHelper';
-import securityKeyHelper from '../src/helpers/securityKeyHelper';
-import userHelper from '../src/helpers/userHelper';
+import userhelper from '../../src/helpers/userHelper';
+import securityKeyHelper from '../../src/helpers/securityKeyHelper';
+import userHelper from '../../src/helpers/userHelper';
 
 describe('UserHelper Tests', () => {
 

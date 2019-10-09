@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import testHelper from '../src/helpers/testHelper';
-import projectHelper from '../src/helpers/projectHelper';
+import testHelper from '../../src/helpers/testHelper';
+import projectHelper from '../../src/helpers/projectHelper';
 
-import {initializeContents} from '../src/server/env';
+import {initializeContents} from '../../src/server/env';
 
 describe('Test Helper Tests', () => {
 
