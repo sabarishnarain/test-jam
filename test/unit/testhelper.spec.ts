@@ -28,6 +28,9 @@ describe('Test Helper Tests', () => {
     expect(testHelper.getTestById(id1.toString())).to.not.undefined;
     expect(testHelper.getTestById(id1.toString()).title).to.equal('test title');
 
+    const testsForProject = testHelper.getTestsForProject(project.id);
+    expect(testsForProject.length).to.equal(1);
+
     testHelper.updateTestContents(id1, 'test title', 'test desc');
 
 
