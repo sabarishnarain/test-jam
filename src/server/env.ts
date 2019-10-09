@@ -44,9 +44,6 @@ import {DBContents} from './dbContents';
 function initializeDB() {
 
   const data  = (process.env.TESTJAM_ENV === 'test') ? DBContents.TEST : DBContents.DEFAULT;
-
-  console.log('CONTENTS is ', data);
-
   dbHelper.setDefaultContent(MODEL.APPCONFIG, data.appConfig);
 
   dbHelper.setDefaultContent(MODEL.USER, data.users);

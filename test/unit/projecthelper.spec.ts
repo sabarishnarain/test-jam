@@ -56,38 +56,70 @@ describe('Project Helper Tests', () => {
 
   });
 
-  it ('test rename project', () => {
-    let res = projectHelper.createProject('sudoproject');
+  function createSudoProject() {
+    const res = projectHelper.createProject('sudoproject');
     expect(res.err).to.be.undefined;
+  }
 
-    res = projectHelper.updateName('invalid name', 'newnameproject');
+  it ('test rename project with invalid current name', () => {
+    createSudoProject();
+    const res = projectHelper.updateName('invalid name', 'newnameproject');
     expect(res.success).to.be.undefined;
     expect(res.err.msg).to.equal('Project with name "invalid name" not found!');
 
-    // empty name
-    res = projectHelper.updateName(' ', 'newnameproject');
-    expect(res.success).to.be.undefined;
+  });
 
-    // valid name
-    const project = projectHelper.getProjectByName('sudoproject');
-    res = projectHelper.updateName(project.name, 'newnameproject');
+  it ('test rename project with empty current name', () => {
+    createSudoProject();
+    const res = projectHelper.updateName(' ', 'newnameproject');
+    expect(res.success).to.be.undefined;
+    expect(res.err.msg).to.not.be.undefined;
+
+  });
+
+
+  it ('test rename project with empty new name', () => {
+    createSudoProject();
+    const res = projectHelper.updateName('sudoproject', ' ');
+    expect(res.success).to.be.undefined;
+    expect(res.err.msg).to.not.be.undefined;
+  });
+
+
+  it ('test rename project with duplicate name', () => {
+    createSudoProject();
+    const res = projectHelper.updateName('sudoproject', 'sudoproject');
+    expect(res.success).to.be.undefined;
+    expect(res.err.msg).to.not.be.undefined;
+
+  });
+
+  it ('test rename project with correct name', () => {
+    createSudoProject();
+    const res = projectHelper.updateName('sudoproject', 'newnameproject');
     expect(res.err).to.be.undefined;
 
   });
 
   beforeEach( () => {
-    const project = projectHelper.getProjectByName('sudoproject');
-    if (project) {
-      projectHelper.removeProject(project.id);
-
-    }
+    cleanUpProjects();
   });
 
   afterEach( () => {
-    const project = projectHelper.getProjectByName('sudoproject');
-    if (project) {
-      projectHelper.removeProject(project.id);
 
-    }  });
+    cleanUpProjects();
+
+    });
+
+  function cleanUpProjects() {
+    const disposables = ['newnameproject', 'sudoproject'];
+
+    for (const p of disposables) {
+      const project = projectHelper.getProjectByName(p);
+      if (project) {
+        projectHelper.removeProject(project.id);
+      }
+    }
+  }
 
 });

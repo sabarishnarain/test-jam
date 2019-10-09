@@ -1,4 +1,3 @@
-
 import dbHelper, { MODEL } from './dbHelper';
 import jResult from '../server/jResult';
 
@@ -79,6 +78,8 @@ export default class testHelper {
       return new jResult({msg: `Project name cannot be empty`});
     } else if (newName.length > 100) {
       return new jResult({msg: `Project name cannot be more than 100 chars`});
+    } else if (this.getProjectByName(newName.trim())) {
+      return new jResult({ msg: `Project with name ${newName} already exists.`});
     }
 
     const project  = this.getProjectByName(currName);
