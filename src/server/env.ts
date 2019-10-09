@@ -39,23 +39,24 @@ const env = globalConfig();
 export {env as env};
 
 import dbHelper, { MODEL } from '../helpers/dbHelper';
+import {DBContents} from './dbContents';
 
-function initDefault() {
+function initializeDB() {
 
-  dbHelper.setDefaultContent(MODEL.APPCONFIG, {
-    authentication : {
-        requireSecret : true
-    }
-  });
+  const data  = (process.env.TESTJAM_ENV === 'test') ? DBContents.TEST : DBContents.DEFAULT;
 
-  dbHelper.setDefaultContent(MODEL.USER, []);
-  dbHelper.setDefaultContent(MODEL.PROJECT, []);
-  dbHelper.setDefaultContent(MODEL.MASTERKEY, { key: 'nobodyownsnothing' });
-  dbHelper.setDefaultContent(MODEL.SECRET, []);
-  dbHelper.setDefaultContent(MODEL.TEST, []);
-  dbHelper.setDefaultContent(MODEL.SPRINT, []);
-  dbHelper.setDefaultContent(MODEL.TESTRUN, []);
+  console.log('CONTENTS is ', data);
+
+  dbHelper.setDefaultContent(MODEL.APPCONFIG, data.appConfig);
+
+  dbHelper.setDefaultContent(MODEL.USER, data.users);
+  dbHelper.setDefaultContent(MODEL.PROJECT, data.projects);
+  dbHelper.setDefaultContent(MODEL.MASTERKEY, data.masterKey);
+  dbHelper.setDefaultContent(MODEL.SECRET, data.secrets);
+  dbHelper.setDefaultContent(MODEL.TEST, data.tests);
+  dbHelper.setDefaultContent(MODEL.SPRINT, data.sprints);
+  dbHelper.setDefaultContent(MODEL.TESTRUN, data.testruns);
 
 }
 
-export {initDefault as initializeContents};
+export {initializeDB as initializeDB};

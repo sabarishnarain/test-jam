@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import chai from 'chai';
 import projectHelper from '../../src/helpers/projectHelper';
-import {initializeContents} from '../../src/server/env';
+import {initializeDB} from '../../src/server/env';
 
 // tslint:disable-next-line: no-var-requires
 chai.use(require('chai-string'));
@@ -9,7 +9,7 @@ chai.use(require('chai-string'));
 describe('Project Helper Tests', () => {
 
   before( () => {
-    initializeContents();
+    initializeDB();
   });
 
   it('Project with single word should be first 3 letters', () => {
