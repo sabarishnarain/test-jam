@@ -8,6 +8,8 @@ resources:
   containers:
   - container: docker-node # reusable alias
     image: node:10.16-stretch
+  - container: docker-wdio
+    image: sabarishnarain/node-chrome-jdk:node10-jdk8
 
 jobs:
  - job : build
@@ -37,4 +39,11 @@ jobs:
        codeCoverageTool: Cobertura
        summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
        reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
+ - job : test_wdio
+   displayName: e2e-tests
+   container: docker-wdio
+   dependsOn: build
+   condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+   steps:
+   - script: echo hello world
     
