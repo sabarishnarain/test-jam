@@ -4,8 +4,8 @@
   "description": "Joint Dashboard for Automation and Manual testing",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --reporter html cross-env TESTJAM_ENV=test mocha --require ts-node/register ./test/*.ts",
-    "test-ci": "nyc cross-env TESTJAM_ENV=test mocha --reporter mocha-junit-reporter --require ts-node/register ./test/*.ts",
+    "test": "nyc --reporter html cross-env TESTJAM_ENV=test mocha --require ts-node/register ./test/unit/*.ts",
+    "test-ci": "nyc cross-env TESTJAM_ENV=test mocha --reporter mocha-junit-reporter --require ts-node/register ./test/unit/*.ts",
     "dev": "tsc && gulp && cross-env TESTJAM_ENV=dev node dist/server.js",
     "prod": "tsc && gulp && cross-env TESTJAM_ENV=prod node dist/server.js",
     "demo": "tsc && gulp && cross-env TESTJAM_ENV=demo node dist/server.js",
