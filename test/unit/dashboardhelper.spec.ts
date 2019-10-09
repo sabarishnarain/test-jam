@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import chai from 'chai';
 import dashboardhelper from '../../src/helpers/dashboardHelper';
 import projectHelper from '../../src/helpers/projectHelper';
-import {initializeContents} from '../../src/server/env';
+import {initializeDB} from '../../src/server/env';
 import testHelper from '../../src/helpers/testHelper';
 import sprintHelper from '../../src/helpers/sprintHelper';
 
@@ -14,7 +14,7 @@ describe('Dashboard Helper Tests', () => {
   const testIdsArr: number[] = [];
 
   before( () => {
-    initializeContents();
+    initializeDB();
   });
 
   beforeEach( () => {

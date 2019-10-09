@@ -1,3 +1,5 @@
+const chromeCapsArgs = (process.env.TESTJAM_ENV === 'test') ? ['--headless', '--no-sandbox', '--disable-dev-shm-usage'] : [];
+console.log(chromeCapsArgs);
 exports.config = {
     //
     // ====================
@@ -53,7 +55,7 @@ exports.config = {
         //
         browserName: 'chrome',
         'goog:chromeOptions' : {
-          args : []
+          args : chromeCapsArgs
         }
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
@@ -94,7 +96,7 @@ exports.config = {
     baseUrl: 'http://localhost:3000',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 6000,
     //
     // Default timeout in milliseconds for request
     // if Selenium Grid doesn't send response
@@ -123,7 +125,13 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter.html
-    reporters: ['spec','junit'],
+    reporters: ['spec', 
+                ['junit' , { 
+                    outputDir : './',
+                    outputFileFormat: function (options) {
+                        return `wdio-results.xml`
+                    }
+                }]],
  
     //
     // Options to be passed to Mocha.

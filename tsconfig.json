@@ -15,8 +15,5 @@
         },
         "types" : ["node", "@wdio/sync", "mocha", "@wdio/mocha-framework"]
     },
-    "include": [
-        "*.ts", "gulpfile.js", "src/server.ts",
-        "test/integ/**/*.ts"
-    ]
+    "include": ["*.ts", "gulpfile.js", "src/server.ts"]
 }

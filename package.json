@@ -4,13 +4,15 @@
   "description": "Joint Dashboard for Automation and Manual testing",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --reporter html cross-env TESTJAM_ENV=test mocha --require ts-node/register ./test/unit/*.ts",
-    "test-ci": "nyc cross-env TESTJAM_ENV=test mocha --reporter mocha-junit-reporter --require ts-node/register ./test/unit/*.ts",
-    "test-integ" : "wdio wdio.conf.js",
+    "test-unit": "nyc --reporter html cross-env TESTJAM_ENV=test mocha --require ts-node/register ./test/unit/*.ts",
+    "test-unit-ci": "nyc cross-env TESTJAM_ENV=test mocha --reporter mocha-junit-reporter --require ts-node/register ./test/unit/*.ts",
+    "test-integ": "wdio wdio.conf.js",
     "dev": "tsc && gulp && cross-env TESTJAM_ENV=dev node dist/server.js",
+    "test-ci" : "tsc && gulp && cross-env TESTJAM_ENV=test forever start dist/server.js",
     "prod": "tsc && gulp && cross-env TESTJAM_ENV=prod node dist/server.js",
     "demo": "tsc && gulp && cross-env TESTJAM_ENV=demo node dist/server.js",
-    "lint": "tsc && tslint -p ."
+    "lint": "tsc && tslint -p .",
+    "stop": "forever stop dist/server.js"
   },
   "author": "snarain",
   "license": "ISC",
@@ -28,6 +30,7 @@
     "chai": "^4.2.0",
     "chai-string": "^1.5.0",
     "cross-env": "^6.0.2",
+    "forever": "^1.0.0",
     "mocha": "^6.2.0",
     "mocha-junit-reporter": "^1.23.1",
     "ts-node": "^8.4.1",

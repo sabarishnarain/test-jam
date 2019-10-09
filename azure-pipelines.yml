@@ -26,7 +26,7 @@ jobs:
      displayName: install
    - script: npm run lint
      displayName: lint
-   - script: npm run test-ci
+   - script: npm run test-unit-ci
      displayName: test-unit
    - task: PublishTestResults@2
      condition: succeededOrFailed()
@@ -43,7 +43,18 @@ jobs:
    displayName: e2e-tests
    container: docker-wdio
    dependsOn: build
+   variables:
+    TESTJAM_ENV: test
    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
    steps:
-   - script: echo hello world
+   - script: npm ci
+   - script: chmod +x ./test/integ/runIntegTests.sh
+   - script: ./test/integ/runIntegTests.sh
+   - task: PublishTestResults@2
+     condition: succeededOrFailed()
+     inputs:
+       testRunner: JUnit
+       testResultsFiles: '**/wdio-results.xml'
+       failTaskOnFailedTests: true # Fail the task if there are test failures
+
     
