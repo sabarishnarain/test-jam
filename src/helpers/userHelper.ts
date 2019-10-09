@@ -1,6 +1,6 @@
 import dbHelper, { MODEL } from './dbHelper';
 import util from '../utils/util';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 import securityKeyHelper from './securityKeyHelper';
 
 export default class userHelper {
@@ -35,7 +35,7 @@ export default class userHelper {
     const usersJson = this.getAllUsers();
     const recentId = util.getMaxId(this.getAllUsers());
     const firstAdminFlag = (recentId === 0) ? 1 : 0; // first user is always admin
-    const hash = await bcrypt.hash(password, 10);
+    const hash = await bcryptjs.hash(password, 10);
     usersJson.push({id : recentId + 1, username, password: hash, admin : firstAdminFlag});
     this.saveContents(usersJson);
     securityKeyHelper.removeSecret(secret);
@@ -49,7 +49,7 @@ export default class userHelper {
   public static async verifyPassword(username: string, password: string): Promise<boolean> {
     const user = this.findUser(username);
 
-    if (user && await bcrypt.compare(password, user.password)) {
+    if (user && await bcryptjs.compare(password, user.password)) {
       return true;
     }
     return false;
