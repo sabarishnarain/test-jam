@@ -12,9 +12,11 @@
             "*": [
                 "node_modules/*"
             ]
-        }
+        },
+        "types" : ["node", "@wdio/sync", "mocha", "@wdio/mocha-framework"]
     },
     "include": [
-        "*.ts", "gulpfile.js", "src/server.ts", "src/helpers/dashboardHelper.ts", "data/userHelpesrc/helpers/securityKeyHelper.tselpesrc/helpers/projectHelper.tselper.ts"
+        "*.ts", "gulpfile.js", "src/server.ts",
+        "test/integ/**/*.ts"
     ]
 }
