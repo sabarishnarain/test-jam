@@ -13,15 +13,15 @@ describe('Project Helper Tests', () => {
   });
 
   it('Project with single word should be first 3 letters', () => {
-    expect(projectHelper.generateProjectCode('foobar')).to.startsWith('foo');
+    expect(projectHelper.generateProjectCode('foobar').startsWith('foo')).to.be.true;
   });
 
   it('Project id for two words should start with first two letters of two words', () => {
-    expect(projectHelper.generateProjectCode('foo bar')).to.startsWith('fob');
+    expect(projectHelper.generateProjectCode('foo bar').startsWith('fob')).to.be.true;
   });
 
   it('Project id for three words should start with first two letters of each words', () => {
-    expect(projectHelper.generateProjectCode('foo bar true')).to.startsWith('fobatr');
+    expect(projectHelper.generateProjectCode('foo bar true').startsWith('fobatr')).to.be.true;
   });
 
   it('Create empty project', () => {
@@ -90,5 +90,4 @@ describe('Project Helper Tests', () => {
 
     }  });
 
-
-})
+});

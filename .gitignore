@@ -12,3 +12,6 @@ test-results.xml
 db/prod/*
 db/test/*
 db/dev/*
+
+# selenium screenshots
+errorShots
