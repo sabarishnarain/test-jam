@@ -54,7 +54,7 @@ jobs:
      condition: succeededOrFailed()
      inputs:
        testRunner: JUnit
-       testResultsFiles: '**/wdio-results.xml'
+       testResultsFiles: 'e2e-results/*.xml'
        failTaskOnFailedTests: true # Fail the task if there are test failures
 
     

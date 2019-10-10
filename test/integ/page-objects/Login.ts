@@ -8,7 +8,9 @@ export default class Login {
     return this;
   }
 
-  public loginAs(username: string, password: string) {
+  public loginAs(username?: string, password?: string) {
+    username = username || 'sudouser';
+    password = password || 'sudouser';
     $('#username').addValue(username);
     $('#password').addValue(password);
     $('#login').click();

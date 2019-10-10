@@ -55,7 +55,7 @@ router.post('/project', (req: any, res: any) => {
     }
 
     testHelper.removeTests(testIds);
-    renderer.project(res, testHelper.getTestsForProject(projectId), project, undefined, 'Test(s) deleted successfully.');
+    renderer.project(res, testHelper.getTestsForProject(projectId), project, undefined, 'Test(s) successfully deleted.');
 
   } else if (req.body.deleteProject) {
 
