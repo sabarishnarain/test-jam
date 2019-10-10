@@ -15,4 +15,4 @@ db/dev/*
 
 # selenium screenshots
 errorShots
-wdio-results.xml
+e2e-results

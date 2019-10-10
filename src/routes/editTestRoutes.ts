@@ -42,7 +42,7 @@ router.post('/editTest*', (req: any, res: any) => {
     const data = viewHelper.getDataForHomeView(undefined , undefined);
 
     renderer.home(res, data.sprints, data.sprintFilter, data.projects,
-      data.projectFilter, data.results, undefined, 'Test with id ' + testId + 'successfully removed.');
+      data.projectFilter, data.results, undefined, 'Test successfully deleted.');
     return;
   }
 

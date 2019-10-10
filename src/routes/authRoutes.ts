@@ -35,7 +35,7 @@ router.post('/login*', async (req: any, res: any) => {
     const data = viewHelper.getDataForHomeView(undefined , undefined);
 
     renderer.home(res, data.sprints, data.sprintFilter, data.projects,
-      data.projectFilter, data.results, undefined, 'Happy Collobration!');
+      data.projectFilter, data.results, undefined, 'Happy Collaboration!');
     return;
   }
 

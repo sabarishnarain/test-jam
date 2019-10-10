@@ -1,4 +1,4 @@
-const chromeCapsArgs = (process.env.TESTJAM_ENV === 'test') ? ['--headless', '--no-sandbox', '--disable-dev-shm-usage'] : [];
+const chromeCapsArgs = (process.env.TESTJAM_ENV === 'test') ? ['--headless', '--no-sandbox', '--disable-dev-shm-usage'] : ['--headless'];
 console.log(chromeCapsArgs);
 exports.config = {
     //
@@ -127,9 +127,9 @@ exports.config = {
     // see also: https://webdriver.io/docs/dot-reporter.html
     reporters: ['spec', 
                 ['junit' , { 
-                    outputDir : './',
+                    outputDir : './e2e-results',
                     outputFileFormat: function (options) {
-                        return `wdio-results.xml`
+                        return `results-${options.cid}.${options.capabilities}.xml`
                     }
                 }]],
  
