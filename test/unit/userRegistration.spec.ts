@@ -6,15 +6,15 @@ import userHelper from '../../src/helpers/userHelper';
 describe('UserHelper Tests', () => {
 
   before( () => {
-    userHelper.removeUser('sudouser');
+    userHelper.removeUser('sudo');
   });
 
   it ('Password with tailing space', async () => {
-    expect(await userhelper.verifyPassword('jdam','jdam ')).to.equal(false);
+    expect(await userhelper.verifyPassword('jdam', 'jdam ')).to.equal(false);
   });
 
   it ('Password with leading space', async () => {
-    expect(await userhelper.verifyPassword('jdam',' jdam')).to.equal(false);
+    expect(await userhelper.verifyPassword('jdam', ' jdam')).to.equal(false);
   });
 
   it ('Register with invalid secret', async () => {
@@ -33,16 +33,16 @@ describe('UserHelper Tests', () => {
     const initialUsersCount = userhelper.getAllUsers().length;
 
     const key = securityKeyHelper.createSecret();
-    await userHelper.createUser('sudouser', 'sudouser', key);
+    await userHelper.createUser('sudo', 'sudo', key);
     expect(userhelper.getAllUsers().length).to.equal(initialUsersCount + 1);
-    const user = userHelper.findUser('sudouser');
+    const user = userHelper.findUser('sudo');
     expect(user).to.not.equal(undefined);
     expect(userHelper.findUserById(user.id)).to.not.equal(undefined);
 
   });
 
   afterEach( () => {
-    userHelper.removeUser('sudouser');
+    userHelper.removeUser('sudo');
   });
 
  });

@@ -14,4 +14,12 @@ export default class testrunHelper {
       }
     dbHelper.saveContents(MODEL.TESTRUN, testruns);
   }
+
+  public static removeTestRuns(id: number) {
+    const runs = sprintHelper.getAllTestRuns();
+    const postDeleteContents = runs.filter( (tr: any) => {
+        return id !== tr.id;
+    });
+    dbHelper.saveContents(MODEL.TESTRUN, postDeleteContents);
+  }
 }

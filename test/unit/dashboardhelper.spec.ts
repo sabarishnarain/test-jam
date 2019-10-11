@@ -24,6 +24,11 @@ describe('Dashboard Helper Tests', () => {
 
     }
 
+    const sprint = sprintHelper.getSprintByName('R1');
+    if (sprint) {
+      sprintHelper.removeSprint(sprint.id);
+    }
+
     const strTestIdsArr = testIdsArr.map( (t: any) => { 
       return t.toString();
     });
@@ -37,11 +42,16 @@ describe('Dashboard Helper Tests', () => {
       projectHelper.removeProject(project.id);
 
     }
+    const sprint = sprintHelper.getSprintByName('R1');
+    if (sprint) {
+      sprintHelper.removeSprint(sprint.id);
+    }
+
     const strTestIdsArr = testIdsArr.map( (t: any) => { 
       return t.toString();
     });
     testHelper.removeTests(strTestIdsArr);
-  
+
     });
 
   it('Should tests and statistics ', () => {
@@ -57,7 +67,7 @@ describe('Dashboard Helper Tests', () => {
     let jres = testHelper.addTest('project1Test1', 'project1Test1','', project.id);
     testIdsArr.push(jres.success.testId);
     jres = testHelper.addTest('project1Test2', 'project1Test2','', project.id);
-    
+
     testIdsArr.push(jres.success.testId);
 
     // Add sprint
