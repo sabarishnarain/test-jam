@@ -41,9 +41,9 @@ describe('Sprint Helper Tests', () => {
     const sprint1 = sprintHelper.getSprintByName('helloworld');
 
     expect(jres.err).to.be.undefined;
-    jres = sprintHelper.addSprint('sudosprint');
+    jres = sprintHelper.addSprint('unit-test-sprint');
     expect(jres.err).to.be.undefined;
-    const sprint2 = sprintHelper.getSprintByName('sudosprint');
+    const sprint2 = sprintHelper.getSprintByName('unit-test-sprint');
 
     const sprints = sprintHelper.getSprintsById([sprint1.id, sprint2.id]);
     expect(sprints.length).to.equal(2);

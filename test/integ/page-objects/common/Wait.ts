@@ -17,3 +17,11 @@ export  function waitForAddTest() {
 export function waitForProjects() {
   waitForElements(['//h3[normalize-space()="Projects"]', '#pname']);
 }
+
+export function waitForSprints() {
+  waitForElements(['//h3[normalize-space()="Sprints"]', 'table.jdamTable']);
+}
+
+export function waitForHome() {
+  waitForElements(['//h3[normalize-space()="Test Results"]', 'table.jdamTable']);
+}

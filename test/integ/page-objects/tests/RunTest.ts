@@ -15,7 +15,7 @@ export default class RunTest extends Page {
     $('#build').addValue(build);
     waitForElement('//select[@name="sprint"]/option[normalize-space()="' + sprint + '"]',
     'Sprint "' + sprint + '" not found in select dropdown.' );
-    $('#sprint').selectByVisibleText(status);
+    $('#sprint').selectByVisibleText(sprint);
 
     waitForElement('//select[@name="status"]/option[normalize-space()="' + status + '"]',
     'Status with name "' + status + '" not found in select dropdown.' );

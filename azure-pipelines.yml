@@ -45,7 +45,7 @@ jobs:
    dependsOn: build
    variables:
     TESTJAM_ENV: test
-   condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
    steps:
    - script: npm ci
    - script: chmod +x ./test/integ/runIntegTests.sh
