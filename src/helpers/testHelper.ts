@@ -203,37 +203,11 @@ export default class testHelper {
   }
 
   /**
-   * Get all projects along with the project id associated with the test,
-   * and return array of string - where each item is
-   * <projectid>#<projectname>#<isSelected>
-   * @param projectId
-   */
- public static getProjectsForTest(projectId: string): string[] {
-    const projects = projectHelper.getAllProjects();
-    const projectsList = [];
-    for (const p of projects) {
-      const isSelected = (p.id === projectId);
-      projectsList.push(p.id + '#' + p.name + '#' + isSelected);
-    }
-    return projectsList;
-  }
-
-  /**
    * Get most recent id for project from data.json
    * @param tests
    */
   public static getRecentId() {
     return util.getMaxId(this.getAllTests());
-  }
-
-  public static getStatusesForTest(testId: string): string[] {
-    console.log('Get statuses for test: ', testId);
-    const test = this.getTestById(testId);
-    const statusList = [];
-    statusList.push('NORUN#NORUN#' + (test.status === 'NORUN'));
-    statusList.push('PASS#PASS#' + (test.status === 'PASS'));
-    statusList.push('FAIL#FAIL#' + (test.status === 'FAIL'));
-    return statusList;
   }
 
   public static getStatuses(): string[] {
@@ -281,12 +255,6 @@ export default class testHelper {
       fs.unlinkSync(fsHistoryJSON);
     }
 
-  }
-
-  public static searchTests(keyword: string) {
-    return this.getAllTests().filter( (t: any) => {
-      return t.testname.includes(keyword) || t.scenario.includes(keyword);
-    });
   }
 
   public static isValidStatus(status: string): boolean {
