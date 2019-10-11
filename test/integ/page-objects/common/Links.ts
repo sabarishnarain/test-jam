@@ -1,6 +1,8 @@
 import AddTest from '../tests/AddTest';
-import { waitForAddTest, waitForProjects } from './Wait';
+import { waitForAddTest, waitForProjects, waitForSprints, waitForHome} from './Wait';
 import Projects from '../projects/Projects';
+import Sprints from '../sprints/Sprints';
+import Home from '../Home';
 
 export default class Links {
 
@@ -14,6 +16,19 @@ export default class Links {
     $('a[href="./projects.html"]').click();
     waitForProjects();
     return new Projects().waitToRender();
+  }
+
+  public static sprints() {
+    $('a[href="./sprints.html"]').click();
+    waitForSprints();
+    return new Sprints().waitToRender();
+  }
+
+  public static home() {
+    $('a[href="./home.html"]').click();
+    waitForHome();
+    return new Home();
+
   }
 
 }
