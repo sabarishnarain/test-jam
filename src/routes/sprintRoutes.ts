@@ -4,6 +4,7 @@ import testHelper from '../helpers/testHelper';
 import renderer from '../renderers/renderer';
 import sprintHelper from '../helpers/sprintHelper';
 import jResult from '../server/jResult';
+import securityKeyHelper from '../helpers/securityKeyHelper';
 
 router.get('/sprints*', (req: any, res: any) => {
   renderer.sprints(res, sprintHelper.getAllSprints());
@@ -126,9 +127,34 @@ router.post('/removeTestsFromSprint', (req: any, res: any) => {
       renderer.sprint(res, sprint, getTestObjectsForSprintView(sprintId), allOtherTests, 'You must select atleast one test to remove from sprint.');
 
     }
-
   }
 
+});
+
+router.delete('/sprint/:id', (req: any, res: any) => {
+  const sprintId = (req.params.id) ? parseInt(req.params.id, 10) : undefined;
+  const master = req.body.master;
+
+  if (sprintId || master) {
+    const sprint = sprintHelper.getSprintById(sprintId);
+    if (securityKeyHelper.getMasterKey() === master ) {
+      if (sprint) {
+        const testsInSprint = sprintHelper.getAllTestRuns(sprint.id);
+        if (testsInSprint.length > 0) {
+          res.status(500).send('Error. This Sprint has tests associated with it');
+        } else {
+          sprintHelper.removeSprint(sprint.id);
+          res.status(200).send('Sprint removed successfully.');
+        }
+      } else {
+        res.status(500).send(`Sprint with id ${sprintId} not found.`);
+      }
+    } else {
+      res.status(500).send('Master key do not match. Check with your admin if problem persists.');
+    }
+  } else {
+    res.status(400).send('Insufficient parameters. You must set master key in payload');
+  }
 });
 
 export {router as sprintRoutes};

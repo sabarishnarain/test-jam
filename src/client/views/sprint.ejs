@@ -51,11 +51,19 @@
 
             <div class="table-header">
 
-                <b> Tests in Sprint: </b>
-            </div>
+              <table style="width: 100%">
+                <tr>
+                  <td>
+                      <b> Tests in Sprint: </b>
 
-            <div class="table-header" style="text-align: right; padding: 0em 2em 3em 3em;">
-              <b> Remove tests from Sprint </b> <input type="submit" name="removeTestsFromSprint" id="removeTestsFromSprint" value="&#187;" class="jdamRed">
+                  </td>
+                  <td style="text-align: right">
+                      <b> Remove from Sprint </b> <input type="submit" name="removeTestsFromSprint" id="removeTestsFromSprint" value="&#187;" class="jdamRed">
+
+                  </td>
+                </tr>
+              </table>
+
             </div>
 
             <div>
@@ -103,12 +111,17 @@
 
           <div class="table-header">
 
-                  <b> All Other Tests: </b>
-           </div>
+            <table style="width: 100%">
+              <tr>
+                <td>
+                    <b> All Other Tests: </b>
+                </td>
+                <td style="text-align: right">
+                    <input type="submit" name="addTestsToSprint" id="addTestsToSprint" value="&#171;" class="jdamRed">  <b> Add To Sprint </b> 
 
-           <div class="table-header">
-
-           <input type="submit" name="addTestsToSprint" id="addTestsToSprint" value="&#171;" class="jdamRed">  <b> Add Tests To Sprint </b> 
+                </td>
+              </tr>
+            </table>
 
            </div>
 
@@ -118,7 +131,7 @@
                 <TR>
                   <TH> </TH>
                   <TH> Title </TH>
-                  <TH> Test ID </TH>
+                  <TH> Project </TH>
                   <TH>  <input type="checkbox" name="selectAll" id="selectAll" onclick="toggle(this)"> </TH>
                   </TR>
               </thead>
