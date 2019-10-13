@@ -31,19 +31,18 @@
       
       if (val === 'other') {
         otherTestsBtn.style.backgroundColor='#122f62'; // jdam blue
-        otherTestsBtn.style.border = '2px solid #1fe841';
+        otherTestsBtn.style.boxShadow = 'navy 7px 5px 2px 0px';
         historyBtn.style.backgroundColor='#7689ab';
-        historyBtn.style.border = '';
+        historyBtn.style.boxShadow = '';
         historyPanel.style.display = 'none';        
         otherPanel.style.display = 'block';      
         otherPanel.style.height = '100%';   
        
       } else {
         otherTestsBtn.style.backgroundColor='#7689ab'; 
+        otherTestsBtn.style.boxShadow = '';
         historyBtn.style.backgroundColor='#122f62'; // jdam blue
-        historyBtn.style.border = '2px solid #1fe841';
-        otherTestsBtn.style.border = '';
-
+        historyBtn.style.boxShadow = 'navy 7px 5px 2px 0px';
         historyPanel.style.display = 'block';
         historyPanel.style.height = '100%';
         otherPanel.style.display = 'none';
@@ -157,13 +156,13 @@
 
     <div style="width : 30%; margin-right: 2em; height: 80%; margin-top: 3em;">
 
-      <div class="jdamTabs" style="background: #7689ab; margin-bottom: 2em;">
+      <div class="jdamTabs">
 
-        <button style="border: 2px solid #1fe841"  type="button" onclick="toggleData('history');" id="historyBtn">
+        <button style="box-shadow: navy 7px 5px 2px 0px;" type="button" onclick="toggleData('history');" id="historyBtn">
           History
         </button>
 
-        <button type="button" onclick="toggleData('other');" id="otherTestsBtn">
+        <button style="background-color: #7689ab" type="button" onclick="toggleData('other');" id="otherTestsBtn">
             Other Tests
           </button>
 
