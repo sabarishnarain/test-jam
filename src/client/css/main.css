@@ -516,3 +516,18 @@ text-decoration:none;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
+
+.jdamTabs {
+
+  background: #7689ab; 
+  margin-bottom: 2em;
+
+}
+
+.jdamTabs button {
+  font-size: 20px; 
+  background-color: #122f62; 
+  color: white; 
+  border: 0px; 
+  padding: 15px;
+}

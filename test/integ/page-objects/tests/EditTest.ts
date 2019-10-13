@@ -7,7 +7,7 @@ import {waitForElements} from '../common/Wait';
 export default class EditTest extends Page {
   public waitToRender() {
     waitForElements(['#title', '#desc',
-    '//h3[normalize-space()="Test run history"]', '//h3[normalize-space()="Other tests"]']);
+    '//h3[normalize-space()="Edit Scenario"]']);
     return this;
   }
 
