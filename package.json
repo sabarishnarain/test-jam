@@ -74,6 +74,7 @@
       "src/renderers/**",
       "src/routes/**",
       "src/server.ts",
+      "src/server/env.ts",
       "test/**",
       "gulpfile.js",
       "wdio.conf.js"

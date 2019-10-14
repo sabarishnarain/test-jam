@@ -27,23 +27,23 @@ describe('Sprint Helper Tests', () => {
   });
 
   it('Duplicate sprint', () => {
-    let jres = sprintHelper.addSprint('helloworld');
+    let jres = sprintHelper.addSprint('testSprint');
     expect(jres.err).to.be.undefined;
-    jres = sprintHelper.addSprint('helloworld');
+    jres = sprintHelper.addSprint('testSprint');
     expect(jres.err).to.not.be.undefined;
   });
 
   it('Add and delete sprint', () => {
-    const jres = sprintHelper.addSprint('helloworld');
+    const jres = sprintHelper.addSprint('testSprint');
     expect(jres.err).to.be.undefined;
-    const sprint = sprintHelper.getSprintByName('helloworld');
+    const sprint = sprintHelper.getSprintByName('testSprint');
     sprintHelper.removeSprint(sprint.id);
     expect(sprintHelper.getSprintById(sprint.id)).to.be.undefined;
   });
 
   it('Get multiple sprints by id', () => {
-    let jres = sprintHelper.addSprint('helloworld');
-    const sprint1 = sprintHelper.getSprintByName('helloworld');
+    let jres = sprintHelper.addSprint('testSprint');
+    const sprint1 = sprintHelper.getSprintByName('testSprint');
 
     expect(jres.err).to.be.undefined;
     jres = sprintHelper.addSprint('unit-test-sprint');
@@ -78,11 +78,12 @@ describe('Sprint Helper Tests', () => {
   }
 
   it('Add tests to sprint', () => {
-    const jres: any = sprintHelper.addSprint('helloworld');
-    const sprint = sprintHelper.getSprintByName('helloworld');
+    const jres: any = sprintHelper.addSprint('testSprint');
+    const sprint = sprintHelper.getSprintByName('testSprint');
     expect(jres.err).to.be.undefined;
 
     const testId = createProjectAndTest();
+    testIdsToDispose.push(testId.toString());
 
     sprintHelper.addTestsToSprint([testId], sprint.id);
 
@@ -91,33 +92,55 @@ describe('Sprint Helper Tests', () => {
 
   });
 
+  it('Bug #57 - Delete sprint after removing test', () => {
+    // Add sprint
+    let jres: any = sprintHelper.addSprint('testSprint');
+    const sprint = sprintHelper.getSprintByName('testSprint');
+    expect(jres.err).to.be.undefined;
+
+    // Add project and test
+    const testId = createProjectAndTest();
+    testIdsToDispose.push(testId.toString());
+
+    // Add test to sprint
+    sprintHelper.addTestsToSprint([testId], sprint.id);
+
+    // remove test
+    testHelper.removeTests([testId]);
+
+    // remove sprint should be successful
+    jres = sprintHelper.removeSprint(sprint.id);
+    expect(jres.err).to.be.undefined;
+    expect(jres.success).to.equal('Sprint removed successfully.');
+
+  });
+
   beforeEach( () => {
-    cleanUpSprints();
     cleanupTests();
+    cleanUpSprints();
 
   });
 
   afterEach( () => {
-
-    cleanUpSprints();
     cleanupTests();
+    cleanUpSprints();
 
     });
 
   function cleanupTests() {
-    const tests = testHelper.removeTests(testIdsToDispose);
-    for (const id of testIdsToDispose) {
-      testrunHelper.removeTestRuns(parseInt(id, 10));
-    }
+   testHelper.removeTests(testIdsToDispose);
   }
 
   function cleanUpSprints() {
-    const disposables = ['helloworld', 'unit-test-sprint'];
+    const disposables = ['testSprint', 'unit-test-sprint'];
 
     for (const p of disposables) {
       const sprint = sprintHelper.getSprintByName(p);
       if (sprint) {
-        sprintHelper.removeSprint(sprint.id);
+        const jres = sprintHelper.removeSprint(sprint.id);
+        if (jres.err) {
+          expect(jres.err.msg).to.be.undefined;
+        }
       }
     }
   }
