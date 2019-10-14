@@ -3,12 +3,42 @@ import AddTest from './AddTest';
 import RunTest from './RunTest';
 import Page from '../common/Page';
 import {waitForElements} from '../common/Wait';
+import TestHistoryList from './TestHistoryList';
+import TestHistory from './TestHistory';
+import OtherTest from './OtherTest';
+import OtherTestList from './OtherTestList';
 
 export default class EditTest extends Page {
+
   public waitToRender() {
-    waitForElements(['#title', '#desc',
-    '//h3[normalize-space()="Edit Scenario"]']);
+    waitForElements(['#title', '#desc', '//h3[normalize-space()="Edit Scenario"]']);
+
     return this;
+  }
+
+  public getHistoryList() {
+    const historyLst: TestHistory[] = [];
+    const testHistoryRows = $$('#testHistoryPanel table tbody tr');
+    let counter = 0;
+    for (const r of testHistoryRows) {
+      const cells = r.$$('td');
+      const status = (cells[1].$('img').getAttribute('src') === '/checked.png') ? 'PASS' : 'FAIL';
+      historyLst.push( new TestHistory(counter, status, cells[2].getText(), cells[3].getText()));
+      counter++;
+    }
+    return new TestHistoryList(historyLst);
+  }
+
+  public getOtherTest() {
+    const otherTestLst: OtherTest[] = [];
+    const rows = $$('#otherDataPanel table tbody tr');
+    let counter = 0;
+    for (const r of rows) {
+      const cells = r.$$('td');
+      otherTestLst.push( new OtherTest(counter, cells[1].getText(), cells[2].getText()));
+      counter++;
+    }
+    return new OtherTestList(otherTestLst);
   }
 
   public enterDetails(title: string, desc: string) {

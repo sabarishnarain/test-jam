@@ -1,10 +1,7 @@
 import Session from '../page-objects/Session';
 import {assert} from 'chai';
-import AddTest from '../page-objects/tests/AddTest';
-import Projects from '../page-objects/projects/Projects';
 import Project from '../page-objects/projects/Project';
 import EditTest from '../page-objects/tests/EditTest';
-import Home from '../page-objects/Home';
 import Links from '../page-objects/common/Links';
 
 describe('Test usecases', () => {
