@@ -1,5 +1,4 @@
 import Session from '../page-objects/Session';
-import {assert} from 'chai';
 import Home from '../page-objects/Home';
 
 describe('Project usecases', () => {

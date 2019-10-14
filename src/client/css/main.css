@@ -529,6 +529,7 @@ text-decoration:none;
 }
 
 .jdamTabs button {
+  border-radius: 5px;
   font-size: 20px; 
   background-color: #122f62; 
   color: white; 

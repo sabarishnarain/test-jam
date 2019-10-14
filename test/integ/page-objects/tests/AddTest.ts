@@ -9,6 +9,7 @@ export default class AddTest extends Page {
   }
 
   public enterDetails(title: string, desc: string, projectName: string) {
+    console.log('Create test with title ' + title + ', project ' + projectName);
       $('#title').addValue(title);
       $('#description').addValue(desc);
       waitForElement('//select/option[normalize-space()="' + projectName + '"]',
@@ -18,8 +19,9 @@ export default class AddTest extends Page {
   }
 
   public create() {
-      $('.jdamGreen').click();
-      return this;
+    $('.jdamGreen').click();
+    this.containsSnackbarMsg('successfully added');
+    return this;
   }
 
   public cancel() {
