@@ -19,15 +19,14 @@ export default class Sprints {
       sprints.push( { name});
     }
     return sprints;
-     
+
   }
 
   public createSprint(name: string) {
-    $('.#sprintName').clearValue();
-    $('.#sprintName').addValue(name);
+    $('#sprintName').clearValue();
+    $('#sprintName').addValue(name);
     $('#createSprint').click();
   }
-
 
   public isSprintExists(name: string) {
     return this.getSprints().filter( (project) => {
