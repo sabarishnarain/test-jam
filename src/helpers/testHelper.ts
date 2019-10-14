@@ -183,19 +183,29 @@ export default class testHelper {
     return isTestFound;
   }
 
-  public static removeTests(testIdsArr: string[]) {
-    // Convert all test ids to integer array
-    const idsToInteger = testIdsArr.map( (id) => {
-      return parseInt(id, 10);
-    });
+  /**
+   * Remove tests by array is ids as string or number
+   * @param testIdsArr - string[] or number[]
+   */
+  public static removeTests(testIdsArr: any[]) {
+
+    console.log('Removing tests ', testIdsArr);
+
+    const idsInInteger: number[] = [];
+
+    for (const t of testIdsArr) {
+      const val = ( typeof t === 'string') ? parseInt(t, 10) : t;
+      idsInInteger.push(val);
+    }
 
     const testsPostDelete = this.getAllTests().filter( (t: any) => {
-      return !idsToInteger.includes(t.id);
+      return !idsInInteger.includes(t.id);
     });
 
     // remove history one by one
-    for (const id of idsToInteger) {
+    for (const id of idsInInteger) {
       testHelper.removeHistory(id);
+      testrunHelper.removeTestRuns(id);
     }
 
     dbHelper.saveContents(MODEL.TEST, testsPostDelete);

@@ -5,6 +5,7 @@ import projectHelper from '../../src/helpers/projectHelper';
 import {initializeDB} from '../../src/server/env';
 import testHelper from '../../src/helpers/testHelper';
 import sprintHelper from '../../src/helpers/sprintHelper';
+import viewHelper from '../../src/helpers/viewHelper';
 
 // tslint:disable-next-line: no-var-requires
 chai.use(require('chai-string'));
@@ -17,11 +18,11 @@ describe('Dashboard Helper Tests', () => {
     initializeDB();
   });
 
-  beforeEach( () => {
+  function removeProjectsAndSPrints() {
+    testHelper.removeTests(testIdsArr);
     const project = projectHelper.getProjectByName('sudoproject');
     if (project) {
       projectHelper.removeProject(project.id);
-
     }
 
     const sprint = sprintHelper.getSprintByName('R1');
@@ -29,45 +30,29 @@ describe('Dashboard Helper Tests', () => {
       sprintHelper.removeSprint(sprint.id);
     }
 
-    const strTestIdsArr = testIdsArr.map( (t: any) => { 
-      return t.toString();
-    });
-    testHelper.removeTests(strTestIdsArr);
+  }
 
+  beforeEach( () => {
+    removeProjectsAndSPrints();
   });
 
   afterEach( () => {
-    const project = projectHelper.getProjectByName('sudoproject');
-    if (project) {
-      projectHelper.removeProject(project.id);
-
-    }
-    const sprint = sprintHelper.getSprintByName('R1');
-    if (sprint) {
-      sprintHelper.removeSprint(sprint.id);
-    }
-
-    const strTestIdsArr = testIdsArr.map( (t: any) => { 
-      return t.toString();
-    });
-    testHelper.removeTests(strTestIdsArr);
+   removeProjectsAndSPrints();
 
     });
 
   it('Should tests and statistics ', () => {
-    // tslint:disable-next-line: no-unused-expression
+    const PROJECT_NAME = 'dbtestproject';
     expect(dashboardhelper.getData().results.length).to.equal(0);
 
-    const res = projectHelper.createProject('sudoproject');
-    // tslint:disable-next-line: no-unused-expression
+    const res = projectHelper.createProject(PROJECT_NAME);
     expect(res.err).to.be.undefined;
-    const project = projectHelper.getProjectByName('sudoproject');
+    const project = projectHelper.getProjectByName(PROJECT_NAME);
 
     // Add couple tests to project
-    let jres = testHelper.addTest('project1Test1', 'project1Test1','', project.id);
+    let jres = testHelper.addTest('project1Test1', 'project1Test1', '', project.id);
     testIdsArr.push(jres.success.testId);
-    jres = testHelper.addTest('project1Test2', 'project1Test2','', project.id);
-
+    jres = testHelper.addTest('project1Test2', 'project1Test2', '', project.id);
     testIdsArr.push(jres.success.testId);
 
     // Add sprint
@@ -81,6 +66,10 @@ describe('Dashboard Helper Tests', () => {
     // verify if data is not 0
     // tslint:disable-next-line: no-unused-expression
     expect(dashboardhelper.getData().results.length).to.equal(1);
+    const homeViewData = viewHelper.getDataForHomeView(sprintId, project.id);
+    expect(homeViewData.sprints.length).to.equal(2); // default sprint is sudosprint
+    expect(homeViewData.results.length).to.equal(2);
+
   });
 
  });

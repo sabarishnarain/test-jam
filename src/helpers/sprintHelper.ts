@@ -24,12 +24,31 @@ export default class sprintHelper {
     return res;
   }
 
-  public static removeSprint(id: number) {
-    const sprints = this.getAllSprints();
-    const postDeleteContents = sprints.filter( (s: any) => {
-        return s.id !== id;
-    });
-    this.saveContents(postDeleteContents);
+  public static removeSprint(sprintId: number): jResult {
+
+    let jres: jResult;
+    const sprint = sprintHelper.getSprintById(sprintId);
+
+    if (sprint) {
+      const testsInSprint = sprintHelper.getAllTestRuns(sprintId);
+
+      if (testsInSprint.length > 0) {
+        jres = new jResult({msg: '$Error - This Sprint has tests associated with it'});
+      } else {
+        const sprints = this.getAllSprints();
+        const postDeleteContents = sprints.filter( (s: any) => {
+            return s.id !== sprintId;
+        });
+        this.saveContents(postDeleteContents);
+        jres = new jResult(undefined, 'Sprint removed successfully.');
+      }
+    } else {
+      jres = new jResult({msg: 'Sprint with id ${sprintId} not found.'});
+
+    }
+
+    return jres;
+
   }
 
   public static getSprintById(id: number) {

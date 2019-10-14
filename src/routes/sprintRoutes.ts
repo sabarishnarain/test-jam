@@ -136,23 +136,16 @@ router.delete('/sprint/:id', (req: any, res: any) => {
   const master = req.body.master;
 
   if (sprintId || master) {
-    const sprint = sprintHelper.getSprintById(sprintId);
     if (securityKeyHelper.getMasterKey() === master ) {
-      if (sprint) {
-        const testsInSprint = sprintHelper.getAllTestRuns(sprint.id);
-        console.log('Tests in sprint ', testsInSprint );
-        if (testsInSprint.length > 0) {
-          res.status(500).send('Error. This Sprint has tests associated with it');
-        } else {
-          sprintHelper.removeSprint(sprint.id);
-          res.status(200).send('Sprint removed successfully.');
-        }
+      const jres = sprintHelper.removeSprint(sprintId);
+      if (jres.success) {
+        res.status(200).send(jres.success);
       } else {
-        res.status(500).send(`Sprint with id ${sprintId} not found.`);
+        res.status(500).send(jres.err.msg);
       }
-    } else {
-      res.status(500).send('Master key do not match. Check with your admin if problem persists.');
-    }
+  } else {
+    res.status(500).send('Master key do not match. Check with your admin if problem persists.');
+  }
   } else {
     res.status(400).send('Insufficient parameters. You must set master key in payload');
   }
