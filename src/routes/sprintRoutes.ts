@@ -140,6 +140,7 @@ router.delete('/sprint/:id', (req: any, res: any) => {
     if (securityKeyHelper.getMasterKey() === master ) {
       if (sprint) {
         const testsInSprint = sprintHelper.getAllTestRuns(sprint.id);
+        console.log('Tests in sprint ', testsInSprint );
         if (testsInSprint.length > 0) {
           res.status(500).send('Error. This Sprint has tests associated with it');
         } else {
