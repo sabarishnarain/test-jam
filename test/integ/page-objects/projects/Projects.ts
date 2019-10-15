@@ -14,8 +14,11 @@ export default class Projects extends Page {
     return this;
   }
 
-  public create() {
+  public create(expectSnackbarMsg?: string) {
     $('.jdamGreen').click();
+    if (expectSnackbarMsg) {
+      this.matchSnackbar(expectSnackbarMsg);
+    }
     return this;
   }
 

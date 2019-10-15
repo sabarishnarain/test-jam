@@ -3,17 +3,15 @@ import {assert} from 'chai';
 import Project from '../page-objects/projects/Project';
 import EditTest from '../page-objects/tests/EditTest';
 import Links from '../page-objects/common/Links';
+import * as integTestHelper from './integTestHelper';
 
 describe('Test usecases', () => {
   it('Edit delete test ', () => {
     Session.init().loginAs();
-    const projects = Links.projects();
 
+    // Create project
     const PROJECT_NAME = 'deleteme' + Date.now();
-
-    // Create new project
-    projects.enterProjectName(PROJECT_NAME).create();
-    assert.isTrue(projects.isProjectExists(PROJECT_NAME));
+    const projects = integTestHelper.createProject(PROJECT_NAME);
 
     // Add test to project
     let test = Links.addTest();
@@ -34,7 +32,6 @@ describe('Test usecases', () => {
 
     // delete test
     edittest.delete(true);
-
     const testCount = Links.projects().openProject(PROJECT_NAME).getTests();
     assert.equal(testCount.length, 0 );
 
