@@ -15,6 +15,7 @@ export namespace DBContents {
     tests : EMPTY,
     sprints : [{ id : 1, name : 'sudosprint' }],
     testruns : EMPTY,
+    testdesc: EMPTY
    };
 
   export const DEFAULT = {
@@ -30,5 +31,6 @@ export namespace DBContents {
     tests : EMPTY,
     sprints : EMPTY,
     testruns : EMPTY,
+    testdesc: EMPTY
    };
 }

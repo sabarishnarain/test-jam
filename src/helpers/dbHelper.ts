@@ -55,7 +55,9 @@ export default class dbHelper {
       filePath = path.join(baseDirPath, 'projects.json');
     } else if (model === MODEL.TEST) {
       filePath = path.join(baseDirPath, 'tests.json');
-    } else if (model === MODEL.SECRET) {
+    } else if (model === MODEL.TESTDESC) {
+      filePath = path.join(baseDirPath, 'testdesc.json');
+    }  else if (model === MODEL.SECRET) {
       filePath = path.join(baseDirPath, 'secret.json');
     } else if (model === MODEL.MASTERKEY) {
       filePath = path.join(baseDirPath, 'master-key.json');
@@ -78,6 +80,7 @@ export enum MODEL {
  USER,
  PROJECT,
  TEST,
+ TESTDESC,
  SECRET,
  MASTERKEY,
  APPCONFIG,
