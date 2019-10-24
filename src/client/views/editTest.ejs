@@ -32,8 +32,10 @@
       if (val === 'other') {
         otherTestsBtn.style.backgroundColor='#122f62'; // jdam blue
         otherTestsBtn.style.boxShadow = 'navy 7px 5px 2px 0px';
+        otherTestsBtn.style.height = '3em';
         historyBtn.style.backgroundColor='#7689ab';
         historyBtn.style.boxShadow = '';
+        historyBtn.style.height = '';
         historyPanel.style.display = 'none';        
         otherPanel.style.display = 'block';      
         otherPanel.style.height = '100%';   
@@ -41,8 +43,10 @@
       } else {
         otherTestsBtn.style.backgroundColor='#7689ab'; 
         otherTestsBtn.style.boxShadow = '';
+        otherTestsBtn.style.height = '';
         historyBtn.style.backgroundColor='#122f62'; // jdam blue
         historyBtn.style.boxShadow = 'navy 7px 5px 2px 0px';
+        historyBtn.style.height = '3em';
         historyPanel.style.display = 'block';
         historyPanel.style.height = '100%';
         otherPanel.style.display = 'none';
@@ -158,7 +162,7 @@
 
       <div class="jdamTabs">
 
-        <button style="box-shadow: navy 7px 5px 2px 0px;" type="button" onclick="toggleData('history');" id="historyBtn">
+        <button style="box-shadow: navy 7px 5px 2px 0px; height: 3em;" type="button" onclick="toggleData('history');" id="historyBtn">
           History
         </button>
 

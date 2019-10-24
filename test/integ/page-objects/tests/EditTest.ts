@@ -29,7 +29,8 @@ export default class EditTest extends Page {
     return new TestHistoryList(historyLst);
   }
 
-  public getOtherTest() {
+  public getOtherTestList() {
+    $('#otherTestsBtn').click();
     const otherTestLst: OtherTest[] = [];
     const rows = $$('#otherDataPanel table tbody tr');
     let counter = 0;
@@ -39,6 +40,15 @@ export default class EditTest extends Page {
       counter++;
     }
     return new OtherTestList(otherTestLst);
+  }
+
+  /**
+   * Open test from "Other Tests" section with id
+   */
+  public openTest(testId: string) {
+    $('#otherTestsBtn').click();
+    $('#otherDataPanel').$('=' + testId).click();
+    return new EditTest().waitToRender();
   }
 
   public enterDetails(title: string, desc: string) {
