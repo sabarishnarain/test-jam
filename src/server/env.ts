@@ -53,6 +53,7 @@ function initializeDB() {
   dbHelper.setDefaultContent(MODEL.TEST, data.tests);
   dbHelper.setDefaultContent(MODEL.SPRINT, data.sprints);
   dbHelper.setDefaultContent(MODEL.TESTRUN, data.testruns);
+  dbHelper.setDefaultContent(MODEL.TESTDESC, data.testdesc);
 
 }
 

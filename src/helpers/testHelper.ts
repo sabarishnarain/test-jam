@@ -15,20 +15,28 @@ export default class testHelper {
        if (t.title.length >= 200) {
          t.title = t.title.substring(0, 200) + '...';
        }
-       if (t.desc.length >= 200) {
-         t.desc = t.desc.substring(0, 200) + '...';
-       }
      }
    }
 
    return tests;
   }
 
+  public static getAllTestDescs() {
+    const testDescs = dbHelper.getContents(MODEL.TESTDESC);
+    return testDescs;
+   }
+
   public static getTestById(id: string): any {
     const test = this.getAllTests().filter( (t: any) => {
       return t.id === parseInt(id, 10);
     });
     return test[0];
+  }
+
+  public static getTestDescById(id: number): any {
+    return this.getAllTestDescs().filter( (testdesc: any) => {
+      return testdesc.id === id;
+    })[0].desc;
   }
 
   public static getTestsForProject(projectId: string) {
@@ -43,15 +51,17 @@ export default class testHelper {
 
     const validationRes = this.validateTestInput(title, desc, projectId);
     if ( !validationRes) {
-      const contents = this.getAllTests();
+      const testContents = this.getAllTests();
+      const testDescContents = this.getAllTestDescs();
       const recentId = testHelper.getRecentId();
       const testId = recentId + 1;
-      contents.push( { id : testId,
+      testContents.push( { id : testId,
                        title,
-                       desc,
                        identifier,
                        project : projectId });
-      dbHelper.saveContents(MODEL.TEST, contents);
+      testDescContents.push( { id: testId, desc});
+      dbHelper.saveContents(MODEL.TEST, testContents);
+      dbHelper.saveContents(MODEL.TESTDESC, testDescContents);
 
       return new jResult(undefined,
          { msg: 'Test with id <a href="editTest.html?testId=' + testId + '"> ' + testId + '</a> successfully added',
@@ -59,6 +69,16 @@ export default class testHelper {
     } else {
       return new jResult(validationRes);
     }
+
+  }
+  public static updateTestDesc(id: number, newDescContents: string) {
+    const testDescs = this.getAllTestDescs();
+    for (const testDesc of  testDescs) {
+      if (testDesc.id === id) {
+        testDesc.desc = newDescContents;
+      }
+    }
+    dbHelper.saveContents(MODEL.TESTDESC, testDescs);
 
   }
 
@@ -92,9 +112,10 @@ export default class testHelper {
       }
       if (isTestFound) {
         dbHelper.saveContents(MODEL.TEST, tests);
+        this.updateTestDesc(id, desc);
         jRes =  new jResult(undefined, 'Test successfully updated');
       } else {
-        jRes = new jResult('Test update content failed. Test ' + id + ' not found');
+        jRes = new jResult('Test update failed. Test ' + id + ' not found');
       }
 
     } else {

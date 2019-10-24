@@ -10,6 +10,7 @@ router.get('/editTest.html', (req: any, res: any) => {
   const testId = req.query.testId;
   console.log('Show test with id ', testId);
   const currTest = testHelper.getTestById(testId);
+  currTest.desc = testHelper.getTestDescById(parseInt(testId, 10));
   const project = projectHelper.getProject(currTest.project);
 
   const otherTestsInProject  = testHelper.getTestsForProject(currTest.project);
