@@ -1,7 +1,7 @@
-import OtherTest from "./OtherTest";
+import OtherTest from './OtherTest';
 
 export default class OtherTestList {
-  
+
   private otherTestList: OtherTest[];
 
   constructor(otherTestList: OtherTest[]) {
@@ -12,7 +12,7 @@ export default class OtherTestList {
     return this.otherTestList;
   }
 
-  public getCount() {
+  public count() {
       return this.otherTestList.length;
   }
 }
