@@ -77,7 +77,6 @@
                 <TR>
                   <TH> </TH>
                   <TH> Title </TH>
-                  <TH> Description</TH>
                   <TH> Test ID </TH>
                   <TH> Identifier</TH>
                   <TH>  <input type="checkbox" name="selectAll" id="selectAll" onclick="toggle(this)"> </TH>
@@ -93,7 +92,6 @@
                 <TR> 
                   <TD>  <%=counter%>  </TD>
                   <TD> <%= t.title %> </TD>
-                  <TD> <%= t.desc %> </TD>
                   <TD> <a href="./editTest.html?testId=<%=t.id%>"> <%= t.id %> </a> </TD>
                   <TD> <%=t.identifier%> </TD>
                   <TD> <input type="checkbox" name="deleteTestId" value="<%= t.id %>"> </TD>

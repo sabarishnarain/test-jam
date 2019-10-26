@@ -101,9 +101,6 @@ export default class testHelper {
           if (title) {
             t.title = title;
           }
-          if (desc) {
-            t.desc  = desc;
-          }
           if (identifier) {
             t.identifier = identifier;
           }
@@ -112,7 +109,9 @@ export default class testHelper {
       }
       if (isTestFound) {
         dbHelper.saveContents(MODEL.TEST, tests);
-        this.updateTestDesc(id, desc);
+        if (desc) {
+          this.updateTestDesc(id, desc);
+        }
         jRes =  new jResult(undefined, 'Test successfully updated');
       } else {
         jRes = new jResult('Test update failed. Test ' + id + ' not found');

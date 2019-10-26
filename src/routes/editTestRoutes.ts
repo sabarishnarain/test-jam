@@ -63,7 +63,7 @@ router.post('/editTest*', (req: any, res: any) => {
     const history = testHelper.getHistoryForTest(testId);
 
     try {
-      intTestID = parseInt(req.body.testId, 10);
+      intTestID = parseInt(testId, 10);
     } catch (err) {
       renderer.error(res, req.session.username, 'Error updating test. Try again.');
       return;
@@ -80,8 +80,8 @@ router.post('/editTest*', (req: any, res: any) => {
 
     } else {
       currTest = testHelper.getTestById(testId);
-
-      renderer.editTest(res, testHelper.getTestById(testId), project,
+      currTest.desc = testHelper.getTestDescById(intTestID);
+      renderer.editTest(res, currTest, project,
                       history, otherTestsInProject, undefined, 'Test successfully updated');
 
     }

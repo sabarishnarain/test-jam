@@ -40,13 +40,11 @@ export default class Project extends Page{
      for (const r of rows) {
        const cells = r.$$('td');
        const title = cells[1].getText();
-       const desc = cells[2].getText();
-       const testId = cells[3].getText();
-       const identifier = cells[4].getText();
+       const testId = cells[2].getText();
+       const identifier = cells[3].getText();
 
-       tests.push( { title, desc, testId, identifier});
+       tests.push( { title, testId, identifier});
      }
-     console.log(tests)
      return tests;
    }
 
