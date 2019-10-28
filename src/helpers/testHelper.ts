@@ -222,6 +222,10 @@ export default class testHelper {
       return !idsInInteger.includes(t.id);
     });
 
+    const testDescsPostDelete = this.getAllTestDescs().filter( (td: any) => {
+      return !idsInInteger.includes(td.id);
+    });
+
     // remove history one by one
     for (const id of idsInInteger) {
       testHelper.removeHistory(id);
@@ -229,6 +233,7 @@ export default class testHelper {
     }
 
     dbHelper.saveContents(MODEL.TEST, testsPostDelete);
+    dbHelper.saveContents(MODEL.TESTDESC, testDescsPostDelete);
 
   }
 

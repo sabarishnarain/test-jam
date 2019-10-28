@@ -57,12 +57,12 @@ describe('Sprint Helper Tests', () => {
 
     sprintHelper.addTestsToSprint([testId], sprint1.id);
 
-    expect(sprintHelper.getAllOtherTestsNotInSprint(sprint1.id).length).to.equal(0);
-    expect(sprintHelper.getAllOtherTestsNotInSprint(sprint2.id).length).to.equal(1);
+    expect(sprintHelper.getAllOtherTestsNotInSprint(sprint1.id).length).to.equal(1);
+    expect(sprintHelper.getAllOtherTestsNotInSprint(sprint2.id).length).to.equal(2);
 
     sprintHelper.removeTestsFromSprint(sprint1.id, [testId]);
-    expect(sprintHelper.getAllOtherTestsNotInSprint(sprint1.id).length).to.equal(1);
-    expect(sprintHelper.getAllOtherTestsNotInSprint(sprint2.id).length).to.equal(1);
+    expect(sprintHelper.getAllOtherTestsNotInSprint(sprint1.id).length).to.equal(2);
+    expect(sprintHelper.getAllOtherTestsNotInSprint(sprint2.id).length).to.equal(2);
 
   });
 

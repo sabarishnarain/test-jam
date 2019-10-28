@@ -8,20 +8,18 @@ describe('Test Helper Tests', () => {
 
   const testIdsToRemove: string[] = [];
 
-  before( async () => {
-    await initializeDB();
+  before( () => {
+    initializeDB();
   });
 
   it('valid status', () => {
     expect(testHelper.isValidStatus('pass')).to.be.true;
     expect(testHelper.isValidStatus('fail')).to.be.true;
 
-
-  })
-
+  });
 
   it('Add and update test', () => {
-    const PROJECTNAME = 'sudoproject' + Date.now();
+    const PROJECTNAME = 'sampleproject' + Date.now();
 
     expect(projectHelper.createProject(PROJECTNAME).err).to.be.undefined;
     const project = projectHelper.getProjectByName(PROJECTNAME);
@@ -81,8 +79,6 @@ describe('Test Helper Tests', () => {
     testHelper.removeTests([id1]);
     expect(testHelper.getHistoryForTest(id1).length).to.equal(0);
 
-
-
   });
 
   it ('Get statuses', () => {
@@ -92,7 +88,7 @@ describe('Test Helper Tests', () => {
 
   after( () => {
     testHelper.removeTests(testIdsToRemove);
-    projectHelper.removeProject('sudoproject');
+    projectHelper.removeProject('sampleproject');
   });
 
  });

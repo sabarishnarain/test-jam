@@ -22,17 +22,16 @@ router.post('/tests/:id/update', (req: any, res: any) => {
     console.log('Update test status with id', testId);
     const test = testHelper.getTestById(testId);
     if (test) {
-      res.status(500).send('Test not found with Id ' + testId);
-    } else {
       testHelper.runTestById(testId, status, build, undefined);
       res.status(200).send('Test with id successfully updated.');
+    } else {
+      res.status(500).send('Test not found with Id ' + testId);
     }
 
   });
 
 router.post('/projects/:id/tests/:name/update', (req: any, res: any) => {
     console.log('Update test status with name : ', req.body);
-
     const identifier = req.params.name;
     const projectId = req.params.id;
 

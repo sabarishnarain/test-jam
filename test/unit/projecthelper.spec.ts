@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import chai from 'chai';
 import projectHelper from '../../src/helpers/projectHelper';
 import {initializeDB} from '../../src/server/env';
+import {cleanUpProjects} from './unitTestHelper';
 
 // tslint:disable-next-line: no-var-requires
 chai.use(require('chai-string'));
@@ -10,6 +11,10 @@ describe('Project Helper Tests', () => {
 
   before( () => {
     initializeDB();
+  });
+
+  beforeEach( () => {
+    cleanUpProjects();
   });
 
   it('Project with single word should be first 3 letters', () => {
@@ -31,12 +36,12 @@ describe('Project Helper Tests', () => {
   });
 
   it('Create duplicate project', () => {
-    const res = projectHelper.createProject('sudoproject');
+    const res = projectHelper.createProject('sampleproject');
     // tslint:disable-next-line: no-unused-expression
     expect(res.err).to.be.undefined;
     const initCount = projectHelper.getAllProjects().length;
     // tslint:disable-next-line: no-unused-expression
-    expect(projectHelper.createProject('sudoproject').err.msg).to.equal('Project name already exists');
+    expect(projectHelper.createProject('sampleproject').err.msg).to.equal('Project name already exists');
     expect(projectHelper.getAllProjects().length).to.equal(initCount);
 
   });
@@ -48,21 +53,21 @@ describe('Project Helper Tests', () => {
   });
 
   it('test getProject', () => {
-    const res = projectHelper.createProject('sudoproject');
-    const project = projectHelper.getProjectByName('sudoproject');
+    const res = projectHelper.createProject('sampleproject');
+    const project = projectHelper.getProjectByName('sampleproject');
     expect(res.err).to.be.undefined;
     // tslint:disable-next-line: no-unused-expression
     expect(projectHelper.getProject(project.id)).to.not.be.undefined;
 
   });
 
-  function createSudoProject() {
-    const res = projectHelper.createProject('sudoproject');
+  function createsampleproject() {
+    const res = projectHelper.createProject('sampleproject');
     expect(res.err).to.be.undefined;
   }
 
   it ('test rename project with invalid current name', () => {
-    createSudoProject();
+    createsampleproject();
     const res = projectHelper.updateName('invalid name', 'newnameproject');
     expect(res.success).to.be.undefined;
     expect(res.err.msg).to.equal('Project with name "invalid name" not found!');
@@ -70,7 +75,7 @@ describe('Project Helper Tests', () => {
   });
 
   it ('test rename project with empty current name', () => {
-    createSudoProject();
+    createsampleproject();
     const res = projectHelper.updateName(' ', 'newnameproject');
     expect(res.success).to.be.undefined;
     expect(res.err.msg).to.not.be.undefined;
@@ -79,47 +84,30 @@ describe('Project Helper Tests', () => {
 
 
   it ('test rename project with empty new name', () => {
-    createSudoProject();
-    const res = projectHelper.updateName('sudoproject', ' ');
+    createsampleproject();
+    const res = projectHelper.updateName('sampleproject', ' ');
     expect(res.success).to.be.undefined;
     expect(res.err.msg).to.not.be.undefined;
   });
 
 
   it ('test rename project with duplicate name', () => {
-    createSudoProject();
-    const res = projectHelper.updateName('sudoproject', 'sudoproject');
+    createsampleproject();
+    const res = projectHelper.updateName('sampleproject', 'sampleproject');
     expect(res.success).to.be.undefined;
     expect(res.err.msg).to.not.be.undefined;
 
   });
 
   it ('test rename project with correct name', () => {
-    createSudoProject();
-    const res = projectHelper.updateName('sudoproject', 'newnameproject');
+    createsampleproject();
+    const res = projectHelper.updateName('sampleproject', 'newnameproject');
     expect(res.err).to.be.undefined;
 
   });
 
-  beforeEach( () => {
+  afterEach( () => {
     cleanUpProjects();
   });
-
-  afterEach( () => {
-
-    cleanUpProjects();
-
-    });
-
-  function cleanUpProjects() {
-    const disposables = ['newnameproject', 'sudoproject'];
-
-    for (const p of disposables) {
-      const project = projectHelper.getProjectByName(p);
-      if (project) {
-        projectHelper.removeProject(project.id);
-      }
-    }
-  }
 
 });
