@@ -88,7 +88,6 @@ export default class sprintHelper {
     const sprintIds = this.getAllTestRunContents().filter( (trc: any) => {
       return trc.testId === id;
     }).map( (res: any) => res.sprintId);
-    console.log('sprint ids for test ', sprintIds);
 
     return sprintHelper.getSprintsById(sprintIds);
   }
@@ -144,11 +143,9 @@ export default class sprintHelper {
     const results = [];
     for (const i of testsNotInSprint) {
       const project = projectHelper.getProject(i.projectId.toString());
-      results.push( {id: i.id, title : i.title, projectName: project.name});
+      results.push( {id: i.id, title : i.title, projectName: (project) ? project.name : ''});
     }
-
     return results;
-
   }
 
   /**

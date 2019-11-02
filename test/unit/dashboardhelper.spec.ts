@@ -20,7 +20,7 @@ describe('Dashboard Helper Tests', () => {
 
   function removeProjectsAndSPrints() {
     testHelper.removeTests(testIdsArr);
-    const project = projectHelper.getProjectByName('sudoproject');
+    const project = projectHelper.getProjectByName('sampleproject');
     if (project) {
       projectHelper.removeProject(project.id);
     }

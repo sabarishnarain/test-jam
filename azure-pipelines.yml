@@ -13,7 +13,7 @@ resources:
 
 jobs:
  - job : build
-   displayName: build & test
+   displayName: build-test
    container: docker-node
    steps: 
    - task: UseDotNet@2
@@ -40,7 +40,7 @@ jobs:
        summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
        reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
  - job : test_wdio
-   displayName: e2e-tests
+   displayName: tests-ui
    container: docker-wdio
    dependsOn: build
    variables:
@@ -56,5 +56,28 @@ jobs:
        testRunner: JUnit
        testResultsFiles: 'e2e-results/*.xml'
        failTaskOnFailedTests: true # Fail the task if there are test failures
-
-    
+ - job : test_e2e
+   displayName: tests-e2e
+   container: docker-node
+   dependsOn: build
+   variables:
+    TESTJAM_ENV: test
+   condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
+   steps: 
+   - task: UseDotNet@2
+     displayName: 'Use .NET Core sdk'
+     inputs:
+       packageType: sdk
+       version: 2.2.203
+       installationPath: $(Agent.ToolsDirectory)/dotnet
+   - script: npm ci
+     displayName: install
+   - script: chmod +x ./test/e2e/rune2eTests.sh
+   - script: ./test/e2e/rune2eTests.sh
+     displayName: test-e2e   
+   - task: PublishTestResults@2
+     condition: succeededOrFailed()
+     inputs:
+       testRunner: JUnit
+       testResultsFiles: '**/test-results.xml'
+       failTaskOnFailedTests: true # Fail the task if there are test failures
