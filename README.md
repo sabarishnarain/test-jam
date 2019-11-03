@@ -84,3 +84,15 @@ Returns
 
 Form parameters
 *Same as above.*
+
+
+#### Delete Sprint
+`DELETE /sprint/:id`
+
+Form parameters
+``` master = <master key> ```
+
+Returns 
+200 - sprint deleted.
+400 - if master key is not supplied.
+500 - If sprint has tests associated with it or if master key is invalid.

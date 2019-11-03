@@ -75,17 +75,12 @@ router.post('/addTestsToSprint', (req: any, res: any) => {
 
       renderer.sprint(res, sprint, getTestObjectsForSprintView(sprintId), allOtherTests);
     } else {
-            // user has not selected any rows
-
+      // user has not selected any rows
       const allOtherTests = sprintHelper.getAllOtherTestsNotInSprint(parseInt(sprintId, 10));
       const sprint = sprintHelper.getSprintById(parseInt(sprintId, 10));
-
       renderer.sprint(res, sprint, getTestObjectsForSprintView(sprintId), allOtherTests, 'You must select atleast one test to add to sprint.');
-
     }
-
   }
-
 });
 
 function removeTestsFromSprint( sprintId: string, testIds: string[]| string) {
