@@ -64,12 +64,6 @@ jobs:
     TESTJAM_ENV: test
    condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/master'))
    steps: 
-   - task: UseDotNet@2
-     displayName: 'Use .NET Core sdk'
-     inputs:
-       packageType: sdk
-       version: 2.2.203
-       installationPath: $(Agent.ToolsDirectory)/dotnet
    - script: npm ci
      displayName: install
    - script: chmod +x ./test/e2e/rune2eTests.sh

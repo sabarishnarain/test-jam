@@ -1,5 +1,7 @@
 import request from 'request';
 
+export const TEST_SERVER_URL = 'http://localhost:3000';
+
 export async function executePost(options: any, logBody: boolean = false) {
   return new Promise( (resolve, reject) => {
     request.post(options, (err: any, res: any, body: any) => {
