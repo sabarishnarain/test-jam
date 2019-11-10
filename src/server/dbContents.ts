@@ -13,7 +13,7 @@ export namespace DBContents {
       }
     },
     masterKey : { key : 'nobodyownsnothing' },
-    secrets : EMPTY,
+    secrets : ['samplekey1', 'samplekey2'],
     tests : SAMPLE_TESTDATA,
     sprints : [{ id : 1, name : 'sudosprint' }],
     testruns : EMPTY,

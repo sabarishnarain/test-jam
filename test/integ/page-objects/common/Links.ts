@@ -3,6 +3,7 @@ import { waitForAddTest, waitForProjects, waitForSprints, waitForHome} from './W
 import Projects from '../projects/Projects';
 import Sprints from '../sprints/Sprints';
 import Home from '../Home';
+import Register from '../Register';
 
 export default class Links {
 
@@ -28,7 +29,15 @@ export default class Links {
     $('a[href="./home.html"]').click();
     waitForHome();
     return new Home();
+  }
 
+  public static register() {
+    $('a[href="./register.html"]').click();
+    return new Register().waitToRender();
+  }
+
+  public static logout() {
+    $('a[href="./login.html?logout=1"]').click();
   }
 
 }
