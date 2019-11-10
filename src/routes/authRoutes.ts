@@ -64,8 +64,8 @@ router.post('/register*', async (req: any, res: any) => {
   }
 
   if (userHelper.findUser(username)) {
-    renderer.register(res, isSecretRequired, `The username "${username}" already exists in the system.` +
-    `If this is you, then contact the maintainer to investigate further.`);
+    renderer.register(res, isSecretRequired, `The username "${username}" already exists in the system. ` +
+    `If this is you, contact the maintainer to investigate further.`);
     return;
   }
 
