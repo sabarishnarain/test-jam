@@ -130,8 +130,10 @@ export default class testHelper {
    * @param id
    * @param status
    * @param build
+   * @param sprintId
+   * @param username - executed by user
    */
-  public static runTestById(id: string, status: string, build: string, sprintId: string): any {
+  public static runTestById(id: string, status: string, build: string, sprintId: string, username: string): any {
 
     let res: jResult;
     status = this.lookupStatus(status);
@@ -157,9 +159,9 @@ export default class testHelper {
 
       if (isTestFound) {
         const lastUpdated = new Date();
-        testHelper.addHistory(testId, status, build, lastUpdated);
+        testHelper.addHistory(testId, status, build, lastUpdated, username);
         // this.updateTestById(testId);
-        testrunHelper.updateTestrunById(testId, status, sprintID, build, lastUpdated);
+        testrunHelper.updateTestrunById(testId, status, sprintID, build, lastUpdated, username);
         res = new jResult(undefined, 'Test successfully executed');
       } else {
         res = new jResult({msg: 'Test not found'});
@@ -175,8 +177,11 @@ export default class testHelper {
    * @param identifier
    * @param projectId
    * @param status
+   * @param sprintId
+   * @param username - user who executes the test
    */
-  public static runTestByIndentifier(identifier: string, projectId: string, build: string, status: string, sprintId: string): boolean {
+  public static runTestByIndentifier(identifier: string, projectId: string, build: string, status: string, sprintId: string,
+                                     username: string): boolean {
     const tests = testHelper.getAllTests();
     let isTestFound = false;
     let testId;
@@ -196,8 +201,8 @@ export default class testHelper {
 
     if (isTestFound) {
       const lastUpdated = new Date();
-      testHelper.addHistory(testId, status, build, lastUpdated);
-      testrunHelper.updateTestrunById(testId, status, sprintID, build, lastUpdated);
+      testHelper.addHistory(testId, status, build, lastUpdated, username);
+      testrunHelper.updateTestrunById(testId, status, sprintID, build, lastUpdated, username);
     }
 
     return isTestFound;
@@ -254,7 +259,7 @@ export default class testHelper {
     return statusList;
   }
 
-  public static addHistory(testId: number, status: string, build: string, date: any): void {
+  public static addHistory(testId: number, status: string, build: string, date: any, username: string): void {
     const fsHistoryJSON = dbHelper.getDataFileForTestHistory(testId);
 
     let contents;
@@ -268,7 +273,7 @@ export default class testHelper {
       contents = JSON.parse(fs.readFileSync(fsHistoryJSON, 'utf-8'));
 
     }
-    contents.push({ testId, status, build, date});
+    contents.push({ testId, status, build, date, executedBy: username});
     fs.writeFileSync(fsHistoryJSON, JSON.stringify(contents));
   }
 

@@ -23,7 +23,7 @@ export default class EditTest extends Page {
     for (const r of testHistoryRows) {
       const cells = r.$$('td');
       const status = (cells[1].$('img').getAttribute('src') === '/checked.png') ? 'PASS' : 'FAIL';
-      historyLst.push( new TestHistory(counter, status, cells[2].getText(), cells[3].getText()));
+      historyLst.push( new TestHistory(counter, status, cells[2].getText(), cells[3].getText(), cells[4].getText()));
       counter++;
     }
     return new TestHistoryList(historyLst);

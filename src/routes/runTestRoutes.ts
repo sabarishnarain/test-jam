@@ -33,7 +33,7 @@ router.post('/runTest', (req: any, res: any) => {
     const build = req.body.build;
     const sprintId = req.body.sprint;
 
-    const result: jResult = testHelper.runTestById(testId, status, build, sprintId);
+    const result: jResult = testHelper.runTestById(testId, status, build, sprintId, req.session.username);
 
     if (result.err) {
       // error

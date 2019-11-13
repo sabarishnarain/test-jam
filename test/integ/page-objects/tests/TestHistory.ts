@@ -1,14 +1,16 @@
 export default class TestHistory {
-  
+
   private status: string;
-  private build: string; 
+  private build: string;
   private dateString: string;
   private index: number;
+  private user: string;
 
-  constructor(index: number, status: string, build: string, dateString: string ) {
+  constructor(index: number, status: string, build: string, user: string, dateString: string ) {
       this.index = index;
       this.status = status;
       this.build = build;
+      this.user = user;
       this.dateString = dateString;
   }
 
@@ -22,5 +24,9 @@ export default class TestHistory {
 
   public getDate() {
       return this.dateString;
+  }
+
+  public getUser() {
+    return this.user;
   }
 }

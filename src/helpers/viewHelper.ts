@@ -47,7 +47,8 @@ export default class viewHelper {
     for (const t of testsInSprint) {
       const test = testHelper.getTestById(t.testId);
       if (test) {
-        tests.push({testId: test.id, title : test.title, status: t.status, build: t.build, lastUpdated : t.lastUpdated});
+        tests.push({testId: test.id, title : test.title, status: t.status, build: t.build,
+                    lastUpdated : t.lastUpdated, lastUpdatedBy: t.lastUpdatedBy});
       }
     }
     console.log('Test objects ', tests);

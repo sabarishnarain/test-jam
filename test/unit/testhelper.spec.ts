@@ -56,24 +56,24 @@ describe('Test Helper Tests', () => {
     expect(testHelper.getHistoryForTest(id1)).to.deep.equal([]);
 
     // run test by an invalid id and result should be false.
-    let res = testHelper.runTestById('abcde', 'fail', '100', '');
+    let res = testHelper.runTestById('abcde', 'fail', '100', '', 'sudouser');
     expect(res.err.msg).to.not.undefined;
 
     // run test with correct id
-    res = testHelper.runTestById(id1.toString(), 'fail', '100', 'sprint1');
+    res = testHelper.runTestById(id1.toString(), 'fail', '100', 'sprint1', 'sudouser');
     expect(res.success).to.equal('Test successfully executed');
     expect(res.err).to.be.undefined;
 
     expect(testHelper.getHistoryForTest(id1).length).to.equal(1);
 
     // run test once again with correct id
-    res = testHelper.runTestById(id1.toString(), 'pass', '100', 'sprint1');
+    res = testHelper.runTestById(id1.toString(), 'pass', '100', 'sprint1', 'sudouser');
     expect(res.success).to.equal('Test successfully executed');
     expect(res.err).to.be.undefined;
     expect(testHelper.getHistoryForTest(id1).length).to.equal(2);
 
     // run test with identifier
-    expect(testHelper.runTestByIndentifier('testMethod1', project.id, '100', 'PASS', undefined)).to.equal(true);
+    expect(testHelper.runTestByIndentifier('testMethod1', project.id, '100', 'PASS', undefined, 'sudouser')).to.equal(true);
 
     // remove test & ensure history is removed
     testHelper.removeTests([id1]);
