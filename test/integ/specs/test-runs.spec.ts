@@ -39,13 +39,13 @@ describe('Test usecases', () => {
     editTest = editTest.execute().enterDetails('b100', DEFAULT_SPRINT , 'PASS').save();
     assert.equal(editTest.getHistoryList().getCount(), 1);
     assert.equal(editTest.getHistoryList().get(0).getBuild(), 'b100');
-
+    assert.equal(editTest.getHistoryList().get(0).getUser(), 'sudouser');
 
     // execute second time with FAIL and check if test history is 2
     editTest = editTest.execute().enterDetails('b500', DEFAULT_SPRINT , 'FAIL').save();
     assert.equal(editTest.getHistoryList().getCount(), 2);
     assert.equal(editTest.getHistoryList().get(0).getBuild(), 'b500');
-
+    assert.equal(editTest.getHistoryList().get(0).getUser(), 'sudouser');
 
   });
  });

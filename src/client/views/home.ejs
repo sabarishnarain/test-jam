@@ -118,6 +118,7 @@
                   <TH> Identifier</TH>
                   <TH> Status</TH>
                   <TH> Build </TH>
+                  <TH> Last Updated By </TH>
                   <TH> Last Updated </TH>
                   </TR>
               </thead>
@@ -127,6 +128,7 @@
                 <% if(results) {             
                  for(let r of results ) { 
                    const friendlyDate = (r.lastUpdated) ? new Date(r.lastUpdated).toUTCString() : '';
+                   const username = (r.lastUpdatedBy && r.lastUpdatedBy.length > 16) ? r.lastUpdatedBy.substring(0,10) + '...' : r.lastUpdatedBy;
                 %>
                 <TR> 
                   <TD> <a href="./editTest.html?testId=<%=r.testId%>"> <%= r.testId %> </a>  </TD>
@@ -134,7 +136,6 @@
                   <TD> <%= titleStr %> </TD>
                   <TD> <%=r.identifier%> </TD>
                   
-
                   <TD> 
                               
                   <% let fontColor = 'color:grey';
@@ -147,6 +148,7 @@
                           
                   </TD>
                   <TD> <%=r.build%> </TD>
+                  <td> <%=username%> </td>
                   <TD> <%=friendlyDate%> </TD>
                 </TR>
                  <% } 

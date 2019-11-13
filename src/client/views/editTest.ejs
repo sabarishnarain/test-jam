@@ -182,8 +182,9 @@
                   <TR>
                     <TH style="width: 10%"> </TH>
                     <TH style="width: 10%" > </TH>
-                    <TH style="width: 30%" > Build </TH>
-                    <TH> Date </TH>
+                    <TH style="width: 20%" > Build </TH>
+                    <TH style="width: 25%" > User </TH>
+                    <TH style="width: 40%;"> Date </TH>
                   </TR>
                 </thead>
                 </table>
@@ -202,12 +203,15 @@
                         let buildStr = history[i].build || '' ;
                         let truncatedBuildStr = (buildStr && buildStr.length > 16) ? buildStr.substring(0, 10) + '...' : buildStr;
                         const dateStr = new Date(history[i].date).toUTCString();
+                        const username = history[i].executedBy;
+                        const truncatedUsernameStr = (username && username.length > 10) ? username.substring(0, 10) + '...' : username;
                   %>
                   <tr>
                     <td style="width: 10%" > <%= i+1 %> </td>
-                    <td style="width: 10%" > <img src="<%=icon%>" style="width: 1em;"> </td>
+                    <td style="width: 13%" > <img src="<%=icon%>" style="width: 1em;"> </td>
                     <td style="width: 20%" title=<%=buildStr%>> <%= truncatedBuildStr %> </td>
-                    <td> <%= dateStr %> </td>
+                    <td style="width: 20%" title=<%=username%>> <%=truncatedUsernameStr%> </td>
+                    <td style="width: 40%"> <%= dateStr %> </td>
                   </tr>
                   <% } } }%>
                 </table>

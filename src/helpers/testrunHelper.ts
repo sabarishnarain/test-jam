@@ -2,7 +2,8 @@ import sprintHelper from './sprintHelper';
 import dbHelper, { MODEL } from './dbHelper';
 
 export default class testrunHelper {
-  public static updateTestrunById(testId: number, status: string, sprintId: number, build: string, lastUpdated: any) {
+  public static updateTestrunById(testId: number, status: string, sprintId: number, build: string, lastUpdated: any,
+                                  lastUpdatedBy: string) {
     console.log('updateTestrunById ', testId, status, sprintId);
     const testruns = sprintHelper.getAllTestRuns();
     for (const tr of testruns) {
@@ -10,6 +11,7 @@ export default class testrunHelper {
             tr.status = status;
             tr.build = build;
             tr.lastUpdated = lastUpdated;
+            tr.lastUpdatedBy = lastUpdatedBy;
         }
       }
     dbHelper.saveContents(MODEL.TESTRUN, testruns);
@@ -20,7 +22,6 @@ export default class testrunHelper {
     const postDeleteContents = runs.filter( (tr: any) => {
         return id !== tr.testId;
     });
-    console.log(postDeleteContents);
     dbHelper.saveContents(MODEL.TESTRUN, postDeleteContents);
   }
 }
