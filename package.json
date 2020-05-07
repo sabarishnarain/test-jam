@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test-unit": "nyc --reporter html cross-env TESTJAM_ENV=test mocha --require ts-node/register ./test/unit/*.ts",
-    "test-unit-ci": "nyc cross-env TESTJAM_ENV=test mocha --reporter mocha-junit-reporter --require ts-node/register ./test/unit/*.ts",    
+    "test-unit-ci": "nyc cross-env TESTJAM_ENV=test mocha --reporter mocha-junit-reporter --require ts-node/register ./test/unit/*.ts",
     "test-integ": "wdio wdio.conf.js",
     "test-e2e": "nyc --reporter html cross-env TESTJAM_ENV=test mocha --require ts-node/register ./test/e2e/*.ts",
     "test-e2e-ci": "nyc cross-env TESTJAM_ENV=test mocha --reporter mocha-junit-reporter --require ts-node/register ./test/e2e/*.ts",
