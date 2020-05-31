@@ -10,4 +10,4 @@ ENV TESTJAM_ENV prod
 RUN npm ci
 EXPOSE 80
 
-CMD ["npm","run","prod"]
+CMD ["npm","run", "demo"]
